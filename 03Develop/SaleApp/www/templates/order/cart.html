@@ -1,0 +1,74 @@
+<ion-view view-title="购物车">
+  <ion-content class="stable-bg">
+    <div ng-if="shopCarItems.length === 0" class="message">
+      购物车空空如也
+    </div>
+    <div class="padding" ng-if="showPresaleWarning">
+      <div class="text-center assertive padding">
+        <label>选中的商品将延后与预购商品同一时间送达</label>
+      </div>
+    </div>
+    <div class="list car">
+      <div ng-repeat="record in shopCarItems">
+        <div class="item small border-clear padding-clear" href="#" ng-if="record.product">
+          <div class=" padding-clear" style="height:100px">
+            <div style="padding:0 5px; float:left;">
+              <label class="checkbox checkbox-balanced padding-clear" style="top: 36px;">
+                <input type="checkbox" ng-model="record.checked" ng-disabled="record.product.status && record.product.status !== 1">
+              </label>
+            </div>
+            <div style="padding:0 5px;float:left;">
+              <img ng-click="showDetail(record.psid)" ng-src="{{ record.product.cover}}" style="height:80px;border-radius:10px; border:solid 1px #00A83B; margin-top:10px;">
+            </div>
+            <div style="padding:0 5px; ">
+              <div class="wrap-clear" style="font-size:14px">
+                <i class="assertive" ng-show="!record.product.status || record.product.status !== 1">已下架</i> 商品：{{record.product.name}}
+              </div>
+              <div class="wrap-clear" style="font-size:14px">厂家：{{record.product.storeName}}</div>
+              <div class="wrap-clear" style="font-size:14px">价格：￥{{ record.quantity * record.product.price | number:2}}</div>
+
+              <div style="margin-left:-12px;">
+                <button style="font-size:25px" class="button button-balanced button-clear ion-ios-minus-outline" ng-click="addQuantity(record.psid,-1)"></button>
+                <span style="margin:0 -15px; font-size:14px;" class="button button-dark button-clear" disabled>{{record.quantity}} 份</span>
+                <button style="font-size:25px" class="button button-balanced button-clear ion-ios-plus-outline" ng-click="addQuantity(record.psid,1)"></button>
+                <button style="font-size:25px;position:absolute; right:10px" class="button button-assertive button-clear ion-ios-close-outline" ng-click="removeCar(record.psid)">
+                </button>
+              </div>
+            </div>
+            <div style="float:clear"></div>
+          </div>
+        </div>
+        <div class="separate-big stable-bg" style="clear:both"></div>
+      </div>
+    </div>
+    <div style="height: 40px;">
+    </div>
+  </ion-content>
+  <ion-footer-bar class="bar-stable padding" style="height: auto; background:transparent" ng-if="shopCarItems.length > 0 ">
+    <div class="row" ng-if="!hasCheckItems">
+      <div class="col col-50">
+              <span>
+                请至少勾选一件商品
+              </span>
+      </div>
+      <div class="col col-50">
+        <button class="button  button-balanced button-full" ng-click="checkAll()">
+          全部选中
+        </button>
+      </div>
+    </div>
+    <div class="row" ng-if="hasCheckItems">
+      <div class="col col-50">
+        <button class="button  button-energized button-full" ng-click="clearShopCar()">
+          清空购物车
+        </button>
+      </div>
+      <div class="col col-50">
+        <button class="button  button-balanced button-full" ng-click="pay()">
+          确认订单
+        </button>
+      </div>
+
+    </div>
+  </ion-footer-bar>
+</ion-view>

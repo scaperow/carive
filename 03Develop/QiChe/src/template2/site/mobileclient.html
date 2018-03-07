@@ -1,0 +1,38 @@
+{% extends "layout/site.html" %}
+{% block js %}
+<!--<link rel="stylesheet" href="/style2/css/list.css" type="text/css" media="screen">-->
+<link rel="stylesheet" href="/style2/css/help.css" type="text/css" media="screen">
+{% endblock %}
+{% block content %}
+
+<div  class="clearfix wrap container">
+    <!-- Main -->
+    <div id="product_list_content" class="content">
+        <!-- Crumb -->
+        <div class="crumb">
+            <ul>
+                <li class="home"><a href="/"></a></li>
+                <li class="step_arrow"></li>
+                <li><a href="#">手机易凡</a></li>
+            </ul>
+        </div>
+        <div style="clear: both"></div>
+        <div id="product_list" class="clearfix product_list">
+            <div class="help_contain">
+                <div class="title_line">&nbsp;</div>
+                <a name="fwcl"></a><h3>一、Android客户端</h3>
+                <p>手机扫描下方二维码快速安装。</p>
+                <img src="style2/images/mobile_android.jpg" />
+                <div class="title_line">&nbsp;</div>
+                <a name="yhyjs"></a><h3>二、IOS客户端</h3>
+                <p>进入AppStore进行<a style="font-size: 18px; color:#8BC10B; text-decoration: underline;" href="https://itunes.apple.com/cn/app/yi-fan-wang/id955216918?mt=8"> 安装 </a>
+                     (https://itunes.apple.com/cn/app/yi-fan-wang/id955216918?mt=8)</p>
+                <img src="style2/images/mobile_ios.jpg" />
+            </div>
+        </div>
+        <div style="clear: both"></div>
+    </div>
+    <div style="clear: both"></div>
+</div>
+
+{% endblock %}

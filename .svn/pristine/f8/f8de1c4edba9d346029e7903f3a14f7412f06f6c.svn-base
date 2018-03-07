@@ -1,0 +1,39 @@
+{% extends "layout/admin.html" %}
+{% block content %}
+<div class="row">
+   <nav>
+   <div class="navbar-header" style="float: left">
+      <a class="navbar-brand" href="/admin/ads">返回广告管理</a>
+   </div>
+      <div class="navbar-header" style="float: right"><a class="navbar-brand" href="/admin/edit_ad_type/0">添加类型</a></div>
+</nav>
+</div>
+<div class="row">
+    <div class="panel panel-primary">
+    <div class="panel-body">
+        <div class="table-responsive">
+        <table class="table table-hover" id="tb_users">
+            <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>类型名称</th>
+                    <th>备注</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for ad in ads -%}
+            <tr>
+              <td>{{ad.id}}</td>
+              <td>{{ad.name }}</td>
+              <td>{{ad.remark or ''}}</td>
+              <td><a href="/admin/edit_ad_type/{{ad.id}} ">修改</a></td>
+            </tr>
+			{%- endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+    </div>
+</div>
+{% endblock %}

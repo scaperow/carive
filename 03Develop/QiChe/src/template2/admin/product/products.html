@@ -1,0 +1,237 @@
+{% extends "layout/admin.html" %}
+{% block css %}
+<link href="/style2/css/plugins/dataTables.bootstrap.css" rel="stylesheet">
+<style>
+    .green{color: green;}
+</style>
+{% endblock %}
+{% block content %}
+<div class="row">
+    <nav>
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">产品管理</a>
+        </div>
+        <div class="pull-right">
+            <form class="navbar-form navbar-left" action="" method="get" role="search">
+                <div class="btn-group btn-group-mg">
+                    <input type="hidden" name="status" value="{{status}}">
+                    <input type="hidden" name="page" value="{{page}}">
+                    <a type="button" class="btn btn-mg btn-default {% if status==1 %} active {% endif %}" href="/admin/products?status=1&page=1">已上架</a>
+                    <a type="button" class="btn btn-mg btn-default {% if status==2 %} active {% endif %}" href="/admin/products?status=2&page=1">未上架</a>
+                </div>
+                <a id='newproduct' type="button" class="btn btn-info btn-xs" href="/admin/product/0">增加产品</a>
+
+                <select class="form-control" name="pcategory">
+                    <option value="0" {% if cid==0 %} selected {% endif %}>
+                    全部
+                    </option>
+                    {% for c in categorys %}
+                    <option value="{{c.id}}" {% if cid==c.id %} selected {% endif %}>
+                    {% if c.left2=='01' %} 水果 - {% else %} 蔬菜 - {% endif %} {{c.name}}
+                    </option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn btn-default" style="display: none;" >确定</button>
+                <div class="input-group custom-search-form">
+                    <input type="text" name="keyword" class="form-control" style="width:150px;" value="{{keyword or ''}}" placeholder="按产品名查找" />
+                    <input type="text" name="defaultstandard" class="form-control" style="width:150px;" value="{{dp or ''}}" pattern="^\d{1,8}$" title="请输入1-8位数字" placeholder="按编号名查找" />
+             <span class="input-group-btn">
+                 <button class="btn btn-default" type="submit">
+                     <i class="fa fa-search"></i>
+                 </button>
+            </span>
+                </div>
+            </form>
+        </div>
+    </nav>
+</div>
+<div style="color: red; font-size: 1.0em; margin-bottom: 25px;">
+    {%set messages=handler.get_flashed_messages() %}
+    {%-if messages-%}
+    <div id="err_div">
+        {% for type, msg in messages%}
+        {{msg}}
+        {% endfor %}
+    </div>
+    {%-endif-%}
+</div>
+<div class="row">
+    <div class="panel panel-primary">
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-hover" id="tb_users">
+                    <thead>
+                    <tr>
+
+                        <th>产品图片</th>
+                        <th>产品名称</th>
+                        <th style="display: none;">限购</th>
+                        <th>基本信息</th>
+                        <th>规格信息</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for p in products -%}
+                    {% if p.status==2 %}
+                    <tr style="background-color: #e4b9b9;" >
+                        {% else %}
+                    <tr>
+                        {%endif%}
+
+
+                        <td>
+
+                            <img src="{{p.cover}}" width="80" height="80" />
+                        </td>
+                        <td>
+                            <h4>{{p.name}}<small style="display: none;"> (SKU：{{p.sku}})</small></h4>
+                            <p>
+                            <div>分类：{{p.categoryfront.name}} | 最后编辑：<span style="color:orangered;">{{p.updatedtime | datetimeformat}}</span></div>
+                            <a href="/admin/product/{{p.id}}" class="btn btn-outline btn-primary btn-xs">修改</a>
+                            <!--<a href="/admin/collect/{{p.id}}/0" class="btn btn-outline btn-primary btn-xs">采价</a>-->
+                            <!-- <a href="/admin/supplier/{{p.sku}}" class="btn btn-outline btn-primary btn-xs">供应商</a>-->
+                            {% if p.status==2 %}
+                            <a href="/admin/changeproduct/{{p.id}}/1?status={{status}}&cid={{cid}}&keyword={{keyword or ''}}&ds={{defaultstandard}}&page={{page}}" class="btn btn-outline btn-primary btn-xs">上架</a>
+                            {% else %}
+                            <a href="/admin/changeproduct/{{p.id}}/2?status={{status}}&cid={{cid}}&keyword={{keyword or ''}}&ds={{defaultstandard}}&page={{page}}" class="btn btn-outline btn-primary btn-xs">下架</a>
+                            {%endif%}
+                            <a href="http://www.520czj.com/product/{{p.defaultstandard}}" target="_blank" class="btn btn-outline btn-primary btn-xs">预览</a>
+
+                            <!--<a class="btn btn-xs is_index {{p.is_index == 0 and ' btn-outline btn-primary ' or ' btn-info '}}" data-id="{{p.id}}">{{p.is_index == 0 and '设为活动' or '取消活动'}}</a>-->
+                            <a class="btn btn-xs is_pass btn-outline btn-primary" data-id="{{p.id}}">
+                                {% if p.is_pass==0 %}
+                                未审核
+                                {% elif p.is_pass == 1 %}
+                                通过
+                                {% elif p.is_pass == 2 %}
+                                未通过
+                                {%endif%}
+                            </a>
+                            <a class="btn btn-xs is_bargain btn-outline btn-primary" data-id="{{p.id}}">
+                                {% if p.is_bargain==0 %}
+                                正常
+                                {% elif p.is_bargain == 1 %}
+                                免费
+                                {% elif p.is_bargain == 2 %}
+                                特价
+                                {%endif%}
+                            </a>
+                            </p>
+                        </td>
+                        <td style="display: none;">
+                            限购总数：{{p.xgtotalnum}}<br>
+                            每日限购：{{p.xgperusernum}}<br>
+                            保质天数：{{p.bz_days}}天
+                        </td>
+                        <td>
+                            <p>编号：{{p.defaultstandard}}</p>
+                            <p>
+                            <!--<div>采购地：{% if p.args=='A' %}批发市场 {% else %} 产地 {% endif %}</div>-->
+                            <div>库存：{{p.quantity}}</div>
+                            <div>购买次数：{{p.orders}}</div>
+                            </p>
+                        </td>
+                        <td>
+                            {% for st in p.standards %}
+                            <div>
+                            <div> 规格：{{st.name}}<span style="color:orange;display: none;">({{'%.0f' % st.weight}}克)</span></div>
+                            <div> 市场价：{{st.orginalprice}}元</div>
+                            <div> 车主价：{{st.price}}元</div>
+                            <div> 门店价：{{st.ourprice}}元</div>
+                            <div> 批发价：{{st.pf_price}}元</div>
+                            </div>
+                            {% endfor %}
+                        </td>
+
+                    </tr>
+                    {%- endfor %}
+                    </tbody>
+                </table>
+                <div>
+                    <div class="col-sm-6">
+                        <div class="dataTables_info" role="alert" aria-live="polite" aria-relevant="all">
+                            当前：第{{page}}页 / {{totalpage}}页，合计{{total}}条
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="dataTables_paginate paging_simple_numbers">
+                            <ul class="pagination  pagination-sm" id="pageUl" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<script src="/style2/js/jquery.twbsPagination.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#pageUl').twbsPagination({
+            first:'首页',
+            prev:'上一页',
+            next:'下一页',
+            last:'尾页',
+            totalPages: {{totalpage}},
+            startPage: {{page}},
+            visiblePages: 8,
+            onPageClick: function (event, page) {
+                self.location="/admin/products?status={{status}}&pcategory={{cid}}&keyword={{keyword or ''}}&defaultstandard={{defaultstandard}}&page="+page;
+            }
+        });
+    });
+
+    var xsrf='{{handler.xsrf_token}}';
+    $(function(){
+        $(".is_index").click(function(){
+            var pid = $(this).attr('data-id');
+            var aa = $(this);
+            $.post('/ajax/change_event',{pid:pid, _xsrf:xsrf, t: Math.random()}, function(data){
+                if(data == 1){
+                    aa.html('取消活动');
+                    //aa.removeClass('btnzcl');
+                    aa.removeClass('btn-outline');
+                    aa.removeClass('btn-primary');
+                    aa.addClass('btn-info');
+                }else if(data == 2){
+                    aa.html('设为活动');
+                    aa.addClass('btn-outline');
+                    aa.addClass('btn-primary');
+                    aa.removeClass('btn-info');
+                }
+            });
+        });
+        $(".is_pass").click(function(){
+            var pid = $(this).attr('data-id');
+            var aa = $(this);
+            $.post('/ajax/product_change_pass',{pid:pid, _xsrf:xsrf, t: Math.random()}, function(data){
+                if(data == 1){
+                    aa.html('通过');
+                    aa.addClass('btn-outline');
+                    aa.addClass('btn-primary');
+                    aa.removeClass('btn-info');
+                }else if(data == 2){
+                    aa.html('未通过');
+                    aa.removeClass('btn-outline');
+                    aa.removeClass('btn-primary');
+                    aa.addClass('btn-info');
+                }
+            });
+        });
+        $(".is_bargain").click(function(){
+            var pid = $(this).attr('data-id');
+            var aa = $(this);
+            $.post('/ajax/product_change_bargain',{pid:pid, _xsrf:xsrf, t: Math.random()}, function(data){
+                if(data == 0){
+                    aa.html('正常');
+                }else if(data == 1){
+                    aa.html('免费');
+                }else if(data == 2){
+                    aa.html('特价');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

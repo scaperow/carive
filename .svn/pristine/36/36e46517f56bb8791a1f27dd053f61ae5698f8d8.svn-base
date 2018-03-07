@@ -1,0 +1,161 @@
+{% extends "layout/user.html" %}
+{% block css%}
+<link rel="stylesheet" href="/style2/css/EoFan.css" type="text/css" media="screen">
+<link rel="stylesheet" href="/style2/css/user.css" type="text/css" media="screen">
+
+{% endblock %}
+{% block subcontent %}
+<style>
+    .level_n{color: #0075b0; font-size:16px; margin-top: -10px;}
+    .red{color:#cc0000;}
+    .green{color: green;}
+    .show_msg{font-size: 24px;}
+</style>
+<script language="javascript" type="text/javascript" src="/style2/js/My97DatePicker/WdatePicker.js"></script>
+<script>
+    function checkSubmit(){
+        var content = $("#content").val();
+        if(content==""){
+            alert("请先填写您的问题描述！");
+            return false;
+        }
+        else{
+            if(content.length>500){
+                alert("问题描述不能超出500个字符哟！");
+                return false;
+            }
+        }
+        return true;
+    }
+</script>
+<h1>  晒一下 </h1>
+<div class="content sector">
+
+
+    {%set messages=handler.get_flashed_messages() %}
+    {%-if messages-%}
+    <div style="color: red; font-size: 1.0em; margin-bottom: 25px;">
+        <div id="err_div">
+            {% for type, msg in messages%}
+            {{msg}}
+            {% endfor %}
+        </div>
+    </div>
+    {%-endif-%}
+	<form id="settings-form" method="post" action="">
+        {{xsrf()}}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">基本信息
+                </h3>
+            </div>
+            <div class="panel-body">
+                <dl class="formlist" style="margin-bottom: 0px;">
+                    <dt><label for="content">标题</label></dt>
+                    <dd>
+                    <span class="data">
+                        <textarea type="text" name="content" id="content" class="t_input"
+                                   style="width: 394px; height: 129px;" placeholder="请填写您要发布的内容">{{p.content}}</textarea>
+                    </span>
+                    </dd>
+                </dl>
+                {% if u.store %}
+                <dl class="formlist" style="margin-bottom: 0px;margin-top: 0px;">
+                    <dt></dt>
+                    <dd>
+                    <span class="data">
+                        <input type="checkbox" name="is_show_address" id="is_show_address"  value="1" {% if p.is_show_address==1 %} checked  {% endif %} >
+                        <label for="is_show_address">是否显示地址</label>
+                    </span>
+                    </dd>
+                </dl>
+                <dl class="formlist" style="margin-bottom: 0px;margin-top: 0px;">
+                    <dt></dt>
+                    <dd>
+                    <span class="data">
+                        <input type="checkbox" name="is_show_contact" id="is_show_contact"  value="1" {% if p.is_show_contact==1 %} checked  {% endif %} >
+                        <label for="is_show_contact">是否显示联系方式</label>
+                    </span>
+                    </dd>
+                </dl>
+                {% endif %}
+                <!--<div class="act">-->
+                    <!--<input type="submit" value="晒一下" onclick="return checkSubmit();" name="commit" id="settings-submit" class="btn btn-success">-->
+                    <!--<a class="btn " href="/user/circle">返回</a>-->
+                <!--</div>-->
+            </div>
+        </div>
+
+
+        {%-if p-%}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">图片信息 <a href="" id="fileupload">选择图片</a></h3>
+            </div>
+            <div class="panel-body" id="pic-box">
+                {% for c in p.topic_pics -%}
+                <div class="col-lg-2 .col-xs-12">
+                    <div class="panel panel-default" style="width:120px; margin-right: 10px;">
+                        <div class="panel-heading center-block">
+                            <img src="{{c.path}}" width="80" height="80" onclick="window.open(this.src);" style="cursor: pointer;">
+                        </div>
+                        <div class="panel-footer">
+                            <div class="btn-group btn-group-xs">
+                                <a type="button" class="btn btn-default" href="/user/delpic_topic/{{c.id}}">删除</a>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                {%- endfor %}
+            </div>
+        </div>
+        {%-endif-%}
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" >
+            </label>
+            <div class="col-sm-10" style="text-align: right;">
+                <input type="submit" class="btn btn-success btn-sm" value="{{ p and '完成' or '下一步,上传图片'}}" />
+                <input type="hidden" value="{{ p and '1' or '0'}}" name="is_finish">
+            </div>
+        </div>
+	</form>
+</div>
+{% endblock %}
+{% block js%}
+<script src="/style2/js/jquery-1.7.2.min.js?v=1"></script>
+<script src="/style2/js/jquery.ocupload.js?v=1"></script>
+<script>
+    $(function() {
+        var myUpload = $('#fileupload').upload({
+            name: 'filedata',
+            action: '/ajax/circle_topic/pic/{{p.id}}',
+            enctype: 'multipart/form-data',
+            autoSubmit: true,
+            onClick: function () {
+
+            },
+            onSelect: function () {
+                var ext = myUpload.filename().substr(myUpload.filename().length - 3, 3).toLowerCase();
+                if (ext != 'jpg' || ext != 'gif' || ext != 'png') {
+                    return false;
+                }
+            },
+            onComplete: function (response) {
+                eval('var c = ' + response);
+                if (c.id > 0) {
+
+                    $('#pic-box').append('<div class="col-lg-2 .col-xs-12"><div class="panel panel-default" style="width:120px; margin-right: 10px;"><div class="panel-heading center-block"><img src="' + c.path + '" width="80" height="80" onclick="window.open(this.src);" style="cursor: pointer;"></div><div class="panel-footer"><div class="btn-group btn-group-xs"><a type="button" class="btn btn-default" href="/user/delpic_topic/' + c.id + '">删除</a></div></div></div></div>');
+
+                }
+                else {
+                    alert(c.path);
+                }
+
+            }
+        });
+    });
+</script>
+{% endblock %}

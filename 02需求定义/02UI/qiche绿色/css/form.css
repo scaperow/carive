@@ -1,0 +1,114 @@
+﻿
+.form dl{
+	float:left;
+	position:relative
+}
+.form dl.required dt{
+	color: red;
+}
+.form dl dt, .form dl dd{
+	height:30px;
+	line-height:30px;
+	padding:4px 0;
+	text-align:right;
+	float:left;
+	margin-right:2px;
+	overflow:hidden;
+}
+.form dl dd{
+	text-align:left;
+	min-height:30px;
+	height:auto
+}
+.form dl.mandatory dt{
+	color:#cc0000
+}
+
+.form dl dd input{
+	height: 20px;
+	line-height: 20px;
+	padding: 4px 2px;
+	border: 1px solid #ccc;
+	font-size: 12px;
+	width: 100px;
+	
+	border-radius:4px;
+}
+.form dl dd span.radio, .form dl dd span.checkbox{
+	margin-right:10px;
+	display:inline-block
+} 
+.form dl dd span input.radio, .form dl dd span input.checkbox{
+	width:auto;
+	height:auto;
+	margin:0 4px 0 0;
+}
+.form dl dd select{
+	width:100px;
+	height:30px;
+}
+.form dl.auto_width{
+	width:auto;
+}
+.form dl.auto_width{
+	width:auto;
+}
+.form dl.auto_width dt{
+	width:auto;
+	position:static;
+	float:left;
+	padding-left:30px;
+}
+.form dl.auto_width dd{
+	width:auto;
+	position:static;
+	float:left;
+	margin-left:0;
+}
+.form h4{
+	clear: both;
+	height: 30px;
+	line-height: 30px;
+	padding: 4px 10px;
+	position: relative;
+	text-indent: 20px;
+	font-size: 14px;
+	font-weight: normal;
+	letter-spacing: 2px;
+	color:#416c88
+}
+
+.form dl dt s{
+	border: 0;
+	margin: 0;
+	padding: 0;
+	display: block;
+	position: absolute;
+	left: 60px;
+	background: white;
+	text-decoration: none;
+	color: #416c88;
+}
+
+.form dl.clearBoth{
+	clear: both;	
+}
+
+.form dl dd.form-option a{
+	display:inline-block;
+	margin-right:1em;
+	padding:0 10px;
+}
+.form dl dd.form-option a.selected{
+	background:#c00;
+	color:white
+}
+.form dl dd span.msg{
+	display: block;
+	background: url(../images/msg_bg.png) 5px -690px no-repeat;
+	padding: 5px 5px 5px 40px;
+	line-height: 20px;
+	background-color: #efefef;
+	border-radius: 4px;
+}
+label.error,em {color:red;}

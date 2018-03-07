@@ -1,0 +1,26 @@
+<ion-view view-title="订单验证">
+    <ion-nav-buttons side="right">
+      <button class="button button-clear" ng-click="history()" style="color:#fff;">
+      验证历史
+      </button>
+    </ion-nav-buttons>
+  <ion-content delegate-handle="content" class="stable-bg ">
+    <ion-refresher on-refresh="refresh(true)">
+    </ion-refresher>
+    <div class="item item-input">
+      <input type="text" ng-model="$root.service_code" placeholder="请输入验证码" />
+      <button class="button icon-left button-clear ion-qr-scanner" ng-click="scan()">
+      扫一扫
+      </button>
+    </div>
+    <div class="row">
+      <button class="button button-full button-balanced" ng-click="check_service_code();">验证</button>
+    </div>
+    <div class="row" ng-if="check_result==0">
+      <span class="assertive">{{check_result_msg}}</span>
+    </div>
+    <div class="row" ng-if="check_result==1">
+      <span class="balanced">{{service_code}}</span>验证成功！
+    </div>
+  </ion-content>
+</ion-view>

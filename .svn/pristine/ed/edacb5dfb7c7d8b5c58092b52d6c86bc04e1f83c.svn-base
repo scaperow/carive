@@ -1,0 +1,165 @@
+{% extends "layout/site.html" %}
+{% block js %}
+<script src="/style2/js/layer/layer.min.js" type="text/javascript"></script>
+<script>
+    flag = true;
+    ismenu = "li_need";
+    $(function () {
+        $(".buy_number_input").each(function () {
+            $(this).children(".decrease_num").bind('click', function () {
+                var q = $(this).next();
+                var ovalue = parseInt(q.val());
+                if (ovalue > 1) { q.val(ovalue - 1); }
+
+            });
+            $(this).children(".increase_num").bind('click', function () {
+                var q = $(this).prev();
+                var ovalue = parseInt(q.val());
+                if (ovalue < 99) { q.val(ovalue + 1); }
+
+            });
+        });
+    });
+</script>
+<script>
+    //将商品放入购物车
+    $(function () {
+        $('.btnWP').click(function () {
+            var pid = $(this).attr('data-pid');
+            var psid = $(this).attr('data-psid');
+            var PAmount = $(this).parent().find(".buy_number").val();
+            $.get("/ajax/addCart", { pid: pid, quantity: PAmount, psid: psid, t: Math.random() }, function (data) {
+                $("#cart_body").load("/cartcontrol?t=" + Math.random());
+                if(data == -1)
+                {
+                    alert("商品数量错误，请重新选择！");
+                }
+                else{
+                    $.layer({
+                        shade: [0],
+                        area: ['auto', 'auto'],
+                        dialog: {
+                            msg: "加入购物车成功,是否继续！",
+                            btns: 2,
+                            type: 9,//8难过，9开心，10正确,4问号
+                            btn: ['去结算', '继续购物'],
+                            yes: function () {
+                                //location.reload();
+                                location.href = "/cart/show";
+                            }, no: function () {
+                                //parent.$.fn.colorbox.close();
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
+{% block content %}
+<div class="floorWrapper floorWrapper_0 J_floorWrapper mui-lift-cur-pannel">
+
+    <div class="floorTitle">
+        <ul class="J_tabList">
+            <li class="current J_floorTab" type="item">必需蔬菜</li>
+            <li class="J_floorTab" type="act_A" id="act_ningmeng">☑维生素最佳来源  ☑整肠健胃  ☑调整体质 </li>
+        </ul>
+        <div class="floorLine"></div>
+        <a href="/category?cid=02">
+            <div class="floorLogo floorLogo_0"></div>
+        </a>
+    </div>
+
+    <div class="floorContent J_floorContent J_floorItemContent" type="item" style="display: block;">
+        {% for ps in nvlist %}
+     <div class="itemOuter" style="height: 440px;">
+         <div class="itemWrapper " style="height: 438px;">
+             <a href="/product/{{ps.id}}" target="_blank">
+                 <img width="220" height="290" alt="{{ps.product.name}}" src="/upload/{{ps.product.sku}}/{{ps.product.cover}}"></a>
+             <h6><span class="flag flag_27024"></span>{{ps.product.name}}</h6>
+             <div class="whyme">{{ps.product.resume}}</div>
+             <div class="priceSection">
+                 <div class="priceNumber">
+                     {% if ps.price < ps.ourprice %}
+                     <span class="mainPrice">{{ps.price}}</span>/份
+                     {% else %}
+                     <span class="mainPrice">{{ps.ourprice}}</span>/斤
+                     {% endif %}
+
+                     <!--<span class="subPrice"><del>{{ps.orginalprice}}/斤</del></span>--></div>
+                 <div class="countSection"><span class="countNumber">{{ps.product.orders}}</span>人已付款</div>
+             </div>
+             <div class="product_list_index">
+                 <div class="number_box">
+                     <label class="caption">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                     <div class="buy_number_input">
+                         <span class="decrease_num" title="减少"></span>
+                         <input class="buy_number" readonly value="1" maxlength="2" />
+                         <span class="increase_num" title="增加"></span>
+                     </div>
+                     <div class="clear"></div>
+                 </div>
+                 <span href="javascript:void(0);" class="btnWP buy" data-pid="{{ps.product.id}}" data-psid="{{ps.id}}" title="加入购物车"><span>立即购买</span></span>
+             </div>
+         </div>
+     </div>
+        {% endfor %}
+    <div style="clear: both"></div>
+    </div>
+
+
+</div>
+<div class="floorWrapper floorWrapper_1 J_floorWrapper">
+
+    <div class="floorTitle">
+        <ul class="J_tabList">
+            <li class="current J_floorTab" type="item">必需水果</li>
+            <li class="J_floorTab" type="act_A" id="act_haihaoxie">☑保养皮肤  ☑减缓衰老  ☑预防疾病  ☑降低血压  ☑减肥瘦身</li>
+        </ul>
+        <div class="floorLine"></div>
+        <a href="/category?cid=01">
+            <div class="floorLogo floorLogo_1"></div>
+        </a>
+    </div>
+
+    <div class="floorContent J_floorContent J_floorItemContent" type="item" style="display: block;">
+        {% for ps in nflist %}
+     <div class="itemOuter" style="height: 440px;">
+         <div class="itemWrapper " style="height: 438px;">
+             <a href="/product/{{ps.id}}" target="_blank">
+                 <img width="220" height="290" alt="{{ps.product.name}}" src="/upload/{{ps.product.sku}}/{{ps.product.cover}}">
+             </a>
+             <h6><span class="flag flag_27024"></span>{{ps.product.name}}</h6>
+             <div class="whyme">{{ps.product.resume}}</div>
+             <div class="priceSection">
+                 <div class="priceNumber"><span class="mainPrice">{{ps.ourprice}}</span>/斤<!--<span class="subPrice"><del>{{ps.orginalprice}}/斤</del></span>--></div>
+                 <div class="countSection"><span class="countNumber">{{ps.product.orders}}</span>人已付款</div>
+             </div>
+             <div class="product_list_index">
+                 <div class="number_box">
+                     <label class="caption">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                     <div class="buy_number_input">
+                         <span class="decrease_num" title="减少"></span>
+                         <input class="buy_number" readonly value="1" maxlength="2" />
+                         <span class="increase_num" title="增加"></span>
+                     </div>
+                     <div class="clear"></div>
+                 </div>
+                 <span href="javascript:void(0);" class="btnWP buy" data-pid="{{ps.product.id}}" data-psid="{{ps.id}}" title="加入购物车"><span>立即购买</span></span>
+             </div>
+         </div>
+     </div>
+        {% endfor %}
+
+    </div>
+
+
+
+
+
+
+    <div style="clear: both"></div>
+
+</div>
+{% endblock %}

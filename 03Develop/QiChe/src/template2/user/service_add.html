@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn" class="csstransitions cssanimations ic_webkit ic_chrome ic_latest">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+</head>
+<body>
+<div class="usercenter">
+    <div class="content">
+        <div class="service_wrap" style="margin-top: 0px;">
+            <h2 class="service_tit"><span>售后咨询</span>请选择您遇到的问题</h2>
+            <div class="s_advice">
+                <form class="service_detail_wrap" action="/user/service-add" method="post" id="service-form">
+                    {{xsrf()}}
+                    <div class="consult_type clearfix">
+                        <label for="q_type"><span class="spark">*</span>是否收到商品：</label>
+                        <input class="received" name="isreceived" type="radio" value="0" id="not_received" checked><label for="not_received">还未收到商品</label>
+                        <input class="received" name="isreceived" type="radio" value="1" id="received"><label for="received">商品出现问题</label>
+                    </div>
+                    <div class="input_container">
+                        <label for="ordernum"><span class="spark">*</span>订单编号：</label>
+                            <input type="text" maxlength="30" class="t_input" id="ordernum" name="ordernum" size="30" required="">
+
+                        <span class="valueMissing">请填写订单编号</span>
+                    </div>
+                    <div class="input_container">
+                        <input type="hidden" name="order_id" value="169090170">
+                        <label for="q_type"><span class="spark">*</span>问题详细类别：</label>
+
+                            <select id="q_type" class="select" name="q_type" required="">
+                                <option selected="selected" value="">请选择您遇到的问题类型</option>
+                                <option value="没有快递信息">没有快递信息</option>
+                                <option value="快递太慢">快递太慢</option>
+                                <option value="商品质量问题">商品质量问题</option>
+                                <option value="商品与描述不符">商品与描述不符</option>
+                                <option value="商品破损">商品破损</option>
+                                <option value="商品错发">商品错发</option>
+                                <option value="商品漏发">商品漏发</option>
+                            </select>
+                        <div class="act">
+                            <div class="customError">请选择问题类型</div>
+                            <div class="valid"></div>
+                        </div>
+                    </div>
+                    <div class="input_container">
+                        <label for="comment"><span class="spark">*</span>问题描述：</label>
+                        <textarea maxlength="500" id="comment" name="comment" style="width:440px;height:75px;" cols="50" rows="8" required="" class="textarea_err"></textarea>
+
+                        <div class="act">
+                            <div class="valid" style="display: none;">还可输入<span>500</span>个字</div>
+                            <div class="tooLong" style="display: none;">问题描述输入超过500字</div>
+                            <div class="valueMissing" style="display: none;">请填写问题描述</div>
+
+                        </div>
+                    </div>
+                    <div class="input_container">
+                        <label for="username"><span class="spark">*</span>联系人姓名：</label>
+                                                <input type="text" maxlength="30" class="t_input" id="username" name="username" size="30" required="">
+
+                        <span class="valueMissing">请填写联系人姓名</span>
+                    </div>
+                    <div class="input_container">
+                        <label for="usertel"><span class="spark">*</span>联系人手机：</label>
+                                                <input type="text" class="t_input" id="usertel" name="mobile" size="30" pattern="\d{11}" required="">
+
+                        <span class="patternMismatch">手机号码输入不正确</span>
+                        <span class="valueMissing">请填写电话号码</span>
+                        <div class="act">
+                            <div class="valid">我们会尽快联系您帮您解决问题，请您保持手机畅通。</div>
+                        </div>
+                    </div>
+                    <div class="act">
+                        <input type="submit" class="btn btn-success" value="提交">
+                    </div>
+                    <p>&nbsp;</p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+
+    });
+</script>
+</body>
+</html>

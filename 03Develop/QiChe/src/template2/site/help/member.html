@@ -1,0 +1,250 @@
+{% extends "layout/site.html" %}
+{% block js %}
+<!--<link rel="stylesheet" href="/style2/css/list.css" type="text/css" media="screen">-->
+<link rel="stylesheet" href="/style2/css/help.css" type="text/css" media="screen">
+{% endblock %}
+{% block content %}
+
+<style>
+
+    .pro_base {
+        background-color: #71a33b;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div  class="clearfix wrap container">
+    <!-- Main -->
+    <div id="product_list_content" class="content content_help">
+        <!-- Crumb -->
+        <div class="crumb">
+            <ul>
+                <li class="home"><a href="/"></a></li>
+                <li class="step_arrow"></li>
+                <li><a href="#">关于我们</a></li>
+            </ul>
+        </div>
+        <div style="clear: both"></div>
+
+
+        <div id="product_list" class="clearfix product_list">
+            <div class="help_contain">
+                <div class="title" style="text-align: center;">
+                    <h1>会员及积分介绍</h1>
+                </div>
+                <a name="hydjsm"></a><h3 style="text-align: left;">一、 会员级别</h3>
+                <table style="width: 909px; height: 179px; margin-right: auto; margin-left: auto;" border="2">
+                    <tbody>
+                    <tr>
+                        <td style="text-align: center;"><strong>会员级别</strong></td>
+                        <td style="text-align: center;"><strong>&nbsp;规则 </strong></td>
+                        <td style="text-align: center;"><strong>有效期</strong></td>
+                    </tr>
+                    <tr>
+                        <td>优先会员</td>
+                        <td>0-2000消费积分</td>
+                        <td>永久有效</td>
+                    </tr>
+                    <tr>
+                        <td>铜卡会员</td>
+                        <td>2001-4000消费积分</td>
+                        <td>永久有效/换购</td>
+                    </tr>
+                    <tr>
+                        <td>金卡会员</td>
+                        <td>4001-6000消费积分</td>
+                        <td>有效期一年，当年消费积分超过4001积分（含4001积分）即可获得下一年度金卡会员级别。</td>
+                    </tr>
+                    <tr>
+                        <td>白金会员</td>
+                        <td>6001-8000消费积分</td>
+                        <td>有效期一年，当年消费积分超过6001积分（含6001积分）即可获得下一年度白金会员级别。</td>
+                    </tr>
+                    <tr>
+                        <td>钻石会员</td>
+                        <td>>=8001消费积分</td>
+                        <td>有效期一年，当年消费积分超过8001积分（含8001积分）即可获得下一年度钻石会员级别。</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <p>例如会员小A在2014年11月1日升级为金卡会员，截止至2015年10月31日年消费积分达到4001分，系统会判断会员小A继续为金卡会员，享受金卡会员福利，如年累计消费积分未达到4001，则系统会判断会员小A从金卡会员降至铜卡会员。</p>
+                <a name="hyly"></a><h3>二、 会员礼遇：</h3>
+                <table border="2">
+                    <tbody>
+                    <tr>
+                        <td style="text-align: center;"><strong>会员级别</strong></td>
+                        <td style="text-align: center;"><strong>会员礼遇 </strong></td>
+                    </tr>
+                    <tr>
+                        <td>优先会员</td>
+                        <td>1、每消费一元人民币获得1消费积分；2、评价（晒单）商品获2奖励积分。</td>
+                    </tr>
+                    <tr>
+                        <td>铜卡会员</td>
+                        <td style="line-height: 35px;">1、每消费一元人民币获得1消费积分；2、额外获得相当于消费积分20%的奖励积分；<br />3、评价（晒单）商品获4奖励积分。</td>
+                    </tr>
+                    <tr>
+                        <td>金卡会员</td>
+                        <td>1、每消费一元人民币获得1消费积分；2、额外获得相当于消费积分40%的奖励积分；<br />3、评价（晒单）商品获6奖励积分。</td>
+                    </tr>
+                    <tr>
+                        <td>白金会员</td>
+                        <td>1、每消费一元人民币获得1消费积分；2、额外获得相当于消费积分60%的奖励积分；<br />3、评价（晒单）商品获8奖励积分；4、平台提供VIP专线服务。</td>
+                    </tr>
+                    <tr>
+                        <td>钻石会员</td>
+                        <td>1、每消费一元人民币获得1积分；2、额外获得相当于消费积分80%的奖励积分；<br />3、评价（晒单）商品获10奖励积分；4、平台提供VIP专线服务；</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <a name="jfsm"></a><h3>三、 积分说明</h3>
+
+                <p>1、积分为消费积分和奖励积分两种。</p>
+
+                <p>2、消费积分从网站购物获取。</p>
+
+                <p>3、奖励积分可以从活动中获取。</p>
+
+                <p>4、积分可以直接兑换平台提供的特供商品，也可以换成优惠券享受打折服务。</p>
+
+                <p></p>
+            </div>
+        </div>
+        <div style="clear: both"></div>
+
+
+    </div>
+
+    <div class="sliderbar">
+
+        <!-- 分类 -->
+        <div id="help_slider" class="slider help_slider">
+            <div class="title active">
+                <h2><a href="#"><i class="help_ico"></i>用户帮助中心</a></h2>
+                <i class="line"></i>
+            </div>
+            <div class="inner">
+                <ul>
+                    <li>
+                        <div class="pro_base"><a href="/help/shopping#jytk" class="tit">购物指南</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                        <dl class="pro_sublist">
+                            <dd><a href="/help/shopping#jytk" rel="nofollow"><i></i>交易条款</a></dd>
+                            <dd><a href="/help/shopping#gwxz" rel="nofollow"><i></i>购物须知</a></dd>
+                            <dd><a href="/help/shopping#gwlc" rel="nofollow"><i></i>购物流程</a></dd>
+                            <dd><a href="/help/shopping#sppj" rel="nofollow"><i></i>商品评价</a></dd>
+
+                        </dl>
+                    </li>
+
+
+                    <li>
+                        <div class="pro_base"><a href="/help/delivery#ptpsfw" class="tit">配送服务</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                        <dl class="pro_sublist">
+                            <dd><a href="/help/delivery#ptpsfw" rel="nofollow">配送范围</a>            <i></i></dd>
+                            <dd><a href="/help/delivery#pssj" rel="nofollow">配送时间</a>              <i></i></dd>
+                            <dd><a href="/help/delivery#psfsjfy" rel="nofollow">配送方式及费用</a>     <i></i></dd>
+
+                        </dl>
+                    </li>
+
+
+                    <li>
+                        <div class="pro_base"><a href="/help/pay#dsfwszf" class="tit">支付方式</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                        <dl class="pro_sublist">
+                            <dd><a href="/help/pay#dsfwszf" rel="nofollow">第三方网上支付 </a> <i></i></dd>
+                            <dd><a href="/help/pay#hdfk" rel="nofollow">货到付款 </a> <i></i></dd>
+                            <dd><a href="/help/pay#syjfzf" rel="nofollow">积分支付 </a> <i></i></dd>
+                            <dd><a href="/help/pay#ptzhyezf" rel="nofollow">平台账户支付</a> <i></i></dd>
+
+                        </dl>
+                    </li>
+
+
+
+                    <li>
+                        <div class="pro_base"><a href="/help/service#fwcl" class="tit">售后服务</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                        <dl class="pro_sublist">
+                            <dd><a href="/help/service#fwcl" rel="nofollow">服务承诺</a>   <i></i></dd>
+                            <dd><a href="/help/service#yhyjs" rel="nofollow">验货与拒收</a><i></i></dd>
+                            <dd><a href="/help/service#thhyz" rel="nofollow">退换货原则</a><i></i></dd>
+                            <dd><a href="/help/service#thhlc" rel="nofollow">退换货流程</a><i></i></dd>
+
+                        </dl>
+                    </li>
+
+
+
+                    <li>
+                        <div class="pro_base"><a href="/help/member#hyqyhyw" class="tit">会员相关</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                        <dl class="pro_sublist">
+                            <dd><a href="/help/member#hyqyhyw" rel="nofollow">会员权利和义务</a>  <i></i></dd>
+                            <dd><a href="/help/member#jfsm" rel="nofollow">积分说明</a> <i></i></dd>
+                            <dd><a href="/help/member#hydjsm" rel="nofollow">会员等级说明</a> <i></i></dd>
+                        </dl>
+                    </li>
+
+                    <li>
+                        <div class="pro_base"><a href="/help/media" class="tit">媒体报道</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                    </li>
+                    <li>
+                        <div class="pro_base"><a href="/help/about#gsjj" class="tit">关于我们</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                        <dl class="pro_sublist">
+                            <dd><a href="/help/about#gsjj" rel="nofollow">公司简介</a><i></i></dd>
+                            <dd><a href="/help/about#ptln" rel="nofollow">平台理念</a><i></i></dd>
+                            <dd><a href="/help/about#jyly" rel="nofollow">经营领域</a><i></i></dd>
+                            <dd><a href="/help/about#lxwm" rel="nofollow">联系我们</a><i></i></dd>
+                        </dl>
+                    </li>
+
+
+
+
+                </ul>
+            </div>
+
+
+
+        </div>
+
+
+
+    </div>
+
+    <div style="clear: both"></div>
+</div>
+
+
+<script>
+
+    jQuery(function ($) {
+        var shell = $('#help_slider');
+        if (!shell.length) { return; }
+        shell.find('.pro_sublist').each(function (i) {
+            var self = $(this);
+            self.data('maxHeight', self.height()).css('overflow', 'hidden');
+            if (this.parentNode.className.indexOf('current') < 0) {
+                self.css('height', 0);
+            }
+        });
+        shell.delegate('a.trigger', 'click', function (e) {
+            e.preventDefault();
+
+
+            var
+                    isExtended = this.className.indexOf('open') > -1,
+                    panel = $('.pro_sublist', this.parentNode.parentNode);
+            panel.stop().show().animate({
+                height: isExtended ? 0 : panel.data('maxHeight'),
+                opacity: isExtended ? 0 : 1
+            }, 200, function () {
+                if (isExtended) {
+                    panel.hide();
+                }
+            });
+            this.className = isExtended ? 'trigger' : 'trigger open';
+        });
+    });
+
+</script>
+{% endblock %}

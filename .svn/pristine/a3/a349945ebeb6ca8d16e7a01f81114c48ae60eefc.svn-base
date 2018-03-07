@@ -1,0 +1,219 @@
+<ion-view view-title="购物车">
+    <!--<ion-nav-buttons side="secondary">-->
+    <!--<button class="button button-icon icon ion-ios7-search" ng-click="search()"></button>-->
+    <!--</ion-nav-buttons>-->
+    <ion-content>
+        <div class="padding" ng-if="cars.length === 0 && gifts.length  === 0 && presales.length  === 0">
+            <div class="text-center grey padding">
+                <label>购物车空空如也</label>
+            </div>
+            <a class="button button-block button-assertive" href="#/tab/home">
+                立即挑选商品
+            </a>
+        </div>
+        <div class="padding" ng-if="showPresaleWarning">
+            <div class="text-center assertive padding">
+                <label>选中的商品将延后与预购商品同一时间送达</label>
+            </div>
+        </div>
+        <div class="list car">
+            <div class="item item-divider-ios" ng-if="gifts && gifts.length > 0">
+                赠品/换购
+            </div>
+            <div class="item" href="#" ng-repeat="gift in gifts">
+                <div class="control">
+                    <label class="checkbox checkbox-balanced" style="padding:0">
+                        <input type="checkbox" ng-model="gift.checked">
+                    </label>
+                </div>
+                <div class="cover">
+                    <a ng-click="showDetail(gift.psid)">
+                        <img ng-src="{{config.domain + '/upload/' + gift.sku + '/' + gift.cover}}">
+                    </a>
+                </div>
+                <div style=" margin-left: 5px;padding-right: 30px; padding:5px" class="item-body">
+                    <div style="float: none"></div>
+                    <div style="margin-left: 5px;padding-right: 50px;">
+                        <span>
+                            <label>{{gift.name }}</label>
+                            <br/>
+                            <label class="grey">{{gift.reason}}</label>
+                            <br/>
+                            <label class="assertive" ng-if="gift.type !== 2">{{gift.expirs | date : 'MM月dd日'}}
+                                后过期</label>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item item-divider-ios" ng-if="cars.length > 0">
+                自选
+            </div>
+            <div class="item" href="#" ng-if="(!record.poid || record.poid === 0) && record.product" ng-repeat="record in cars">
+                <div class="control">
+                    <label class="checkbox checkbox-balanced" style="padding:0">
+                        <input type="checkbox" ng-model="record.checked"
+                               ng-disabled="record.product.status && record.product.status !== 1">
+                    </label>
+                </div>
+                <div class="cover">
+                    <a ng-click="showDetail(record.psid)">
+                        <img ng-src="{{ config.domain + '/upload/' + record.product.sku + '/' + record.product.cover}}">
+                    </a>
+                </div>
+                <div style=" padding:5px" class="item-body">
+                    <div style="float: none"></div>
+                    <div style="margin-left: 5px;">
+                        <span style="padding-right:50px;">
+                            <label>{{record.product.name }}</label>
+                            <label class="assertive"
+                                   ng-hide="!record.product.status || record.product.status == 1">已下架</label>
+                        </span>
+
+                        <!--<span class="item-note">{{record.product.price}} 元 / 份</span>-->
+                        <label style="right:10px; position: absolute">{{ record.quantity * record.product.price |
+                            number:2}}元</label>
+                    </div>
+                    <div style="margin-left:-10px; margin-top:2px; margin-right:-5px">
+                        <button style="font-size:25px"
+                                class="button button-balanced button-clear ion-ios7-minus-outline"
+                                ng-click="addQuantity(record.pid,record.psid,-1)"></button>
+                        <!--<span>{{record.quantity}} 份</span>-->
+                        <span style="margin:0 -20px"
+                              class="button button-clear   "
+                                >{{record.quantity}} 份</span>
+                        <button style="font-size:25px"
+                                class="button button-balanced button-clear ion-ios7-plus-outline"
+                                ng-click="addQuantity(record.pid,record.psid,1)"></button>
+
+                    </div>
+                    <div style="right:0px;bottom:10px; position: absolute">
+                        <button style="font-size:25px"
+                                class="button button-assertive button-clear ion-ios7-close-outline"
+                                ng-click="removeCar(record.pid, record.psid)">
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="item" href="#" ng-if="(record.poid && record.poid > 0)&& record.product" ng-repeat="record in cars">
+                <div class="control">
+                    <label class="checkbox checkbox-balanced" style="padding:0">
+                        <input type="checkbox" ng-model="record.checked"
+                               ng-disabled="record.product.status && record.product.status !== 1">
+                    </label>
+                </div>
+                <div class="cover">
+                    <a ng-click="showOfflineDetail(record.psid,record.storeid)">
+                        <img ng-src="{{ config.domain + '/upload/' + record.product.sku + '/' + record.product.cover}}">
+                    </a>
+                </div>
+                <div style=" padding:5px" class="item-body">
+                    <div style="float: none"></div>
+                    <div style="margin-left: 5px;">
+                        <span style="padding-right:50px;">
+                            <label>{{record.product.name }}</label>
+                            <label class="assertive"
+                                   ng-hide="!record.product.status || record.product.status == 1">已下架</label>
+                        </span>
+                        <label style="right:10px; position: absolute">{{ record.product.price |
+                            number:2}}元</label>
+
+                        <p>
+                            {{record.product.weight}}
+                        </p>
+                    </div>
+                    <div style="right:0px;bottom:10px; position: absolute">
+                        <button style="font-size:25px"
+                                class="button button-assertive button-clear ion-ios7-close-outline"
+                                ng-click="removeCopie(record.pid, record.psid, record.poid)">
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item item-divider-ios" ng-if="presales && presales.length > 0">
+                预购
+            </div>
+            <div class="item" href="#" ng-if="presales && presales.length > 0" ng-repeat="record in presales">
+                <div class="control">
+                    <label class="checkbox checkbox-balanced" style="padding:0">
+                        <input type="checkbox" ng-model="record.checked"
+                               ng-disabled="record.product.status && record.product.status !== 1">
+                    </label>
+                </div>
+                <div class="cover">
+                    <a>
+                        <img ng-src="{{ config.domain + '/upload/' + record.product.sku + '/' + record.product.cover}}">
+                    </a>
+                </div>
+                <div style=" padding:5px" class="item-body">
+                    <div style="float: none"></div>
+                    <div style="margin-left: 5px;">
+                        <span style="padding-right:50px;">
+                            <label>{{record.product.name }}</label>
+                            <label class="assertive"
+                                   ng-hide="!record.product.status || record.product.status == 1">已下架</label>
+                        </span>
+
+                        <!--<span class="item-note">{{record.product.price}} 元 / 份</span>-->
+                        <label style="right:10px; position: absolute">{{ record.quantity * record.product.price |
+                            number:2}}元</label>
+                    </div>
+                    <div style="margin-left:-10px; margin-top:2px; margin-right:-5px">
+                        <button style="font-size:25px"
+                                class="button button-balanced button-clear ion-ios7-minus-outline"
+                                ng-click="addQuantity(record.pid,record.psid,-1)"></button>
+                        <!--<span>{{record.quantity}} 份</span>-->
+                        <span style="margin:0 -20px"
+                              class="button button-clear   "
+                                >{{record.quantity}} 份</span>
+                        <button style="font-size:25px"
+                                class="button button-balanced button-clear ion-ios7-plus-outline"
+                                ng-click="addQuantity(record.pid,record.psid,1)"></button>
+
+                    </div>
+                    <div style="right:0px;bottom:10px; position: absolute">
+                        <button style="font-size:25px"
+                                class="button button-assertive button-clear ion-ios7-close-outline"
+                                ng-click="removeCar(record.pid, record.psid)">
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="height: 40px;">
+        </div>
+    </ion-content>
+    <ion-footer-bar class="bar-stable padding" style="height:auto" ng-if="cars.length > 0 || (gifts && gifts.length > 0) || (presales && presales.length > 0)">
+        <div class="row"
+             ng-if="_.where(cars,{'checked':true}).length == 0 && _.where(gifts, {'checked':true}).length == 0 && _.where(presales, {'checked':true}).length == 0">
+            <div class="col col-50">
+                <span>
+                请至少勾选一件商品
+                </span>
+            </div>
+            <div class="col col-50">
+                <button class="button  button-assertive button-full"
+                        ng-click="checkAll()">
+                    全部选中
+                </button>
+            </div>
+        </div>
+
+        <div class="row"
+             ng-if="_.where(cars,{'checked':true}).length > 0  || _.where(gifts, {'checked':true}).length > 0 || _.where(presales, {'checked':true}).length > 0">
+            <div class="col col-50">
+                <span>
+                共 {{total}} 元
+                </span>
+            </div>
+            <div class="col col-50">
+                <button class="button  button-assertive button-full"
+                        ng-click="pay()"
+                        >
+                    立即支付
+                </button>
+            </div>
+        </div>
+    </ion-footer-bar>
+</ion-view>

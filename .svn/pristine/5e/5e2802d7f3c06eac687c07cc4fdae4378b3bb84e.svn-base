@@ -1,0 +1,214 @@
+﻿
+li
+{
+    list-style: none outside none;
+}
+div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td
+{
+    margin: 0;
+    padding: 0;
+}
+.choosecities
+{
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #D4D4D4;
+    box-shadow: 0 0 1px #D4EDF4;
+    padding-bottom: 60px;
+}
+.choosecities a:hover
+{
+    text-decoration: none;
+}
+.hotcities
+{
+    background: url("/Themes/Default/Images/content-title-bg.png") repeat-x scroll 0 0 #F3F3F3;
+    border-bottom: 1px solid #E5E5E5;
+    font-weight: bold;
+    height: 70px;
+    padding: 0 20px;
+}
+.hotcities h2, .hotcities p
+{
+    display: inline-block;
+    height: 70px;
+    line-height: 70px;
+    vertical-align: top;
+}
+.hotcities h2
+{
+    border-right: 1px solid #E5E5E5;
+    font-size: 22px;
+    padding: 0 20px 0 0;width:145px;float:left;
+}
+.hotcities h2 span
+{
+    font-weight: 400;
+    margin: 0 0 0 3px;
+}
+.hotcities h2 a
+{
+    font-size: 30px;
+    margin: 0 0 0 6px;
+}
+.hotcities .city-list
+{
+    border-left: 1px solid #FFFFFF;
+    padding-left: 20px;width:940px;float:left;
+}
+.hotcities p a
+{
+    margin: 0 24px 0 0;
+}
+.hotcities p .last
+{
+    margin: 0;
+}
+.hotcities p a:hover
+{
+    text-decoration: underline;
+}
+.filter
+{
+    border-bottom: 1px solid #E4E5E5;
+    height: 50px;
+    margin: 20px 0 0;
+    padding: 0 20px;
+}
+.filter span.label
+{
+    font-weight: bold;
+    vertical-align: middle;width:auto;
+    line-height:20px;padding-right:0px;
+}
+.filter span
+{
+    vertical-align: middle;
+}
+.filter div{ display:inline;}
+.filter .form-button
+{
+    line-height: 16px;
+    padding: 1px 15px 3px;
+    vertical-align: middle;
+}
+.citieslist h2
+{
+    background: none repeat scroll 0 0 #15a6d6;
+    border-radius: 0 0 0 0;
+    color: #FFFFFF;
+    display: inline-block;
+    height: 32px;
+    line-height: 30px;
+    margin: 20px 20px 12px;
+    padding: 0 14px;
+    position: relative;
+}
+.citieslist h2 span
+{
+    border-color: #15a6d6 #FFFFFF #FFFFFF;
+    border-style: solid;
+    border-width: 6px;
+    display: block;
+    float: none;
+    font-size: 0;
+    height: 0;
+    left: 20px;
+    line-height: 0;
+    position: absolute;
+    top: 32px;
+    width: 0;
+}
+.citieslist li
+{
+    border-bottom: 1px solid #FFFFFF;
+    border-top: 1px solid #FFFFFF;
+}
+.citieslist p
+{
+    border-bottom: 1px solid #FFFFFF;
+    border-top: 1px solid #FFFFFF;
+    padding: 6px 10px 6px 30px;
+}
+.citieslist span.label
+{
+    border: 1px solid #DDDDDD;
+    border-radius: 0 0 0 0;
+    color: #666666;
+    display: inline-block;
+    height: 30px;
+    line-height: 24px;
+    margin-right: 5px;
+    vertical-align: top;
+    width: 30px;padding-right:0px;
+}
+.citieslist span.label strong
+{
+    background: none repeat scroll 0 0 #F1F1F1;
+    border: 1px solid #F7F7F7;
+    border-radius: 0 0 0 0;
+    display: block;
+    font-family: Tahoma;
+    font-size: 16px;
+    height: 28px;
+    text-align: center;
+    width: 28px;
+}
+.citieslist span
+{
+    display: inline-block;
+    vertical-align: top;
+    width: 880px;
+}
+.citieslist span i
+{
+    color: #CCCCCC;
+    font-style: normal;
+    margin: 0 3px;
+}
+.citieslist .hover
+{
+    border-color: #E5E5E5;
+}
+.citieslist .hover p
+{
+    background: none repeat scroll 0 0 #F7F7F7;
+}
+.citieslist .hover span.label
+{
+    border-color: #1FB7BB;
+}
+.citieslist .hover span.label strong
+{
+    background: none repeat scroll 0 0 #00C7C7;
+    border-color: #00C7C7;
+    color: #FFFFFF;
+}
+.citieslist a
+{
+    border-radius: 0 0 0 0;
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    margin: 5px 10px;
+    padding: 0 2px 1px;
+}
+.citieslist a:hover
+{
+    background: none repeat scroll 0 0 #15a6d6;
+    color: #FFFFFF;
+}
+.citieslist .isonline
+{
+    font-weight: bold;
+}
+.button {
+    width: 82px;
+    height: 36px;
+    background: #008D3E none repeat scroll 0% 0%;
+    border: medium none;
+    line-height: 1;
+    color: #FFF;
+    font-family: "Microsoft YaHei";
+    font-size: 14px;
+    cursor: pointer;
+}

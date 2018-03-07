@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html><head>
+    <title>api</title>
+</head>
+<body>
+<script>
+    if(window.location.hash && window.location.hash.length>0){
+        window.location = "http://localhost/callback?" + window.location.hash.substr(1);
+    }
+</script>
+</body></html>‍

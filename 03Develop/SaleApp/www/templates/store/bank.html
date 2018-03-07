@@ -1,0 +1,26 @@
+<ion-view view-title="银行卡管理">
+ <ion-content class="stable-bg">
+  <div class="item stable-bg" ng-if="bankModel.bank_truename != ''" style="border: none;" ng-click="showDetail();">
+
+   <ion-item  style="min-height: 70px;">
+    <!-- <img ng-src="img/icon-ccb.png" style="max-width: 50px;max-height: 50px;left:20px;"> -->
+    <div class="item-icon-right">
+     <i class="icon ion-chevron-right icon-accessory"></i>
+    </div>
+
+    <h2 style="font-weight: bold;">{{bankModel.bank_name}} ({{bankModel.bank_truename}})</h2>
+
+    <p style="margin-top: 10px;">
+     <label style="color: #ACA8A3">{{bankModel.bank_account}}</label>
+    </p>
+
+   </ion-item>
+  </div>
+  <div ng-if="bankModel.bank_truename === ''">
+   <div class="text-center grey">
+     <button class="button button-block button-balanced" ng-click="showDetail()">+绑定银行卡</button>
+   </div>
+  </div>
+
+ </ion-content>
+</ion-view>

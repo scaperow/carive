@@ -1,0 +1,441 @@
+<ion-view ng-controller="IndexCtrl">
+  <ion-nav-bar class="bar" style="display: none !important;"></ion-nav-bar>
+  <ion-tabs class="tabs-icon-top tabs-color-active-balanced">
+    <ion-tab title="首页" icon-off="ion-ios-home-outline" ng-click="switch(0)" icon-on="ion-ios-home" ng-controller="HomeCtrl">
+      <ion-view>
+        <ion-content style="top:0" delegate-handle="content" scroll-overflow="true" id="contentScroll" class="stable-bg">
+          <ion-refresher on-refresh="refresh(true)">
+          </ion-refresher>
+
+          <div class="row" style="position: absolute;top: 0;background: transparent;z-index: 10;">
+            <div class="col-25">
+              <button class="button icon-right  button-clear " style="color:#fff; height:32px; min-height:inherit; line-height:32px" ng-click="setLocation()">
+                <i class="icon ion-ios-location"></i> {{city.name}}
+              </button>
+            </div>
+            <div class="col-50" style="text-align:center">
+              <label class="item item-input" style="border-radius: 20px;padding: 0 10px; ">
+                <i class="icon ion-ios-search-strong placeholder-icon"></i>
+                <input type="text" placeholder="输入商品名称" ng-click="search()">
+              </label>
+            </div>
+            <div class="col-25 " style="text-align: right;">
+              <button class="button icon-right  button-clear " style="color:#fff; height:32px; min-height:inherit; line-height:32px" ng-click="message()">
+                <i class="iconfont ">&#xe645;</i> 消息
+              </button>
+            </div>
+          </div>
+          <img src="img/banner.png" style="width:100%; " ng-if="!banner || banner.length  === 0 || loading">
+          <ion-slide-box ng-if="!loading" delegate-handle="slide-banner" does-continue="true" auto-play="true" class="light-border">
+            <ion-slide ng-repeat="ad in banner">
+              <img style="display: block;margin: auto;  width:100%" ng-src="{{ad.img}}" ng-click="docker(ad.id)">
+            </ion-slide>
+          </ion-slide-box>
+          <div class="padding" ng-if="brand" ng-click="addMineCar()">
+             <label class="icon ion-model-s balanced">我的爱车</label>
+             <div>
+             <label>{{brand}}</label><label ng-if="auto&&auto.mileage">|行驶 {{auto.mileage}} KM</label>
+            </div>
+          </div>
+          <div class="padding" ng-if="!brand && $root.user">
+           <button class="button-full button balanced" ng-click="addMineCar()"><i class="icon ion-plus"></i>添加我的爱车</button>
+          </div>
+          <div class="row border-top light-bg ">
+            <ion-item class="col menu-item " ng-click="showCategory('洗车')">
+              <!-- <div class="icon assertive ion-waterdrop"></div> -->
+              <img src='img/menu-xiche.png' style="width:60%">
+              <br/>
+              <label class='description balanced'>洗车</label>
+            </ion-item>
+            <ion-item class="col  menu-item" ng-click="showCategory('喷漆')">
+              <!--<div class="icon balanced iconfont">&#xe606;</div>-->
+              <img src='img/menu-penqi.png' style="width:60%">
+              <br/>
+              <label class='description balanced'>喷漆</label>
+            </ion-item>
+            <ion-item class="col  menu-item" ng-click="showCategory('保养')">
+              <!--<div class="icon energized iconfont">&#xe618;</div>-->
+              <img src='img/menu-baoyang.png' style="width:60%">
+              <br/>
+              <label class='description balanced'>保养</label>
+            </ion-item>
+            <ion-item class="col  menu-item" ng-click="showCategory('维修')">
+              <!--<div class="icon balanced iconfont"> &#xe621;</div>-->
+              <img src='img/menu-weixiu.png' style="width:60%">
+              <br/>
+              <label class='description balanced'>维修</label>
+            </ion-item>
+          </div>
+          <div class="row border-bottom light-bg">
+            <ion-item class="col  menu-item " ng-click="showGasStation('xc')">
+              <img src='img/menu-jiayouzhan.png' style="width:60%">
+              <br/>
+              <label class='description balanced'>加油站</label>
+            </ion-item>
+            <ion-item class="col  menu-item" ng-click="showParkCar()">
+              <!--<div class="icon balanced iconfont">&#xe606;</div>-->
+              <img src='img/menu-tingche.png' style="width:60%">
+              <br/>
+              <label class='description balanced'>停车场</label>
+            </ion-item>
+            <ion-item class="col  menu-item" ng-click="showPeccancy('by')">
+              <!--<div class="icon energized iconfont">&#xe618;</div>-->
+              <img src='img/menu-weizhang.png' style="width:60%">
+              <br/>
+              <label class='description balanced'>查违章</label>
+            </ion-item>
+            <ion-item class="col  menu-item" ng-click="showOtherService()">
+              <!--<div class="icon balanced iconfont"> &#xe621;</div>-->
+              <img src='img/menu-qita.png' style="width:60%">
+              <br/>
+              <label class='description balanced'>其他</label>
+            </ion-item>
+          </div>
+          <div class="separate-big"></div>
+          <div class="row padding-clear">
+            <div class="col col-50" style="padding:0 1px 0 0">
+              <img src='img/btn-nearby.png' style="width:100%" ng-click="searchStore()">
+            </div>
+            <div class="col col-50" style="padding:0 0 0 1px ">
+              <img src='img/btn-help.png' style="width:100%" ng-click="helpService()">
+            </div>
+          </div>
+          <div class="separate"></div>
+          <ion-slide-box ng-if="!loading" delegate-handle="slide-ads" does-continue="true" auto-play="true" class="light-border">
+            <ion-slide ng-repeat="ad in ads">
+              <img style="display: block;margin: auto;  width:100%" ng-src="{{ad.img}}" ng-click="docker(ad.id)">
+            </ion-slide>
+          </ion-slide-box>
+          <div class="separate"></div>
+          <div class="row light-bg padding-clear">
+            <div class="col col-50" style="padding:0 1px 0 0">
+              <img src='img/btn-free.png' style="width:100%" ng-click="showType(1)">
+            </div>
+            <div class="col col-50" style="padding:0  0 0 1px">
+              <img src='img/btn-trade.png' style="width:100%" ng-click="showType(2)">
+            </div>
+          </div>
+          <div class="separate-big"></div>
+          <div class="divier" ng-if="recommands && recommands.length > 0">
+            <i class="icon ion-ios-eye-outline"></i> &nbsp;最近浏览
+            <!-- <a class="button button-small button-clear " style="
+    right: 10px;
+    position: absolute;color:#fff
+" href="#/history">查看更多 ></a> -->
+          </div>
+          <div class="row light-bg" ng-if="recommands && recommands.length > 0" style="padding:1px 0">
+            <a class="col-33" ng-repeat="recommand in recommands" style="margin-left:1px" ng-click="docker(recommand.id)">
+              <img style="width:100%;" ng-src="{{recommand.img}}">
+            </a>
+          </div>
+          <div class="separate-big" ng-if="recommands && recommands.length > 0"></div>
+          <div class="divier" ng-if="questions && questions.length > 0">
+            <i class="icon ion-ios-compose-outline"></i>&nbsp;你问我答
+            <a class="button button-small button-clear " style="
+    right: 10px;
+    position: absolute;color:#fff
+" href="#/question">查看更多 ></a>
+          </div>
+          <div ng-if="questions && questions.length > 0">
+            <a class="item" ng-href="#/answer/{{question.id}}" ng-repeat="question in questions">
+              <div class="row">
+                <div>
+                  <img ng-src="{{question.user_photo}}" ng-if="question.user_photo" style="width: 32px;height: 32px;border-radius:50%"></img>
+                  <img src="img/default-photo.jpg" ng-if="!question.user_photo" style="width: 32px;height: 32px;border-radius:50%"></img>
+                  <br/>
+                  <div class="level">
+                    <img src="img/LV1.png"></img>
+                    <label>
+                      {{"LV"+question.user_level}}
+                    </label>
+                  </div>
+                </div>
+                <div>
+                  <div style="font-size:14px; white-space:normal" class="question">{{question.content}}</div>
+                </div>
+              </div>
+              <div class="row" ng-if="question.best">
+                <div>
+                  <div style="font-size:14px;white-space:normal; " class="answer">{{question.best.content}}</div>
+                </div>
+                <div>
+                  <img ng-src="{{question.best.user_photo}}" ng-if="question.best.user_photo" style="width: 32px;height: 32px;border-radius:50%"></img>
+                  <img src="img/default-photo.jpg" ng-if="!question.best.user_photo" style="width: 32px;height: 32px;border-radius:50%"></img>
+                  <br/>
+                  <div class="level">
+                    <img src="img/lv1.png"></img>
+                    <label>
+                      {{"LV"+question.best.user_level}}
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </ion-content>
+      </ion-view>
+    </ion-tab>
+    <ion-tab title="圈子" icon-off="ion-ios-people-outline" ng-click="switch(1)" icon-on="ion-ios-people" ng-controller="CircleCtrl">
+      <ion-view>
+        <ion-header-bar class="bar-balanced bar bar-header disable-user-behavior" align-title="center">
+          <div class="title title-center header-item">圈子</div>
+          <div class="buttons buttons-right">
+            <span class="right-buttons">
+              <a class="button button-clear icon-right  button-light ion-ios-camera" href="#/show-order"></a>
+            </span>
+          </div>
+        </ion-header-bar>
+        <ion-content class="circle" lazy-scroll>
+          <ion-refresher on-refresh="fetch()">
+          </ion-refresher>
+          <ion-list>
+            <ion-item ng-repeat="topic in circleTopics " >
+              <h2> {{topic.user_name | mobilemask}}</h2>
+              <div style="font-size:14px">{{topic.content}}</div>
+              <div class="row " ng-if="topic.pictures.length >= 1">
+                <a ng-if="topic.pictures.length >= 1">
+                  <img image-lazy-src="{{topic.pictures[0].path}}" ng-click="$root.previewImage(topic.pictures[0].path)" style="width:100px;height:100px; margin-right:6px">
+                </a>
+                <a ng-if="topic.pictures.length >= 2">
+                  <img image-lazy-src="{{topic.pictures[1].path}}" ng-click="$root.previewImage(topic.pictures[1].path)" style="width:100px;height:100px; margin-right:6px">
+                </a>
+                <a ng-if="topic.pictures.length >= 3">
+                  <img image-lazy-src="{{topic.pictures[2].path}}" ng-click="$root.previewImage(topic.pictures[2].path)" style="width:100px;height:100px; margin-right:6px">
+                </a>
+              </div>
+              <div class="row" ng-if="topic.pictures.length >= 4">
+              <a ng-if="topic.pictures.length >= 4" ng-click="$root.previewImage(topic.pictures[3].path)">
+                <img image-lazy-src="{{topic.pictures[3].path}}" ng-click="$root.previewImage(topic.pictures[3].path)" style="width:100px;height:100px;margin-right:6px;">
+              </a>
+              <a ng-if="topic.pictures.length >= 5" ng-click="$root.previewImage(topic.pictures[4].path)">
+                <img image-lazy-src="{{topic.pictures[4].path}}" ng-click="$root.previewImage(topic.pictures[4].path)" style="width:100px;height:100px;margin-right:6px;">
+              </a>
+              <a ng-if="topic.pictures.length >= 6" ng-click="$root.previewImage(topic.pictures[5].path)">
+                <img image-lazy-src="{{topic.pictures[5].path}}" ng-click="$root.previewImage(topic.pictures[5].path)" style="width:100px;height:100px;margin-right:6px;">
+              </a>
+            </div>
+              <div class="row" ng-if="topic.pictures.length >= 7">
+                <a ng-if="topic.pictures.length >= 7">
+                  <img image-lazy-src="{{topic.pictures[6].path}}" ng-click="$root.previewImage(topic.pictures[6].path)" style="width:100px;height:100px;margin-right:6px;">
+                </a>
+                <a ng-if="topic.pictures.length >= 8">
+                  <img image-lazy-src="{{topic.pictures[7].path}}" ng-click="$root.previewImage(topic.pictures[7].path)" style="width:100px;height:100px;margin-right:6px;">
+                </a>
+                <a ng-if="topic.pictures.length >= 9">
+                  <img image-lazy-src="{{topic.pictures[8].path}}" ng-click="$root.previewImage(topic.pictures[8].path)" style="width:100px;height:100px;margin-right:6px;">
+                </a>
+              </div>
+              <div class="row">
+                <div class="col" style="color:#ccc">
+                  {{topic.created | ago}}
+                </div>
+                <div class="col" style="text-align:right">
+                  <button class="button button-normal button-clear" style="min-height:auto; padding:0; line-height:normal" ng-click="clickPraise({{topic.id}})"><i class="iconfont">&#xe608;</i>赞</button>
+                  <button class="button button-normal button-clear" style="min-height:auto; padding:0; line-height:normal" ng-click="leaveReply({{topic.id}},'','')"><i class="iconfont">&#xe600;</i>评论</button>
+                  <button class="button button-normal button-clear" style="min-height:auto; padding:0; line-height:normal" ng-click="removePraise({{topic.id}},'','')">删除</button>
+                </div>
+              </div>
+              <div class="stable-bg" style="padding:3px; white-space:normal" ng-if="topic.praises.length > 0">
+                <span class="positive" ng-repeat="praise in topic.praises"><i class="icon ion-ios-heart-outline only-icon"></i>&nbsp;
+                  <span>{{praise.user_name | mobilemask}}</span>&nbsp;</span>
+                <!-- <button class="button button-positive button-normal button-clear" ng-repeat="praise in topic.praises" style="min-height:auto; padding:0; line-height:normal"></button> -->
+              </div>
+              <div style="border-bottom: 1px solid #ccc;margin: 0 6px;" ng-if="topic.praises.length > 0 && topic.replies.length > 0"></div>
+              <ion-item class="stable-bg border-clear" ng-repeat="reply in topic.replies track by $index" style="word-break: break-all;white-space: normal;padding:3px;margin:0; font-size:14px" ng-click="leaveReply({{topic.id}},'{{reply.user_name}}',{{reply.user_id}},{{reply.id}})">
+                <!-- <button class="button-positive button button-normal button-clear" style="min-height:auto; padding:0; line-height:normal">{{reply.user_name}}</button> -->
+                <span class="positive">{{reply.user_name | mobilemask}}</span>
+                <span ng-if="reply.replied_user_id">回复给</span>
+                <span ng-if="reply.replied_user_id" class="positive">{{reply.replied_user_name | mobilemask}}</span>
+                <!-- <button ng-if="reply.replied_user_id" class="button-positive button button-normal button-clear" style="min-height:auto; padding:0; line-height:normal">{{reply.replied_user_name}}</button> -->
+                {{reply.content}}
+              </ion-item>
+            </ion-item>
+          </ion-list>
+          <ion-infinite-scroll ng-if="hasMore" on-infinite="load()" distance="1%">
+        </ion-content>
+      </ion-view>
+
+    </ion-tab>
+
+    <ion-tab title="购物车" icon-off="ion-ios-cart-outline" ng-click="switch(2)" badge-style="badge-assertive" badge="$root.carNumber" icon-on="ion-ios-cart" ng-controller="CarCtrl">
+      <ion-view>
+        <ion-header-bar class="bar-balanced bar bar-header disable-user-behavior" align-title="center">
+          <div class="title title-center header-item">购物车</div>
+        </ion-header-bar>
+        <ion-content class="stable-bg">
+          <div ng-if="shopCarItems.length === 0" class="message">
+            购物车空空如也
+          </div>
+          <div class="padding" ng-if="showPresaleWarning">
+            <div class="text-center assertive padding">
+              <label>选中的商品将延后与预购商品同一时间送达</label>
+            </div>
+          </div>
+          <div class="list car">
+            <div ng-repeat="record in shopCarItems">
+              <div class="item small border-clear padding-clear" href="#" ng-if="record.product">
+                <div class=" padding-clear" style="height:100px">
+                  <div style="padding:0 5px; float:left;">
+                    <label class="checkbox checkbox-balanced padding-clear" style="top: 36px;">
+                      <input type="checkbox" ng-model="record.checked" ng-disabled="record.product.status && record.product.status !== 1">
+                    </label>
+                  </div>
+                  <div style="padding:0 5px;float:left;">
+                    <img ng-click="showDetail(record.psid)" ng-src="{{ record.product.cover}}" style="height:80px;border-radius:10px; border:solid 1px #00A83B; margin-top:10px;">
+                  </div>
+                  <div style="padding:0 5px; ">
+                    <div class="wrap-clear" style="font-size:14px">
+                      <i class="assertive" ng-show="!record.product.status || record.product.status !== 1">已下架</i> 商品：{{record.product.name}}
+                    </div>
+                    <div class="wrap-clear" style="font-size:14px">厂家：{{record.product.storeName}}</div>
+                    <div class="wrap-clear" style="font-size:14px">价格：￥{{ record.quantity * record.product.price | number:2}}</div>
+
+                    <div style="margin-left:-12px;">
+                      <button style="font-size:25px" class="button button-balanced button-clear ion-ios-minus-outline" ng-click="addQuantity(record.psid,-1)"></button>
+                      <span style="margin:0 -15px; font-size:14px;" class="button button-dark button-clear" disabled>{{record.quantity}} 份</span>
+                      <button style="font-size:25px" class="button button-balanced button-clear ion-ios-plus-outline" ng-click="addQuantity(record.psid,1)"></button>
+                      <button style="font-size:25px;position:absolute; right:10px" class="button button-assertive button-clear ion-ios-close-outline" ng-click="removeCar(record.psid)">
+                      </button>
+                    </div>
+                  </div>
+                  <div style="float:clear"></div>
+                </div>
+              </div>
+              <div class="separate-big stable-bg" style="clear:both"></div>
+            </div>
+          </div>
+          <div style="height: 40px;">
+          </div>
+        </ion-content>
+        <ion-footer-bar class="bar-stable padding" style="height: auto; background:transparent" ng-if="shopCarItems.length > 0 ">
+          <div class="row" ng-if="!hasCheckItems">
+            <div class="col col-50">
+              <span>
+                请至少勾选一件商品
+              </span>
+            </div>
+            <div class="col col-50">
+              <button class="button  button-balanced button-full" ng-click="checkAll()">
+                全部选中
+              </button>
+            </div>
+          </div>
+          <div class="row" ng-if="hasCheckItems">
+            <div class="col col-50">
+              <button class="button  button-energized button-full" ng-click="clearShopCar()">
+                清空购物车
+              </button>
+            </div>
+            <div class="col col-50">
+              <button class="button  button-balanced button-full" ng-click="pay()">
+                确认订单
+              </button>
+            </div>
+
+          </div>
+        </ion-footer-bar>
+      </ion-view>
+    </ion-tab>
+
+    <ion-tab title="我的" icon-off="ion-ios-person-outline" ng-click="switch(3)" icon-on="ion-ios-person" ng-controller="AccountCtrl">
+      <ion-view>
+        <ion-header-bar class="bar-balanced bar bar-header disable-user-behavior" align-title="center">
+          <div class="title title-center header-item">个人中心</div>
+
+        </ion-header-bar>
+        <ion-content class="stable-bg">
+          <a class="item item-avatar balanced-bg item-icon-right light" href="#/profile">
+
+            <img ng-src="{{$root.user.portraiturl}}" ng-if="$root.user.portraiturl"></img>
+            <img src="img/default-photo.jpg" ng-if="!$root.user.portraiturl"></img>
+            <div>
+              {{ $root.user.nickname || $root.user.username || $root.user.mobile }}
+            </div>
+            <div class="level">
+              <img src="img/LV1.png"></img>
+              <label>
+                {{"LV"+$root.user.level}}
+              </label>
+            </div>
+            <i class="icon light ion-ios-arrow-right"></i>
+          </a>
+          <div class="separate-big"></div>
+          <div class="row light-bg" style="padding:12px 0 ">
+            <a class="col menu-item padding-clear" href="#/order-coin">
+              <img src='img/menu-dingdanjuan.png' style="width:32px">
+              <br/>
+              <label class="dark">订单卷</label>
+            </a>
+            <i class="splitter"></i>
+            <a class="col menu-item padding-clear" href="#/favorite">
+              <img src='img/menu-shoucang.png' style="width:32px">
+              <br/>
+              <!-- <br/> -->
+              <label class="dark">我的收藏</label>
+            </a>
+          </div>
+          <div class="separate-big"></div>
+          <ion-list>
+            <a class="item" href="#/order" style="padding-left:52px">
+              <img class="icon" src='img/menu-dingdan.png' style="width: 32px;position: absolute;left: 12px;top: 50%;margin-top: -16px;"></img>
+              我的订单
+            </a>
+            <!-- <a class="item" style="padding-left:52px">
+              <img class="icon" src='img/menu-pingjia.png' style="width: 32px;position: absolute;left: 12px;top: 50%;margin-top: -16px;"></img>
+              我的评价
+            </a> -->
+            <a class="item" style="padding-left:52px" href="#/question">
+              <img class="icon" src='img/menu-pingjia.png' style="width: 32px;position: absolute;left: 12px;top: 50%;margin-top: -16px;"></img>
+              我的问答
+            </a>
+            <a class="item" href="#/mine-show-order" style="padding-left:52px">
+              <img class="icon" src='img/menu-shaidan.png' style="width: 32px;position: absolute;left: 12px;top: 50%;margin-top: -16px;"></img>
+              我的晒单
+            </a>
+            <!-- <a class="item" href="#/question" style="padding-left:52px">
+              <img class="icon" src='img/menu-shaidan.png' style="width: 32px;position: absolute;left: 12px;top: 50%;margin-top: -16px;"></img>
+              我的问答
+            </a> -->
+          </ion-list>
+          <div class="separate-big"></div>
+          <ion-list>
+            <a class="item" href="#/address" style="padding-left:52px">
+              <img class="icon" src='img/menu-dizhi.png' style="width: 32px;position: absolute;left: 12px;top: 50%;margin-top: -16px;"></img>
+              地址管理
+            </a>
+            <a class="item " href="tel:4008009999" style="padding-left:52px">
+              <img class="icon" src='img/menu-dianhua.png' style="width: 32px;position: absolute;left: 12px;top: 50%;margin-top: -16px;"></img>
+              联系电话
+            </a>
+            <!-- <a class="item item-icon-right " ng-click="resetPassword()">
+              <img class="icon" src='img/menu-mima.png' style="width: 32px;position: absolute;left: 12px;top: 50%;margin-top: -16px;"></img>
+              修改密码
+            </a> -->
+            <div class="separate-big"></div>
+            <ion-list>
+              <a class="item " href="#/about" style="padding-left:52px">
+                <img class="icon" src='img/menu-guanyu.png' style="width: 32px;position: absolute;left: 12px;top: 50%;margin-top: -16px;"></img>
+                关于
+              </a>
+              <a class="item " href="#/feedback" style="padding-left:52px">
+                <img class="icon" src='img/menu-fankui.png' style="width: 32px;position: absolute;left: 12px;top: 50%;margin-top: -16px;"></img>
+                意见反馈
+              </a>
+            </ion-list>
+            <div class="padding" ng-if="$root.user">
+              <button class="button button-block button-assertive " ng-click="logout()">
+                退出登录
+              </button>
+
+              <!-- <button class="button button-block button-stable " ng-click="resetPassword()">
+             修改密码
+              </button> -->
+            </div>
+        </ion-content>
+      </ion-view>
+
+    </ion-tab>
+
+  </ion-tabs>
+
+</ion-view>

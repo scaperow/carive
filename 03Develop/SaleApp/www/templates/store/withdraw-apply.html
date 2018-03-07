@@ -1,0 +1,33 @@
+<ion-view view-title="申请提现">
+  <ion-content class="deep-content">
+
+    <ion-item class="item-thumbnail-left" style="min-height: 70px;border-top: solid #ddd 8px;">
+      <img ng-src="{{item.bank_icon}}" style="max-width: 50px;max-height: 50px;left:20px;">
+      <h2 style="font-weight: bold;">{{item.bank_name}}({{item.bank_account_abb}})
+      </h2>
+        <p style="margin-top: 10px;">
+            <label style="color: #ACA8A3">工作日当天24点前到账</label>
+        </p>
+    </ion-item>
+
+    <div class="list">
+      <div class="item item-input-inset">
+        <input type="text" placeholder="当前可提现金额1038元" ng-model="$parent.money">
+
+      </div>
+      <div class="item item-input-inset">
+        <input type="text" placeholder="请输入您的验证码" ng-model="$parent.code">
+
+
+        <button class="button button-block button-clear button-small button-calm" ng-click="sendVCode()"
+                ng-if="!requestCodeProcessing">发送验证码</button>
+          <button class="button button-block button-clear button-small button-calm" disabled
+                  ng-if="requestCodeProcessing">{{counterWithRequestCode}}秒后重发</button>
+
+      </div>
+    </div>
+    <div class="padding">
+      <button class="button button-block button-balanced" ng-click="saveWithdraw()">提现</button>
+    </div>
+  </ion-content>
+</ion-view>

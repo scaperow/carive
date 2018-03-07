@@ -1,0 +1,16 @@
+tornado
+jinja2
+PyMySql
+python-memcached
+peewee==2.4.1
+simplejson
+PIL
+suds
+jsonpickle
+reportlab
+email
+rabbitpy
+requests
+jpush
+futures
+qrcode

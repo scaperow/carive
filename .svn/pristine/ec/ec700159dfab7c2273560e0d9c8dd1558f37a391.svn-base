@@ -1,0 +1,23 @@
+<ion-view view-title="校验历史">
+    <!--<ion-nav-buttons side="right">-->
+      <!--<button class="button button-icon  icon ion-ios-plus-outline" ng-click="newAddress()"></button>-->
+    <!--</ion-nav-buttons>-->
+    <ion-content class="deep-content">
+        <ion-list>
+          <div class="padding-top" ng-if="historys.length>0">
+            <div class="list" ng-repeat="i in historys">
+              <div class="item item-divider balanced" style="background-color: #C1E8CE;">
+                {{i.month}}月
+              </div>
+              <a class="item" href="#" ng-repeat="ii in i.items">
+                {{ii.year}}年{{ii.month}}月{{ii.day}}日 验证{{ii.used_count}}张
+              </a>
+            </div>
+          </div>
+          <div class="padding" ng-if="historys.length==0">
+            <label>您还没有校验过哟 ~</label>
+          </div>
+        </ion-list>
+    </ion-content>
+
+</ion-view>

@@ -1,0 +1,115 @@
+<ion-view view-title="门店">
+  <ion-nav-buttons side="right">
+    <button ng-click="doFavorite(store.id)" ng-class="favorite?'button-energized':'button-light'" class="button button-clear icon-right ion-ios-heart">{{favorite?'已收藏':'收藏'}}</button>
+  </ion-nav-buttons>
+  <ion-content class="stable-bg">
+    <ion-slide-box delegate-handle="slide-ads" does-continue="true" auto-play="true">
+      <ion-slide ng-repeat="cover in store.pics">
+        <img style="width:100%" ng-src="{{cover.img}}">
+      </ion-slide>
+    </ion-slide-box>
+    <ion-list>
+      <ion-item class="item-text-wrap">
+        <h2>
+          {{store.name}}
+        </h2>
+        <ng-stars counter="store.star_score"></ng-stars>
+        <label class="energized">{{store.credit_score}}</label>
+        <p>
+          {{store.address}}
+        </p>
+      </ion-item>
+      <ion-item class="padding-clear">
+        <div class="button-bar">
+          <button class="button button-normal  button-clear  button-positive " ng-click="$root.call('{{store.tel}}'); ">
+            <i class="icon ion-ios-telephone"></i> 电话
+          </button>
+          <i class="splitter"></i>
+          <button class="button button-normal button-clear  button-balanced " ng-click="navigate(store.id) ">
+            <i class="icon ion-ios-location"></i> 导航
+          </button>
+          <i class="splitter"></i>
+          <button class="button button-normal button-clear  button-balanced " ng-click="showProducts()">
+            全部商品
+          </button>
+        </div>
+      </ion-item>
+      <ion-item class="item-text-wrap">
+        <p>
+          {{store.intro}}
+        </p>
+      </ion-item>
+    </ion-list>
+    <div class="separate-big"></div>
+
+    <!-- <div class="separate-big"></div> -->
+    <!-- <ion-list>
+        <ion-item class="grey">
+          热门服务项目
+        </ion-item>
+        <ion-item class="item-thumbnail-left" ng-repeat="service in store.items" ng-show="isShowAllService === true || $index <= 3 - 1">
+          <img ng-src="{{service.cover}}">
+
+          <h2>{{service.name}}</h2>
+          <label class="assertive">{{service.price}}</label> 元
+          <p>
+            {{service.resume}}
+          </p>
+          <button ng-repeat="service in store.services" class="button-small button button-outline button-balanced" style="margin:4px;">{{service.name}}
+          </button>
+          <div class="separate"></div>
+          <div class="button-bar">
+            <button class="button button-small" ng-click="showProducts('00')">免费服务</button>
+            <button class="button  button-small" ng-click="showProducts('01')">特价项目</button>
+            <button class="button button-small" ng-click="showProducts()">本店商品</button>
+          </div>
+        </ion-item>
+        <a class="item balanced text-center" ng-if="!isShowAllService && store.services.length > 3" ng-click="showAllService()">
+          <a class="balanced">展开 <i class="icon ion-ios-arrow-down"></i></a> 展开 <i class="icon ion-ios-arrow-down"></i>
+        </a>
+        <a class="item balanced text-center" ng-if="(isShowAllService && store.services.length > 3) || store.services.length <= 3" ng-click="showProducts('01')">
+        显示特价项目 <i class="icon ion-ios-arrow-right"></i>
+      </a>
+        <a class="item balanced text-center" ng-if="(isShowAllService && store.services.length > 3) || store.services.length <= 3" ng-click="showProducts('00')">
+        显示免费项目<i class="icon ion-ios-arrow-right"></i>
+      </a>
+        <a class="item balanced text-center" ng-if="(isShowAllService && store.services.length > 3) || store.services.length <= 3" ng-click="showProducts('00')">
+        显示所有<i class="icon ion-ios-arrow-right"></i>
+      </a>
+      </ion-list> -->
+    <!-- <div class="separate-big"></div> -->
+    <!-- <ion-list>
+        <ion-item class="item-text-wrap ">
+          <div class="grey">
+            关于我们
+          </div>
+          <div class="separate"></div>
+          <button class="button-small button button-dark  button-outline" style="margin:2px;">公司资质
+          </button>
+          <button class="button-small button-outline button-dark button " style="margin:2px;">公司团队
+          </button>
+          <button class="button-small button button-dark  button-outline" style="margin:2px;">公司案例
+          </button>
+          <button class="button-small button button-dark  button-outline" style="margin:2px;">公司产品
+          </button>
+        </ion-item>
+
+        <ion-item class="item-icon-right grey">
+          查看地图
+          <i class="icon ion-chevron-right icon-accessory"></i>
+        </ion-item>
+        <ion-item class="item-icon-right grey">
+          车主点评
+          <i class="icon ion-chevron-right icon-accessory"></i>
+        </ion-item>
+        <ion-item class="item-icon-right grey">
+          附近店铺
+          <i class="icon ion-chevron-right icon-accessory"></i>
+        </ion-item>
+        <ion-item class="item-icon-right grey">
+          附近促销
+          <i class="icon ion-chevron-right icon-accessory"></i>
+        </ion-item>
+      </ion-list> -->
+  </ion-content>
+</ion-view>

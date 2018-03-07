@@ -1,0 +1,55 @@
+<ion-view view-title="我的订单">
+  <ion-header-bar class="bar bar-subheader">
+    <div class="button-bar">
+      <button class="button button-light button-small  {{choose == 'all' ? 'activity' :''}} " ng-click="switch('all')">全部订单
+      </button>
+      <button class="button button-light button-small   {{choose == 'unpay' ? 'activity' :''}}" ng-click="switch('unpay')">待付款
+      </button>
+      <button class="button button-light button-small  {{choose == 'success'?'activity' :''}}" ng-click="switch('success')">已完成
+      </button>
+      <button class="button button-light button-small  {{choose == 'unuse'?'activity' :''}}" ng-click="switch('unuse')">未使用
+      </button>
+    </div>
+  </ion-header-bar>
+  <ion-content class="stable-bg">
+    <!-- <div class="text-center grey" ng-show="total > 0">
+            <label>共 {{total}} 个订单</label>
+            <br/>
+            <label ng-if="choose === 'unpay'">未支付的订单将于48小时后删除，请尽快付款哦 ~</label>
+        </div> -->
+    <!-- <div class="text-center grey" ng-show="total === 0">
+            <label>还没数据 ~</label>
+        </div> -->
+    <ion-list ng-repeat="item in orders">
+      <ion-item class="" ng-click="showDetail(item.id,'{{item.status}}')">
+        <p ng-switch="item.status">
+          <span ng-switch-when="交易完成" class="balanced">{{item.status}}</span>
+          <span ng-switch-when="正在处理" class="balanced">{{item.status}}</span>
+          <span ng-switch-when="待付款" class="assertive">{{item.status}}</span>
+          <span ng-switch-when="未使用" class="energized">{{item.status}}</span>
+          <span ng-switch-default class="grey">{{item.status}}</span>
+        </p>
+        <p>订单号：{{item.ordernum}}</p>
+        <p>下单时间：{{item.ordered}}</p>
+        <p>订单金额：￥{{item.currentprice}}元</p>
+
+        <!--<hr class="{{item.scolor ? item.scolor + '-border':'stable-border'}}" style="opacity: 0.5">-->
+        <!-- <div ng-switch="item.status">
+          <hr ng-switch-when="交易完成" class="balanced-border" style="opacity: 0.5">
+          <hr ng-switch-when="正在处理" class="balanced-border" style="opacity: 0.5">
+          <hr ng-switch-when="待付款" class="assertive-border" style="opacity: 0.5">
+          <hr ng-switch-default class="stable-border" style="opacity: 0.5">
+        </div> -->
+
+
+
+      </ion-item>
+      <div class="separate-big"></div>
+    </ion-list>
+    <div class="text-center grey" ng-show="orders.length === 0">
+      <label>没有更多订单了 ~</label>
+    </div>
+    <ion-infinite-scroll ng-if="hasMore" on-infinite="load()" distance="1%">
+    </ion-infinite-scroll>
+  </ion-content>
+</ion-view>

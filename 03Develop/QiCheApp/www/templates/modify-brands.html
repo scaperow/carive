@@ -1,0 +1,18 @@
+<ion-view view-title="修改车型">
+  <ion-content class="stable-bg">
+    <div class="list">
+      <dev class="item item-input item-select" ng-repeat="brand in brands">
+       <label class="input-label" >
+         &nbsp;
+       </label>
+        <select ng-model="$parent.idx[$index]" ng-options="n as n.name for n in brand track by n.id" ng-change="changeBrand($index)">
+          <option value="">请选择</option>
+        </select>
+      </dev>
+    </div>
+    <div class="padding">
+      <button class="button button-block button-balanced" ng-click="save()">保存</button>
+      </button>
+    </div>
+  </ion-content>
+</ion-view>

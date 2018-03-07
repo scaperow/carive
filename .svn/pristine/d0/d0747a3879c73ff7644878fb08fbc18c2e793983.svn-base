@@ -1,0 +1,31 @@
+<ion-view view-title="结算管理">
+  <ion-content class="stable-bg">
+    <ion-list>
+      <ion-item class="item item-icon-right" ng-click="settlement()" style="background-color: #00B136;color:white;border: none;">
+        <p style="color: white;">可结算金额</p>
+        <label class="item-sub item-icon-right" style="font-size: 26px;">￥{{unsumeOrders || 0}}</label>
+        <i class="icon  ion-ios-arrow-right"></i>
+      </ion-item>
+      <ion-item class="item item-icon-right" ng-click="withdraw()" style="background-color: #39C655;color:white;border: none;">
+        <p style="color: white;">可提现金额</p>
+        <label class="item-sub item-icon-right" style="font-size: 26px;">￥{{cashed_money|| 0}}</label>
+        <i class="icon  ion-ios-arrow-right"></i>
+      </ion-item>
+    </ion-list>
+    <div class="separate-big"></div>
+    <ion-list>
+      <ion-item class="item" ng-repeat="item in items " ng-href="#/settlement-detail/{{item.id}}">
+          <!--<i class="icon  ion-ios-arrow-right"></i>-->
+          <div class="row padding">
+            <div class="col">{{item.created}}</div>
+            <div class="col" style="text-align: center;">订单数</div>
+            <i class="icon ion-chevron-right icon-accessory"></i>
+          </div>
+          <div class="row padding">
+            <div class="col">{{item.sum_money}}</div>
+            <div class="col" style="text-align: center;">{{item.order_count}}</div>
+          </div>
+    </ion-list>
+    <ion-infinite-scroll ng-if="hasMore" on-infinite="load()" distance="1%">
+  </ion-content>
+</ion-view>

@@ -1,0 +1,457 @@
+{% extends "layout/user.html" %}
+{% block subcontent %}
+<style>
+    .level_n{color: #0075b0; font-size:16px; margin-top: -10px;}
+    .red{color:#cc0000;}
+    .green{color: green;}
+    .show_msg{text-align: center;font-size: 24px;}
+</style>
+<h1> 企业资料修改 </h1>
+<div class="content sector">
+    {%set messages=handler.get_flashed_messages() %}
+    {%-if messages-%}
+        <div style="color: red; font-size: 0.6em; margin-bottom: 25px;">
+            <div id="err_div">
+                {% for type, msg in messages%}
+                {{msg}}
+                {% endfor %}
+            </div>
+        </div>
+    {%-endif-%}
+    {% if result==1 %}
+    <div class="show_msg green" style="display: {{result==1 and 'block' or 'none'}}">
+        保存成功！
+    </div>
+    {% else %}
+    <div class="show_msg red" style="display: {{result==2 and 'block' or 'none'}}">
+        您的资料已经提交，我们将在三个工作日内审核！
+    </div>
+    {% endif %}
+	<form id="settings-form" method="post" action="">
+        {{xsrf()}}
+        <input type="hidden" name="jm_form_hash" value="1ce8d194">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">基本信息
+                </h3>
+            </div>
+            <div class="panel-body">
+                <dl class="formlist">
+                    <dt><label><span class="red">*</span>名称</label></dt>
+                    <dd>
+                    <span class="data">
+                        <input type="text" size="60" name="name" id="name" required class="t_input" value="{{s.name}}" placeholder="请填写名称">
+                    </span>
+                    <span>*修改后需要重新审核</span>
+                    </dd>
+                </dl>
+                <div class="input_container">
+                    <label for="province_code"><span class="spark">*</span>所在地区</label>
+                    <div class="district_selector">
+                      <select name="province_code" id="province_code" onchange="province_change(this.value,0)" data-default="{{default_province}}" style="height:22px;">
+                          <option value="">--请选择省份--</option>
+                          {% for area in areas %}
+                          <option value="{{area.code}}" {{area.code==default_province and 'selected' or ''}}>{{area.name}}</option>
+                          {% endfor %}
+                      </select>
+                      <select name="city_code" id="city_code" onchange="city_change(this.value,0)" data-default="{{default_city}}" style="height:22px;">
+                          <option value="">--请选择城市--</option>
+                      </select>
+                      <select name="district_code" id="district_code" data-default="{{default_district}}" style="height:22px;">
+                          <option value="">--请选择区县--</option>
+                      </select>
+                    </div>
+                  </div>
+                <dl class="formlist">
+                    <dt><label><span class="red">*</span>详细地址</label></dt>
+                    <dd>
+                    <span class="data">
+                        <input type="text" size="60" name="address" required id="address" class="t_input" value="{{s.address}}" placeholder="请填写门店所在的详细地址">
+                    </span>
+                    </dd>
+                </dl>
+                <div class="input_container">
+                    <label>
+                        经度
+                    </label>
+                    <input type="text" size="12" name="x" id="x" required class="t_input" value="{{s.x}}" placeholder="经度">
+                    纬度<input type="text" size="12" name="y" id="y" required class="t_input" value="{{s.y}}" placeholder="纬度">
+                    <a href="javascript:void(0);" data-default="0" id="aSetMap">点击设置</a>
+                </div>
+                <div class="input_container" style="display: none;" id="divSetMap">
+                    <label>
+                        地图设置
+                    </label>
+                    <div style="float: left;margin-left: 0px;width: 80%;">
+                        <table border="0" cellpadding="0" cellspacing="0" style="border: none;">
+                            <tr>
+                                <td height="25" align="left" style="line-height: 25px;border: none;">
+                                    <input id="btnSearch" type="button" class="btn btn-success" value="根据详细地址定位" onclick="SearchAddress()" style="cursor: pointer;" />
+                                    <span id="spanSuccess" class="green"></span><span id="spanError" class="red"></span>
+                                    <div>
+                                        在地图中<span class="red">点击</span>显示经纬度。或输入<span class="red">详细地址</span>后定位。
+
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="left" style="border: none;height: 460px;">
+                                    <div id="allmap">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <dl class="formlist">
+                    <dt><label><span class="red">*</span>联系人</label></dt>
+                    <dd>
+                    <span class="data">
+                        <span class="data">{{s.link_man}}</span>
+                    </span>
+                    </dd>
+                </dl>
+                <dl class="formlist">
+                    <dt><span class="red">*</span>手机号</dt>
+                    <dd>
+                        <span class="data">{{user.mobile}}</span>
+                    </dd>
+                </dl>
+                <div class="input_container" style="display: none;">
+                    <label for="settings-tel">固定电话</label>
+                    <input  type="text" size="30" name="tel" id="settings-tel" title="如02912345678或者029-12345678" pattern="^(\d{3,4}\-?)?\d{7,8}$" class="t_input" value="{{s.tel | null|escape}}" placeholder="固定电话" >
+                </div>
+                <div class="input_container" style="height: 80px;line-height: 1.1">
+                    <label><span class="red">*</span>门店图片</label>
+                    <img id="img_image" src="{{s.image}}" width="80" height="80" onclick="window.open(this.src)" style="float:left;cursor:pointer;">
+                    <!--<div style="float:left;margin-top: 8px;"><a href="" id="fileupload_image">>>选择图片</a></div>-->
+                    <input type="hidden" id="hdn_image" name="image" required value="{{s.image}}" />
+                </div>
+                <div class="input_container">
+                    <label>
+                        详细介绍
+                    </label>
+                    <div style="float: left;margin-left: 0px;width: 80%;">
+                        <textarea  style="width: 80%" class="xheditor-simple1" rows="12" name="intro" id="intro">{{s.intro}}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">图片信息 <a href="" id="fileupload">选择图片</a></h3>
+            </div>
+            <div class="panel-body" id="pic-box">
+                {% for c in s.store_pics -%}
+                <div class="col-lg-2 .col-xs-12">
+                    {%-if c.path==s.image -%}
+                    <div class="panel panel-success" style="width:120px; margin-right: 10px;">
+                    {% else %}
+                    <div class="panel panel-default" style="width:120px; margin-right: 10px;">
+                    {% endif %}
+                        <div class="panel-heading center-block">
+                            <img src="{{c.path}}" width="80" height="80">
+                        </div>
+                        <div class="panel-footer">
+                            <div class="btn-group btn-group-xs">
+                                <a type="button" class="btn btn-default" href="/user/store/delpic/{{c.id}}">删除</a>
+                                {%-if not c.path==s.image -%}
+                                <a type="button" class="btn btn-default" href="/user/store/primarypic/{{c.id}}">设为封面</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                {%- endfor %}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" >
+            </label>
+            <div class="col-sm-10" style="text-align: ;">
+                <input type="submit" value="保存" name="commit" id="btn_submit" class="btn btn-success btn-sm" onclick="return submit_check()">
+            </div>
+        </div>
+	</form>
+</div>
+
+{% endblock %}
+{% block css%}
+<link rel="stylesheet" href="/style2/css/EoFan.css" type="text/css" media="screen">
+<link rel="stylesheet" href="/style2/css/user.css" type="text/css" media="screen">
+{% endblock %}
+{% block js %}
+<script src="/style2/js/layer-v1.9/layer.js"></script>
+<script src="/style2/js/jquery-1.7.2.min.js?v=1"></script>
+<script src="/style2/xheditor/xheditor-1.2.2.min.js"></script>
+<script src="/style2/xheditor/xheditor_lang/zh-cn.js"></script>
+<script src="/style2/js/jquery.ocupload.js?v=1"></script>
+<script language="javascript" type="text/javascript" src="/style2/js/My97DatePicker/WdatePicker.js"></script>
+    <style type="text/css">
+        #allmap {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            margin: 0;
+        }
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
+<script>
+    var map;
+    $(function(){
+        var xsrf='{{handler.xsrf_token}}';
+//        var myUpload_image = $('#fileupload_image').upload({
+//            name: 'filedata',
+//            action: '/ajax/upload',
+//            enctype: 'multipart/form-data',
+//            autoSubmit: false,
+//            onClick: function(){
+//                alert("");
+//            },
+//            onSelect: function(){
+//                var ext = myUpload_image.filename().substr(myUpload_image.filename().length - 3, 3).toLowerCase();
+//                if (ext != 'jpg' || ext != 'gif' || ext != 'png')
+//                {
+//                    return false;
+//                }
+//            },
+//            onComplete: function(response) {
+//                eval('var c = ' + response);
+//                if (c.err == "") {
+//                    $('#img_image').attr("src", c.msg);
+//                    $('#img_image').show();
+//                    var old_img=$('#hdn_image').val();
+//                    $('#hdn_image').val(c.msg);
+//                    if(old_img!="") {
+//                        $.post("/ajax/upload/del", {"file_path":old_img}, function(data){
+//                         });
+//                    }
+//                }
+//                else{
+//                    alert(c.msg);
+//                }
+//
+//            },onError: function(response){
+//                alert(response);
+//            }
+//        });
+
+        var myUpload = $('#fileupload').upload({
+            name: 'filedata',
+            action: '/ajax/store/pic',
+            enctype: 'multipart/form-data',
+            autoSubmit: true,
+            onClick: function(){
+                alert("");
+            },
+            onSelect: function(){
+                var ext = myUpload.filename().substr(myUpload.filename().length - 3, 3).toLowerCase();
+                if (ext != 'jpg' || ext != 'gif' || ext != 'png')
+                {
+                    return false;
+                }
+            },
+            onComplete: function(response) {
+                eval('var c = ' + response);
+                if (c.id > 0) {
+
+                    $('#pic-box').append('<div class="col-lg-2 .col-xs-12"><div class="panel panel-default" style="width:120px; margin-right: 10px;"><div class="panel-heading center-block"><img src="' + c.path + '" width="80" height="80"></div><div class="panel-footer"><div class="btn-group btn-group-xs"><a type="button" class="btn btn-default" href="/user/store/delpic/'+c.id+'">删除</a><a type="button" class="btn btn-default" href="/user/store/primarypic/'+c.id+'">设为封面</a></div></div></div></div>');
+
+                }
+                else{
+                    alert(c.path);
+                }
+
+            },onError: function(response){
+                alert(response);
+            }
+        });
+
+
+        init_province();
+
+        $('#intro').xheditor({tools:'Source,Fullscreen,Img,|,Blocktag,Fontface,FontSize,Bold,Italic,Underline,Strikethrough,FontColor,|,Align,List,Outdent,Indent,Link,Unlink',upBtnText:"浏览", html5Upload:false, upImgUrl:"/ajax/upload",upImgExt:"jpg,gif,png"});
+
+        $("#aSetMap").click(function(){
+            is_show_map = $(this).attr("data-default");
+            if(is_show_map == 0){
+                $(this).attr("data-default","1");
+                $("#divSetMap").show();
+                $(this).html("点击隐藏");
+                init_map();
+            }
+            else{
+                $(this).attr("data-default","0");
+                $("#divSetMap").hide();
+                $(this).html("点击设置");
+            }
+        });
+    });
+    function init_map(){
+        var CityName = $("#city_code").find("option:selected").text();
+        if(CityName=="" || CityName =="--请选择城市--"){
+            alert("请先选择好城市！");
+            $("#aSetMap").click();
+            return;
+        }
+        var Longitude = 0, Latitude = 0, Address = "";
+        Longitude = $("#x").val();
+        Latitude = $("#y").val();
+        //Address = $("#txtAddress").val();
+        // 百度地图API功能
+        map = new BMap.Map("allmap");
+        map.enableScrollWheelZoom();
+        map.addControl(new BMap.NavigationControl());  //添加默认缩放平移控件
+        if (Longitude > 0 || Latitude > 0) {
+            var point = new BMap.Point(Longitude, Latitude);
+            var marker = new BMap.Marker(point);  // 创建标注
+            map.addOverlay(marker);              // 将标注添加到地图中
+            map.centerAndZoom(point, 16);
+        }
+        else {
+            map.centerAndZoom(CityName, 12);
+        }
+        map.addEventListener("click", function (e) {
+            map.clearOverlays();
+            var marker = new BMap.Marker(e.point);  // 创建标注
+            map.addOverlay(marker);              // 将标注添加到地图中
+            //map.centerAndZoom(e.point, 16);
+            $("#x").val(e.point.lng);
+            $("#y").val(e.point.lat);
+            //document.getElementById("r-result").innerHTML = e.point.lng + ", " + e.point.lat;
+        });
+    }
+
+    function SearchAddress() {
+        var CityName = $("#city_code").find("option:selected").text();
+        if(CityName=="" || CityName =="--请选择城市--"){
+            alert("请先选择好城市！");
+            $("#aSetMap").click();
+            return;
+        }
+        $("#spanError").hide();
+        $("#spanSuccess").hide();
+        var address = $("#address").val().trim();
+        if (address == "") {
+            $("#spanError").show();
+            $("#spanError").html("请输入您要查找的地址！");
+            return;
+        } else {
+            $("#spanError").hide();
+            $("#spanError").html("");
+        }
+        //alert(address);
+        // 创建地址解析器实例
+        var myGeo = new BMap.Geocoder();
+        // 将地址解析结果显示在地图上,并调整地图视野
+        myGeo.getPoint(address, function (point) {
+            if (point) {
+                $("#spanError").hide();
+                $("#spanError").html("");
+                map.clearOverlays();
+                map.centerAndZoom(point, 16);
+                map.addOverlay(new BMap.Marker(point));
+                $("#x").val(point.lng);
+                $("#y").val(point.lat);
+            }
+            else {
+                $("#spanError").show();
+                $("#spanError").html("没有搜索到您要查找的地址！");
+            }
+        }, CityName);
+    }
+function submit_check(){
+    var name = $("#name").val();
+    var district_code = $("#district_code").val();
+    var address = $("#address").val();
+    var link_man = $("#link_man").val();
+    var image = $("#hdn_image").val();
+    var legal = $("#hdn_legal").val();
+    var license = $("#hdn_license").val();
+    if(name == ''){
+        alert("请输入名称！");
+        return false;
+    }
+    if(district_code == 0){
+        alert("请选择所在地区！");
+        return false;
+    }
+    if(address == '' ){
+        alert("请输入详细地址！");
+        return false;
+    }
+    if(image == ''){
+        alert("请上传门店图片！");
+        return false;
+    }
+    return true;
+}
+function check_choose() {
+    var slength = jQuery(":checkbox[name='chc_agreement']:checked").size();
+    if (slength > 0) {
+        jQuery("#btn_submit").removeAttr("disabled");
+    }
+    else {
+        jQuery("#btn_submit").attr("disabled", "disabled");
+    }
+}
+function init_province(){
+    var province_code=$("#province_code").attr("data-default");
+    var city_code=$("#city_code").attr("data-default");
+    var district_code=$("#district_code").attr("data-default");
+    if(province_code.length>0){
+        province_change(province_code, city_code);
+        if(parseInt(city_code)){
+            city_change(city_code, district_code)
+        }
+    }
+}
+function province_change(id, default_id){
+//    var id = $(obj).val();
+    $("#district_code > option").remove();
+    $("#district_code").append("<option value=\"0\">--请选择区县--</option>");
+    $("#city_code > option").remove();
+    $("#city_code").append("<option value=\"0\">--请选择城市--</option>");
+    if(id > 0){
+        GetSubAreas(id, "city_code", default_id);
+    }
+}
+function city_change(id, default_id){
+//    var id = $(obj).val();
+    $("#district_code > option").remove();
+    $("#district_code").append("<option value=\"0\">--请选择区县--</option>");
+    if(id > 0){
+        GetSubAreas(id, "district_code", default_id);
+    }
+}
+function GetSubAreas(id,ddl_id, default_id) {
+//    alert(default_id);
+    $.get("/ajax/GetSubAreas", { pcode: id,  t: Math.random() }, function (data) {
+        data = jQuery.parseJSON(data);
+        if(data.flag==1){
+            for(var i=0; i< data.data.length; i++){
+                if(default_id.length>0){
+                    if(data.data[i]["code"]==default_id){
+                        $("#" + ddl_id).append("<option value=\"" + data.data[i]["code"] + "\" selected>" + data.data[i]["name"] + "</option>");
+                    }
+                    else{
+                        $("#" + ddl_id).append("<option value=\"" + data.data[i]["code"] + "\">" + data.data[i]["name"] + "</option>");
+                    }
+                }
+                else {
+                    $("#" + ddl_id).append("<option value=\"" + data.data[i]["code"] + "\">" + data.data[i]["name"] + "</option>");
+                }
+            }
+        }
+        else{
+            alert(data.msg)
+        }
+    });
+}
+</script>
+{% endblock %}

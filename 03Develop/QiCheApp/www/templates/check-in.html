@@ -1,0 +1,15 @@
+<ion-view view-title="签到">
+    <ion-content style="background: #efefef">
+        <div class="list card">
+            <div class="item text-center">
+                <p>您已连续签到{{seriesnum}}天</p>
+                <h2 class="assertive">恭喜您获得了 5 积分</h2>
+                <p>
+                    <span ng-show="user.nickname" >{{user.nickname}}</span>
+                    <span ng-hide="user.nickname" >{{user.mobile.substr(0, 3)+'****' + user.mobile.substr(7,4)}}</span>
+                    <span>可用积分 50</span>
+                </p>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

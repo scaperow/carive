@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link href="/style2/css/activity/css.css" rel="stylesheet">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>车装甲 - 年底促销</title>
+<script type="text/javascript" src="/style2/js/jquery-1.11.1.min.js"></script>
+<script src="/style2/js/layer/layer.min.js" type="text/javascript"></script>
+<script>
+    $(function () {
+        var userid= '{{user.id}}';
+        $('#new_year_catch').click(function () {
+            $.get("/activity/new_year/catch", { userid: userid, t: Math.random() }, function (data) {
+                $.layer({
+                        shade: [0],
+                        area: ['auto', 'auto'],
+                        dialog: {
+                            msg: data,
+                            btns: 2,
+                            type: 10,//8难过，9开心，10正确,4问号
+                            btn: ['优惠劵', '取消'],
+                            yes: function () {
+                                location.href = "/user/coupon";
+                            }, no: function () {
+
+                            }
+                        }
+                    });
+            });
+        });
+
+        $('#bt_ff').click(function(){
+            $('#v_ff').show();
+            $('#v_sy').hide();
+            $('#bt_ff').removeClass().addClass('RULE_LINK_HOVER ft_lt');
+            $('#bt_sy').removeClass().addClass('RULE_LINK ft_lt');
+        });
+
+        $('#bt_sy').click(function(){
+            $('#v_sy').show();
+            $('#v_ff').hide();
+            $('#bt_sy').removeClass().addClass('RULE_LINK_HOVER ft_lt');
+            $('#bt_ff').removeClass().addClass('RULE_LINK ft_lt');
+        });
+    });
+</script>
+</head>
+
+<body>
+
+<center>
+<!--头部-->
+<DIV>
+<div class="top01"></div>
+<div class="top02"></div>
+<div class="top03"></div>
+
+</DIV>
+<!--内容-->
+<div class="BOX">
+	<div class="box_main">
+     	<!--三重豪礼-->
+    	<DIV class="schl_box">
+        	<!--三重豪礼01-->
+        	<div class="hl_bg ft_lt">
+            	<div ><img src="/style2/images/activity/yc.jpg" width="140" height="35" /></div>
+            	<div class="hl_ct">
+                <b>新人</b>购买<b>首单</b>满<b>40</b>元赠送<b>20元优惠劵</b>，满80送40，满120送60，以此类推。20元礼包含(5元2张，10元1张优惠券），满80元送2个礼包，满120元送3份礼包，以此类推；
+                </div>
+           	    <a href="/signup" class="order">立即注册</a>
+            </div>
+        		<!--三重豪礼02-->
+        	<div class="hl_bg ft_lt">
+            	<div><img src="/style2/images/activity/2c.jpg" width="140" height="35" /></div>
+            	<div class="hl_ct">
+<b>所有会员</b>（不含新注册用户的首单订单）只要单笔订单满<b>50</b>元（不含抵用优惠券额度）送<b>5元优惠券</b>，满80送10，满100送15，满160元送30元。
+                </div>
+           	     <a href="/" class="order">马上购物</a>
+            </div>
+        	<div class="hl_bg ft_lt">
+            	<div><img src="/style2/images/activity/sc.jpg" width="140" height="35" /></div>
+            	<div class="hl_ct">
+                
+<b>会员回馈</b>，在<b>2015年1月30日以前</b>，历史累计下单金额每满50元可领取5元优惠券。
+
+       		<div>
+      {% if not user %}
+                <div class="infor">
+                登录后才能领取优惠劵
+                    </div>
+        <a href="/signin?next=/activity/new_year" class="history">登录</a>
+    {% else %}
+                <div class="infor">
+        您累计消费金额为<b>{{price}}</b>元，
+        {% if cpcount>0 %}
+            {% if iscatched %}
+                您已经领过优惠劵，感谢您的关注。
+            {% else %}
+                可领取<b> {{cpcount}} </b> 张优惠价。
+            {% endif %}
+
+        {% else %}
+            您还不能领取优惠劵，
+        {% endif %}
+                    </div>
+                <a href="/user/order?status=4" class="history" target="_blank">查看历史消费记录</a>
+    {% endif %}
+             </div>
+
+
+                </div>
+           	     <a href="#" id="new_year_catch" class="order">免费领取</a>
+            </div> 
+            
+        </DIV>
+        <div style="clear:both"></div>
+        <!--使用规则-->
+        <DIV class="rule">
+        
+        <div class="RULE_TITLE">
+        <a id="bt_ff" class="RULE_LINK_HOVER ft_lt"> 优惠券发放规则</a>
+        <a id="bt_sy" class="RULE_LINK ft_lt"> 优惠券使用规则 </a>
+        
+        </div> 
+        
+            <div style="clear:both"></div>
+        
+     <div class="rule_main">  
+
+ <div id="v_ff" >
+<img src="/style2/images/activity/ico.jpg" width="17" height="11" />&nbsp;&nbsp;发放时间：2015年1月31日00:00:00~2015年2月14日23:59:59<BR/>
+<img src="/style2/images/activity/ico.jpg" width="17" height="11" />&nbsp;&nbsp;新用户首单支付成功即可获赠优惠券，选择货到付款的用户在确认收货后即可获赠相应优惠券。<BR/>
+<img src="/style2/images/activity/ico.jpg" width="17" height="11" />&nbsp;&nbsp;老会员领取优惠券需登录账号，然后到活动页面点击领取按钮，优惠券会自动发放到用于的个人账户。<BR/>
+<img src="/style2/images/activity/ico.jpg" width="17" height="11" />&nbsp;&nbsp;所有会员（不含新注册用户的首单订单）只要单笔订单满50元（不含抵用优惠券额度）送5元优惠券，满80送10，优惠券会<BR/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;自动发放到用户个人账号。在线直接支付，支付成功后即可获赠优惠券，选择货到付款在确认收货后即可获赠相应优惠券。
+
+      </div>
+   <div id="v_sy" style="display: none;">
+     
+    <img src="/style2/images/activity/ico.jpg" width="17" height="11" />&nbsp;&nbsp;优惠劵使用有效期为30天，过期自动作废，既您获得优惠券之后的30天内有效。<BR/>
+<img src="/style2/images/activity/ico.jpg" width="17" height="11" />&nbsp;&nbsp;<b>使用条件：</b><BR/>
+（1）5元优惠劵：PC和无线APP通用，购买平台商品单笔订单金额满50可用。<BR/>
+（2）10元优惠劵：PC和无线APP通用，购买平台商品单笔订单金额满100可用。<BR/>
+<img src="/style2/images/activity/ico.jpg" width="17" height="11" />&nbsp;&nbsp;<b>使用规则：</b><BR/>
+（1）每张订单只能使用1张优惠劵。<BR/>
+（2）订单付款形式不限网上付款、货到付款、余额支付均可。<BR/>
+（3）一张优惠劵不可拆分多次使用，如有多张优惠劵，每个订单只允许使用一张优惠劵。<BR/>
+（4）非质量原因发生的订单退/换货，优惠券不退还顾客账户。<BR/>
+（3）一个ID限参加一次，一笔订单限返一次，不累计返券。<BR/>
+（7）本活动只面向车装甲普通消费者，在获取和使用优惠券过程中，如果出现违规行为(如作弊领取、恶意套取、刷信省等)，<BR/>&nbsp;车装甲有权依据用户协议取消批量刷取的优惠券使用权。（含已使用的优惠券及未使用的优惠券）
+      </div>
+    </div>
+      </DIV>
+        <!--产品-->
+          <DIV class="cptj_box">
+        	<DIV><img src="/style2/images/activity/tjcp_title.jpg" width="218" height="67" /></DIV>
+            <div class="cp_main">
+            <div class="tjqg_box">
+                {% for ps in list %}
+                <a href="/product/{{ps.id}}" target="_blank">
+        <div class="tjqg_ct">
+           	 	 <div class="tjqg_pic"><img src="/upload/{{ps.product.sku}}/{{ps.product.cover}}" width="223" height="223" />
+                 </div>
+                 <div class="tjqg_wz">
+                     <div class="tjqg_name">{{ps.product.name}} {{ps.name}}<br/><span class="index_yfj">￥{{ps.ourprice}}/斤</span>
+                         <SPAN class="index_market_price"><span class="fk">{{ps.product.orders}}</span>人已付款</SPAN></div>
+                 </div>
+            </div>
+                    </a>
+        {% endfor %}
+        </div>
+
+            </div>
+      </DIV>
+<!--产品-->
+
+    </div>
+    <DIV class="COPY02"> Copyright © 2014-2015 易凡版权所有   陕ICP备14007874号-1  客服热线：400-967-6558</DIV>
+</div>
+
+<!--版权-->
+ <DIV class="copy"> </DIV>
+
+
+
+
+</center>
+</body>
+</html>

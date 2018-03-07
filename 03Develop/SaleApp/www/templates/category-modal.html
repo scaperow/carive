@@ -1,0 +1,18 @@
+<ion-modal-view>
+ <ion-header-bar class="bar-dark">
+  <div class="title">选择类别</div>
+  <div class="buttons">
+   <button class="button button-clear button-assertive icon ion-ios-close" ng-click="closeServicesModal()"></button>
+  </div>
+ </ion-header-bar>
+ <ion-content>
+  <ion-list>
+   <ion-item ng-click="setCategory('全部分类', '', '')">
+    全部分类
+   </ion-item>
+   <ion-item ng-repeat="category in categories" ng-click="setCategory(category.name, category.code, category.id)" ng-if="(storeID ) ||( category.code && category.id.length === 8)">
+    {{category.name}}
+   </ion-item>
+  </ion-list>
+ </ion-content>
+</ion-modal-view>

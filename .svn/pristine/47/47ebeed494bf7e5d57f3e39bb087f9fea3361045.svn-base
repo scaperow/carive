@@ -1,0 +1,69 @@
+<ion-view view-title="工作晒单">
+  <ion-nav-buttons side="right">
+    <a class="button button-clear icon-right  button-light ion-ios-camera" href="#/show-order"></a>
+  </ion-nav-buttons>
+  <ion-content class="circle" lazy-scroll>
+    <ion-list>
+      <ion-item ng-repeat="topic in circleTopics ">
+        <h2> 神州修理厂</h2>
+        <div style="font-size:14px">{{topic.content}}</div>
+        <div class="row " ng-if="topic.pictures.length >= 1">
+          <div class="col-33" ng-if="topic.pictures.length >= 1">
+            <img image-lazy-src="{{topic.pictures[0].path}}">
+          </div>
+          <div class="col-33" ng-if="topic.pictures.length >= 2">
+            <img image-lazy-src="{{topic.pictures[1].path}}">
+          </div>
+          <div class="col-33" ng-if="topic.pictures.length >= 3">
+            <img image-lazy-src="{{topic.pictures[2].path}}">
+          </div>
+        </div>
+        <div class="row" ng-if="topic.pictures.length >= 4">
+          <div class="col-33" ng-if="topic.pictures.length >= 4">
+            <img image-lazy-src="{{topic.pictures[3].path}}">
+          </div>
+          <div class="col-33" ng-if="topic.pictures.length >= 5">
+            <img image-lazy-src="{{topic.pictures[4].path}}">
+          </div>
+          <div class="col-33">
+            <img image-lazy-src="{{topic.pictures[5].path}}" ng-if="topic.pictures.length >= 6">
+          </div>
+        </div>
+        <div class="row" ng-if="topic.pictures.length >= 7">
+          <div class="col-33" ng-if="topic.pictures.length >= 7">
+            <img image-lazy-src="{{topic.pictures[6].path}}">
+          </div>
+          <div class="col-33" ng-if="topic.pictures.length >= 8">
+            <img image-lazy-src="{{topic.pictures[7].path}}">
+          </div>
+          <div class="col-33" ng-if="topic.pictures.length >= 9">
+            <img image-lazy-src="{{topic.pictures[8].path}}">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col" style="color:#ccc">
+            {{topic.created}}
+          </div>
+          <div class="col" style="text-align:right">
+            <button class="button button-normal button-clear" style="min-height:auto; padding:0; line-height:normal" ng-click="clickPraise({{topic.id}})"><i class="iconfont">&#xe608;</i>赞</button>
+            <button class="button button-normal button-clear" style="min-height:auto; padding:0; line-height:normal" ng-click="leaveReply({{topic.id}},'','')"><i class="iconfont">&#xe600;</i>评论</button>
+            <button class="button button-normal button-clear" style="min-height:auto; padding:0; line-height:normal" ng-click="removePraise({{topic.id}},'','')">删除</button>
+          </div>
+        </div>
+        <div class="stable-bg" style="padding:3px; white-space:normal" ng-if="topic.praises.length > 0">
+          <span class="positive" ng-repeat="praise in topic.praises"><i class="icon ion-ios-heart-outline only-icon" ></i>&nbsp;<span>{{praise.user_name | mobilemask}}</span>&nbsp;</span>
+          <!-- <button class="button button-positive button-normal button-clear" ng-repeat="praise in topic.praises" style="min-height:auto; padding:0; line-height:normal"></button> -->
+        </div>
+        <ion-item class="stable-bg border-clear" ng-repeat="reply in topic.replies track by $index" style="word-break: break-all;white-space: normal;padding:3px;margin:0; font-size:14px" ng-click="leaveReply({{topic.id}},'{{reply.user_name}}',{{reply.user_id}})">
+          <!-- <button class="button-positive button button-normal button-clear" style="min-height:auto; padding:0; line-height:normal">{{reply.user_name}}</button> -->
+          <span class="positive">{{reply.user_name | mobilemask}}</span>
+          <span ng-if="reply.replied_user_id">回复给</span>
+          <span ng-if="reply.replied_user_id" class="positive">{{reply.replied_user_name | mobilemask}}</span>
+          <!-- <button ng-if="reply.replied_user_id" class="button-positive button button-normal button-clear" style="min-height:auto; padding:0; line-height:normal">{{reply.replied_user_name}}</button> -->
+          {{reply.content}}
+        </ion-item>
+      </ion-item>
+    </ion-list>
+    <ion-infinite-scroll ng-if="hasMore" on-infinite="load()" distance="1%">
+  </ion-content>
+</ion-view>

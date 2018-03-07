@@ -1,0 +1,215 @@
+{% extends "layout/store.html" %}
+{% block css %}
+<style>
+    .buy_number_input, .add_cart.buyer_button .unsellable, .track_click, .ilikewrap {
+        background: url(/style2/images/mall_product_v4.png) no-repeat;
+    }
+    .buy_number_input {
+        height: 28px;
+        background-position: -198px 0;
+        float: left;
+        width: 105px;
+        display: inline;
+        margin-left: 5px;
+    }
+    .buy_number_input span {
+        display: inline;
+        float: left;
+        height: 28px;
+        width: 28px;
+        cursor: pointer;
+    }
+    .buy_number_input input {
+        float: left;
+        display: inline;
+        width: 49px;
+        height: 28px;
+        text-align: center;
+        line-height: 28px;
+        border: 0 none;
+        overflow: hidden;
+        background: transparent;
+        margin-top: 1px;
+        font-size: 14px;
+        color: #080808;
+    }
+    .btn-group .btn input[type=checkbox] {
+        position: absolute;
+        clip: rect(0,0,0,0);
+        pointer-events: none;
+    }/**/
+    .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
+        color: #fff;
+        background-color: #c9302c;
+        border-color: #ac2925;
+    }
+    .btn-primary:focus {
+        color: #fff;
+        background-color: #3071a9;
+        border-color: #285e8e;
+    }
+    .panel-footer {
+        padding: 8px 0px;
+    }
+    .panel-right-tt {
+        display: inline;
+        padding: 3px 0px 3px 5px;
+        background-color: #fff;
+        border: none;
+    }
+    .padding0{padding: 0px;}
+    .paddingl0{padding-left: 0px;}
+    .panel-heading{padding: 0px 0px 0px 5px;}
+    .panel-primary{margin-bottom: 5px;}
+    .product-price{font-weight: bold;}
+    .btn-primary {
+        background-color: #fff;
+        border-color: #fff;
+        color: #000;
+    }
+    .panel-body{width: 100%;}
+.table{margin-bottom: 0px;}
+
+</style>
+{% endblock %}
+{% block content %}
+<form class="form-horizontal" id="form" method="post" action="/store/inventory_add_byorder">
+
+<div class="row">
+    <nav>
+        <a class="navbar-brand" href="/store/inventory">返回库存管理</a>
+        <div class="pull-right navbar-form">
+            <input type="button" value="提交入库" id="saveOrder" class="btn btn-danger">
+        </div>
+    </nav>
+</div>
+
+<div style="color: red; font-size: 0.6em; margin-bottom: 25px;">
+    {%set messages=handler.get_flashed_messages() %}
+    {%-if messages-%}
+        <div>
+            {% for type, msg in messages%}
+                {{msg}}
+            {% endfor %}
+        </div>
+    {%-endif-%}
+</div>
+{{xsrf()}}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="padding: 10px;">
+                <h3 class="panel-title">订单信息</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-condensed">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type="text" value="{{orderid if orderid>0}}" class="form-control" id="orderid" name="orderid"
+                                       placeholder="请输入订单ID,订单ID为订单编号中S后的数字,如订单编号U41-S5549的订单ID为5549">
+                            </td>
+                            <td>
+                                <input type="button" class="btn btn-outline btn-default" id="btnShowOrder" value="查看订单">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading" style="padding: 10px;">
+                <h3 class="panel-title">商品清单</h3>
+            </div>
+            <div class="panel-body btn-group"  style="width: 100%;">
+                {% for c in products %}
+            <div class="col-lg-6 paddingl0" id="pbox{{c.product.id}}">
+                <div class="panel panel-primary" style="text-align: center;float: left;width:100%;">
+                    <label class="btn btn-primary item_product col-lg-9 active">
+                        <input type="checkbox" class="chk" checked="false" autocomplete="off">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="text-left"  style="min-width:162px;">
+                                    <input type="hidden" class="product-id" value="{{c.product.id}}">
+                                    <input type="hidden" class="psid" value="{{c.id}}">
+                                    <div class="product-name col-lg-7 padding0">{{c.product.name}}</div>
+                                    <div class="col-lg-2 padding0">￥<span class="product-price">{{c.product_standard.pf_price or '0'}}</span></div>
+                                    <div class="col-lg-3 padding0">{{c.product_standard.name or ''}} </div>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+                        <div class="panel-footer panel-right-tt col-lg-3">
+                            <div class="btn-group btn-group-xs">
+                                <div class="buy_number_input">
+                                    <span id="decrease_num" title="减少"></span>
+                                    <input class="product-number" id="buy_number" readonly data-pid="{{c.product.id}}" value="{{c.quantity}}" maxlength="4" />
+                                    <span id="increase_num" title="增加"></span>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<!--<input type="hidden" id="hidpid" name="hidpid" value="">-->
+<!--<input type="hidden" id="orderPrice" name="orderPrice" value="">-->
+</form>
+{% endblock %}
+{% block js %}
+<link href="/style2/js/jquery-ui/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" type="text/css"/>
+<script src="/style2/xheditor/xheditor-1.2.2.min.js"></script>
+<script src="/style2/xheditor/xheditor_lang/zh-cn.js"></script>
+<script src="/style2/js/jquery.ocupload.js?v=1"></script>
+<script src="/style2/js/jquery-ui-1.9.2.custom.min.js" language="javascript"></script>
+<script language="javascript" type="text/javascript" src="/style2/js/My97DatePicker/WdatePicker.js"></script>
+<style>
+	.ui-combobox {
+		position: relative;
+		display: inline-block;
+        width:300px;
+	}
+	.ui-combobox-toggle {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		margin-left: -1px;
+		padding: 0;
+		/* adjust styles for IE 6/7 */
+		*height: 1.7em;
+		*top: 0.1em;
+	}
+	.ui-combobox-input {
+		margin: 0;
+		padding: 0.3em;
+        width:300px;
+	}
+    .demo-description {
+        clear: both;
+        padding: 12px;
+        font-size: 1.3em;
+        line-height: 1.4em;
+    }
+
+    .ui-draggable, .ui-droppable {
+        background-position: top;
+    }
+
+	</style>
+<script>
+    $(function() {
+        $("#saveOrder").click(function(){
+            $('#form').submit();
+        });
+        $("#btnShowOrder").click(function(){
+            var orderid=$("#orderid").val();
+            location.href="/store/inventory_add_byorder?orderid="+orderid;
+        });
+    });
+</script>
+{% endblock %}

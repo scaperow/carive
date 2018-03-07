@@ -1,0 +1,222 @@
+{% extends "layout/site.html" %}
+{% block js %}
+<!--<link rel="stylesheet" href="/style2/css/list.css" type="text/css" media="screen">-->
+<link rel="stylesheet" href="/style2/css/help.css" type="text/css" media="screen">
+{% endblock %}
+{% block content %}
+
+<style>
+
+    .pro_base {
+        background-color: #71a33b;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div  class="clearfix wrap container">
+    <!-- Main -->
+    <div id="product_list_content" class="content">
+        <!-- Crumb -->
+        <div class="crumb">
+            <ul>
+                <li class="home"><a href="/"></a></li>
+                <li class="step_arrow"></li>
+                <li><a href="#">关于我们</a></li>
+            </ul>
+        </div>
+        <div style="clear: both"></div>
+
+
+        <div id="product_list" class="clearfix product_list">
+            <div class="help_contain">
+                <div class="title">
+                    <h1>售后服务</h1>
+                </div>
+                <div class="title_line">&nbsp;</div>
+                <a name="fwcl"></a><h3>一、服务承诺</h3>
+
+                <p>我们销售的所有商品均为新鲜商品，网站所提供的生鲜商品均通过产地进行采购。</p>
+
+                <a name="yhyjs"></a><h3>二、验货与拒收</h3>
+
+                <p>
+                    1、在收取货物时，请您核对商品种类、质量、数量、规格重量、赠品等是否与订单及小票一致，确认无误后再收取货物。根据不同商品的不同属性，在验货时您可能需要一并检查以下所列举情况中的一个或多个方面，包括但不限于：商品的新鲜程度、商品的性状是否变化、商品本身标识是否可辨、商品的标签是否已被完全刮开等。如果您在签收前已确认上述问题无误，请您在“车装甲”发货单上签字确认。如果您的订单交由他人代收，代收人享有与您等同的权利，我们将视为您本人签收。
+                    签收后，车装甲不再为以上问题负责。</p>
+
+                <p>2、鉴于生鲜商品的特殊性，可能会导致实际重量有所偏差，我们尽可能让偏差在约定规格正常范围内，请您谅解。若偏差超出合理范围的时候，您有权当场拒绝取货；若您拒取货物。如果订单商品拆封后无质量问题时，不可拒收。
+                    注：有特殊情况时可致电客服，我们将协助完成！</p>
+
+                <p>3、生鲜的保质期较短，希望客户当场仔细查收货物，如有腐烂、变质问题，请您当场拒绝收货，并尽快和车装甲平台客服人员联系并说明拒收原因，同时也希望您能对本站提出一些合理化的意见与建议，车装甲在这里对您表示感谢。</p>
+
+                <p>4、拒收业务完成后，已支付的款项将按原支付方式和原路径安排退款。</p>
+
+                <a name="thhyz"></a><h3>三、退换货规则</h3>
+
+                <p>1、在订单确认、配送员配送达商品到达顾客指定收货地址后，如无质量问题，不接受换货；</p>
+
+                <p>2、所有样品、派送品、促销品、赠品不可退换；</p>
+
+                <p>3、所有特价商品请一并当即验货，若无质量问题，事后不可退换；</p>
+
+                <p>4、商品送达时您可以拆开外包装验视，但不允许拆开内包装。</p>
+
+                <p>5、如果您的订单交由他人代收，代收人享有与您等同的权利，我们将视为您本人签收。</p>
+
+                <p>6、拒收业务完成后，已支付的款项我们将按原支付方式和路径安排退款。</p>
+
+                <p>7、如同一顾客三次无理由退货，车装甲将对其视作“恶意订购”，平台会对此用户的用户诚信度数值进行下调，限制其参加会员的部分活动，如还继续“恶意订购”，则可选择对该顾客帐户将做冻结处理，并不接受其配送要求。</p>
+
+                <a name="thhlc"></a><h3>四、退换货流程</h3>
+
+                <p>1、退换货流程：</p>
+
+                <p>现场验货→发现有问题→工作人员人员现场核实→审核通过→联系客服→完成退/换货</p>
+
+                <p>申请退款→平台审核→审核通过→退款</p>
+
+                <p>2、如何退款：</p>
+
+                <p>对于您需要退款的商品，我们将在核实信息后24小时内进行处理，将所退款项按照您的支付来源原路返还（货到付款类型现场完成退款），相应款项在7个工作日内退回到您相应的账户。</p>
+
+                <p>3、受理时间：</p>
+
+                <p>办理时间为我们每天的工作时间：早上8：30--晚上21：30；</p>
+            </div>
+        </div>
+        <div style="clear: both"></div>
+
+
+    </div>
+
+    <div class="sliderbar">
+
+        <!-- 分类 -->
+        <div id="help_slider" class="slider help_slider">
+            <div class="title active">
+                <h2><a href="#"><i class="help_ico"></i>用户帮助中心</a></h2>
+                <i class="line"></i>
+            </div>
+            <div class="inner">
+                <ul>
+                    <li>
+                        <div class="pro_base"><a href="/help/shopping#jytk" class="tit">购物指南</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                        <dl class="pro_sublist">
+                            <dd><a href="/help/shopping#jytk" rel="nofollow"><i></i>交易条款</a></dd>
+                            <dd><a href="/help/shopping#gwxz" rel="nofollow"><i></i>购物须知</a></dd>
+                            <dd><a href="/help/shopping#gwlc" rel="nofollow"><i></i>购物流程</a></dd>
+                            <dd><a href="/help/shopping#sppj" rel="nofollow"><i></i>商品评价</a></dd>
+
+                        </dl>
+                    </li>
+
+
+                    <li>
+                        <div class="pro_base"><a href="/help/delivery#ptpsfw" class="tit">配送服务</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                        <dl class="pro_sublist">
+                            <dd><a href="/help/delivery#ptpsfw" rel="nofollow">配送范围</a>            <i></i></dd>
+                            <dd><a href="/help/delivery#pssj" rel="nofollow">配送时间</a>              <i></i></dd>
+                            <dd><a href="/help/delivery#psfsjfy" rel="nofollow">配送方式及费用</a>     <i></i></dd>
+
+                        </dl>
+                    </li>
+
+
+                    <li>
+                        <div class="pro_base"><a href="/help/pay#dsfwszf" class="tit">支付方式</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                        <dl class="pro_sublist">
+                            <dd><a href="/help/pay#dsfwszf" rel="nofollow">第三方网上支付 </a> <i></i></dd>
+                            <dd><a href="/help/pay#hdfk" rel="nofollow">货到付款 </a> <i></i></dd>
+                            <dd><a href="/help/pay#syjfzf" rel="nofollow">积分支付 </a> <i></i></dd>
+                            <dd><a href="/help/pay#ptzhyezf" rel="nofollow">平台账户支付</a> <i></i></dd>
+
+                        </dl>
+                    </li>
+
+
+
+                    <li>
+                        <div class="pro_base"><a href="/help/service#fwcl" class="tit">售后服务</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                        <dl class="pro_sublist">
+                            <dd><a href="/help/service#fwcl" rel="nofollow">服务承诺</a>   <i></i></dd>
+                            <dd><a href="/help/service#yhyjs" rel="nofollow">验货与拒收</a><i></i></dd>
+                            <dd><a href="/help/service#thhyz" rel="nofollow">退换货原则</a><i></i></dd>
+                            <dd><a href="/help/service#thhlc" rel="nofollow">退换货流程</a><i></i></dd>
+
+                        </dl>
+                    </li>
+
+
+
+                    <li>
+                        <div class="pro_base"><a href="/help/member#hyqyhyw" class="tit">会员相关</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                        <dl class="pro_sublist">
+                            <dd><a href="/help/member#hyqyhyw" rel="nofollow">会员权利和义务</a>  <i></i></dd>
+                            <dd><a href="/help/member#jfsm" rel="nofollow">积分说明</a> <i></i></dd>
+                            <dd><a href="/help/member#hydjsm" rel="nofollow">会员等级说明</a> <i></i></dd>
+                        </dl>
+                    </li>
+
+                    <li>
+                        <div class="pro_base"><a href="/help/media" class="tit">媒体报道</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                    </li>
+                    <li>
+                        <div class="pro_base"><a href="/help/about#gsjj" class="tit">关于我们</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                        <dl class="pro_sublist">
+                            <dd><a href="/help/about#gsjj" rel="nofollow">公司简介</a><i></i></dd>
+                            <dd><a href="/help/about#ptln" rel="nofollow">平台理念</a><i></i></dd>
+                            <dd><a href="/help/about#jyly" rel="nofollow">经营领域</a><i></i></dd>
+                            <dd><a href="/help/about#lxwm" rel="nofollow">联系我们</a><i></i></dd>
+                        </dl>
+                    </li>
+
+
+
+
+                </ul>
+            </div>
+
+
+
+        </div>
+
+
+
+    </div>
+
+    <div style="clear: both"></div>
+</div>
+
+
+<script>
+
+    jQuery(function ($) {
+        var shell = $('#help_slider');
+        if (!shell.length) { return; }
+        shell.find('.pro_sublist').each(function (i) {
+            var self = $(this);
+            self.data('maxHeight', self.height()).css('overflow', 'hidden');
+            if (this.parentNode.className.indexOf('current') < 0) {
+                self.css('height', 0);
+            }
+        });
+        shell.delegate('a.trigger', 'click', function (e) {
+            e.preventDefault();
+
+
+            var
+                    isExtended = this.className.indexOf('open') > -1,
+                    panel = $('.pro_sublist', this.parentNode.parentNode);
+            panel.stop().show().animate({
+                height: isExtended ? 0 : panel.data('maxHeight'),
+                opacity: isExtended ? 0 : 1
+            }, 200, function () {
+                if (isExtended) {
+                    panel.hide();
+                }
+            });
+            this.className = isExtended ? 'trigger' : 'trigger open';
+        });
+    });
+
+</script>
+{% endblock %}

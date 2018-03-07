@@ -1,0 +1,71 @@
+<ion-view view-title="{{storeName}}">
+    <ion-nav-buttons side="right">
+        <button class="button button-icon icon ion-ios7-loop" ng-click="switch()"></button>
+    </ion-nav-buttons>
+    <ion-content scroll="false">
+        <ion-scroll direction="x"
+                    class="text-center"
+                    style="overflow: scroll;white-space: nowrap;">
+            <a style="display:inline-block; font-size:12px;  margin-right: -4px;"
+               class="item item-x {{( '全部' == choose)?'select light balanced':''}}"
+               ng-click="showProduct('', '全部')">全部</a>
+            <a style="display:inline-block; font-size:12px;  margin-right: -4px;"
+               class="item item-x {{( '蔬菜' == choose)?'select light balanced':''}}"
+               ng-click="showProduct('02', '蔬菜')">蔬菜</a>
+            <a style="display:inline-block; font-size:12px;  margin-right: -4px;"
+               class="item item-x {{( '水果' == choose)?'select light balanced':''}}"
+               ng-click="showProduct('01', '水果')">水果</a>
+            <a style="display:inline-block; font-size:12px"
+               class="item item-x {{( category.name == choose)?'select light balanced':''}}"
+               ng-repeat="category in categories"
+               ng-click="showProduct(category.code, category.name)">{{category.name}}</a>
+        </ion-scroll>
+        <ion-scroll zooming="false" direction="y" delegate-handle="categoriesProductScroll" style="height:100%">
+            <div class="list ">
+                <ion-item bindonce="item" ng-repeat="item in products" ng-click="showProductDetail(item.psid)"
+                          class=" item item-thumbnail-left " ng-if="item.poid && item.poid > 0">
+                    <!--<img image-lazy-src="{{item.img}}">-->
+                    <img ng-src="{{config.domain}}/upload/{{item.sku}}/{{item.cover}}">
+
+                    <h2>{{item.name}}</h2>
+
+                    <div class="row" style="padding:0" ng-if="item.poid && item.poid > 0">
+                        <div class="col" style="padding:0">
+                            <p>
+                                <label class="grey">{{item.standard}}</label>
+                                <br/>
+                                <label class="italic assertive h4">{{item.price}}</label><label class="grey">元/斤</label>
+                            </p>
+                        </div>
+                        <div class="col text-right">
+                            <i style="font-size:30px" class="icon balanced  ion-ios7-arrow-right"></i>
+                        </div>
+                    </div>
+                </ion-item>
+                <ion-item bindonce="item" ng-repeat="item in products"
+                          class=" item item-thumbnail-left " ng-if="!item.poid || item.poid === 0">
+                    <!--<img image-lazy-src="{{item.img}}">-->
+                    <img ng-src="{{config.domain}}/upload/{{item.sku}}/{{item.cover}}">
+
+                    <h2>{{item.name}}</h2>
+
+                    <div class="row" style="padding:0" ng-if="!item.poid || item.poid === 0">
+                        <div class="col" style="padding:0">
+                            <p>
+                                <label class="grey">{{item.standard}}</label>
+                                <br/>
+                                <label class="italic assertive h4">{{item.price}}</label><label class="grey">元/{{item.unit}}</label>
+                            </p>
+                        </div>
+                        <div class="col text-right">
+                            <span style="font-size:30px" class="icon balanced ion-ios7-cart-outline"
+                                  ng-click="buy(item.psid)"></span>
+                        </div>
+                    </div>
+                </ion-item>
+            </div>
+            <div style="height:40px"></div>
+        </ion-scroll>
+
+    </ion-content>
+</ion-view>

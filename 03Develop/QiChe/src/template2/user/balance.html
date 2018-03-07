@@ -1,0 +1,105 @@
+{% extends "layout/user.html" %}
+{% block subcontent %}
+<link rel="stylesheet" href="/style2/css/user.css" type="text/css" media="screen">
+<style type="text/css">
+    .profile .content {overflow: hidden;padding: 0 15px;margin: 15px 0;position: relative;_width: 760px;height: auto;}
+    .profile .content_head {padding: 10px;overflow: hidden;}
+    .balance_p {display: inline-block;margin-right: 10px;font-size: 14px;vertical-align: middle;}
+    .balance_p strong {font-size: 16px;}
+    .red {color: #ed145b;}
+    .profile .btn_mid_grey, .btn_mid_grey {background: #fcfbfa;
+        background: -webkit-gradient(linear,left top,left bottom,from(#fff),to(#fcfbfa));background: -webkit-linear-gradient(top,#fff,#fcfbfa);
+        background: -moz-linear-gradient(top,#fff,#fcfbfa);background: -o-linear-gradient(top,#fff,#fcfbfa);background: linear-gradient(to bottom,#fff,#fcfbfa);-webkit-box-shadow: 0 1px 2px 0 #f2f2f2;
+        box-shadow: 0 1px 2px 0 #f2f2f2;border: 1px solid #dbd6d0;vertical-align: middle;display: inline-block;text-align: center;line-height: 30px;
+        overflow: hidden;font-size: 14px;padding: 0 15px;color: #666;}
+    .profile .title_desc {line-height: 2;color: #999;padding-top: 20px;_width: 99.9%;}
+    .profile h1, .profile table, .profile .title_desc, .service_con_single .con {word-break: break-all;word-wrap: break-word;white-space: normal;}
+</style>
+<!--<link href="/style2/css/bootstrap.min.css" rel="stylesheet">-->
+<link href="/style2/css/plugins/dataTables.bootstrap.css" rel="stylesheet">
+<h1> 我的余额 </h1>
+<div class="content">
+    <div class="content_head">
+        <span class="balance_p">您当前的帐户余额 <strong class="red">{{ p }}</strong> 元。</span>
+        <!--<a href="/i/account/balance_withdrawals/" class="btn_mid_grey">提现</a>-->
+        <a href="/user/top_up" class="btn_mid_grey">充值</a>
+
+        <div class="title_desc">
+            帐户余额是您在车装甲购买商品时可用于支付的金额。
+        </div>
+    </div>
+    <!-- 2014-11-11 双11降级,改为ajax -->
+    <div class="ajax-table">
+        <table id="order-list" class="order-tablev2">
+            <tbody>
+                <tr class="order_list_title">
+                    <th width="140">时间</th>
+                    <th>详情</th>
+                    <th width="50">收支</th>
+                    <th width="80">金额(元)</th>
+                </tr>
+                {% for item in items %}
+                <tr>
+                    <td style="text-align: left;padding-left: 10px;">{{ item.created | datetimeformat }}</td>
+                    <td>
+                        {{item.log}}
+                    </td>
+                    <td>{{ item.stype == 0 and '收入' or '支出' }}</td>
+                    <td class="expense">{% if item.stype==0 %}<span style="color:#129a00;">{{ item.balance }}</span>{% else %}<span style="color:#cc0000;">{{ item.balance }}</span>{%endif%}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="dataTables_info" role="alert" aria-live="polite" aria-relevant="all">
+                    当前：第{{page}}页 / {{totalpage}}页，合计{{total}}条
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="dataTables_paginate paging_simple_numbers">
+                    <ul class="pagination  pagination-sm" id="pageUl" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/style2/js/jquery.twbsPagination.min.js"></script>
+<script>
+    $(function() {
+        var ajax_url = '/i/account/balance_info';
+
+        $('.ajax-table').delegate('.pager-ajax a', 'click', function(e) {
+            e.preventDefault();
+            var href = e.currentTarget.href;
+            var tmp = href.split('?');
+            var url = ajax_url + '?' + tmp[1];
+            ajaxGetTable(url);
+        });
+
+        function ajaxGetTable(url) {
+            $('.ajax-table').load(url);
+        }
+
+        $('.get_ajax_table').click(function() {
+            ajaxGetTable(ajax_url);
+        });
+    });
+
+    $(document).ready(function () {
+                $('#pageUl').twbsPagination({
+            first:'首页',
+            prev:'上一页',
+            next:'下一页',
+            last:'尾页',
+            totalPages: {{totalpage}},
+            startPage: {{page}},
+            visiblePages: 8,
+            onPageClick: function (event, page) {
+                    self.location="/user/balance?page="+page;
+                }
+        });
+
+    });
+</script>
+{% endblock %}

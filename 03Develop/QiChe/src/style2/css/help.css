@@ -1,0 +1,109 @@
+﻿.help_contain .title h1 {
+color: #333;
+font-size: 46px;
+text-align: center;
+display: block;
+-webkit-margin-before: 0.5em;
+-webkit-margin-after: 0.5em;
+-webkit-margin-start: 0px;
+-webkit-margin-end: 0px;
+font-weight: bold;
+}
+.help_contain .title_line {
+background: #fff;
+margin-top: 10px;
+height: 3px;
+    border: dashed 1px #ccc;
+}
+.help_contain h3 {
+font-size: 16px;
+padding: 0;
+display: block;
+-webkit-margin-before: 1em;
+-webkit-margin-after: 1em;
+-webkit-margin-start: 0px;
+-webkit-margin-end: 0px;
+font-weight: bold;
+}
+.help_contain p {
+font-size: 14px;
+line-height: 25px;
+text-indent: 2em;
+}
+
+ 
+
+
+/* sliderbar */
+.sliderbar{ float:left; width:220px;}
+.slider{ background:#fff; border:1px solid #f3f3f3; margin-bottom:24px;}
+.slider .title{ color:#111; font-size:18px; padding:5px 12px 0;}
+.slider .title h2, .slider .title h3{ font-weight:normal; line-height:20px; padding:8px 0;}
+.slider .title i{ background:url(/style2/images/bg_hor.png) no-repeat 0 -62px; height:20px; width:20px; overflow:hidden; position:absolute; *margin-top:1px;}
+.slider .title .ipad{ background-position:-20px -62px;}
+.slider .title .ipod{ background-position:-40px -62px;}
+.slider .title .mac{ background-position:-60px -62px;}
+.slider .title .sound{ background-position:-80px -62px;}
+.slider .title .power{ background-position:-100px -62px;}
+.slider .title .apple{ background-position:-120px -62px;}
+.slider .title .help_ico{ background-position:-140px 0;}
+.slider .title .line{ display:block; background:#ced3dc; margin:0; height:1px; width:24px; overflow:hidden;}
+.slider .inner{ margin:0 12px;}
+.slider .extend, .slider .menus{ border-top:1px solid #f1f1f1; font-size:0; margin:0 12px; padding:5px 0;}
+.slider .menus a{ display:inline-block; color:#949494; font-size:12px; line-height:20px; margin-right:1em; padding:0 .3em; vertical-align:top;}
+.slider .menus a:hover{ color:#333;}
+.slider .extend a{ display:block; padding:5px 0; text-align:center; _zoom:1;}
+.slider .extend span{ display:inline-block; background:url(/style2/images/bg_hor.png) no-repeat -60px -26px; cursor:pointer; line-height:99px; height:8px; width:12px; overflow:hidden;}
+.slider .extend a:hover span{ background-position:-72px -26px;}
+
+.help_slider .title{ border-bottom:1px solid #F3F3F3; padding-left:38px; padding-bottom:2px;}
+.help_slider .title.active{ border-bottom:0;}
+.help_slider .title h2{ padding:10px 0;}
+.help_slider .title i{ margin-left:-24px;}
+.help_slider a{ color:#827255;  font-family:微软雅黑;}
+.help_slider a:hover{ color:#253145;}
+.help_slider .inner{ border-bottom:1px solid #F3F3F3; margin:0 0 0; padding:0 12px 10px; position:relative; overflow:hidden; *zoom:1;}
+.help_slider .inner li{ vertical-align:top; *zoom:1;}
+.help_slider .inner .pro_base{ background:#fff; padding:8px 30px 8px 22px;}
+.help_slider .inner li.current .pro_base{ background-color:#4062a7; margin-bottom:10px;}
+.help_slider .inner li .pro_base a{ display:inline-block; font-size:14px; line-height:20px;}
+.help_slider .inner li.current .pro_base a{ color:#fff;}
+.help_slider .inner .trigger{ margin:0; height:20px; width:20px; position:absolute; right:22px;}
+.help_slider .trigger span{ display:block; background:url(/style2/images/bg_hor.png) no-repeat -80px 0; cursor:pointer; line-height:99px; margin:5px; height:10px; width:10px; overflow:hidden;}
+.help_slider .inner li.current .trigger span{ background-position:-80px -10px;}
+.help_slider .trigger.open span{ background-position:-90px 0;}
+.help_slider .inner li.current .open span{ background-position:-90px -10px;}
+.help_slider .inner dl{ display:none; background:#fff; margin:0 0 5px 22px; position:relative; overflow:hidden; *zoom:1;}
+.help_slider .inner li.current dl{ display:block;}
+.help_slider .inner dd{ border-left:2px solid #98a0ab; vertical-align:top;}
+.help_slider .inner dd a{ display:block; line-height:20px; padding:3px 0 3px 24px;}
+.help_slider .inner dd a{ display:block; line-height:20px; padding:3px 0 3px 24px;}
+.help_slider .inner dd a:hover, .help_slider .inner dl a.current{ color:#253145;}
+.help_slider .inner dd a.current i{ background:#fff url(/style2/images/bg_hor.png) no-repeat -100px 3px; cursor:pointer; height:16px; width:6px; overflow:hidden; position:absolute; left:0;}
+
+
+.product_list{ padding:20px 0; width:100%; position:relative; *overflow:hidden; *zoom:1;}
+
+/* crumb */
+.crumb{ color:#737d8c; font-size:14px; font-weight:bold; margin:0 0 10px; padding-top:5px; height:20px;}
+.crumb .home a{ display: block; float:left; background:url(/style2/images/bits.png) no-repeat 0 -159px; height:16px; width:16px;}
+.crumb .step_arrow{ display:block; float:left; background:url(/style2/images/bits.png) no-repeat 0 -175px; margin-top:3px; padding-right:8px; height:16px; width:16px; overflow:hidden;}
+.crumb li{ float:left; line-height:20px;}
+.crumb li a{ display:block; color:#737d8c; padding-right:8px;}
+.crumb li.cur{ background:none;}
+
+.container{  padding-top:24px; margin-bottom:20px;}
+.content{ float:right; width:942px; min-height:300px;}
+.content .msg_prompt{ border-bottom: 1px solid #e6e6e6; font-size:14px; font-weight:700; line-height:35px;}
+.content .msg_prompt em{ color:#e62f2f;}
+
+
+.content_help table{width: 909px; height: 179px; margin-right: auto; margin-left: auto; }
+.content_help tr td{padding-left: 10px;}
+.content_help p{line-height: 30px;}
+td {
+margin: 0;
+padding: 0;
+font: 12px/2.5 "microsoft yahei", tahoma, arial;
+font-size: 12px;
+}

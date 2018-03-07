@@ -1,0 +1,31 @@
+<ion-view view-title="绑定手机号">
+    <ion-content>
+        <div class="padding grey text-center" >
+            要修改密码, 请先绑定手机号码 ~
+        </div>
+        <div class="list">
+            <div class="item item-input">
+                <label class="login-item-input-wrapper">
+                    <input type="tel" placeholder="手机号" ng-model="mobile">
+                </label>
+            </div>
+            <div class="item item-input-inset">
+                <label class="login-item-input-wrapper">
+                    <input type="number" placeholder="验证码" ng-model="validationCode">
+                </label>
+                <button class="button button-small button-positive " ng-if="!requestCodeProcessing"
+                        ng-click="requestValidateCode()">
+                    获取验证码
+                </button>
+
+                <button class="button button-small button-positive" disabled ng-if="requestCodeProcessing">
+                    {{counterWithRequestCode}}秒后重发
+                </button>
+            </div>
+        </div>
+
+        <div class="padding">
+            <button class="button button-block button-positive" ng-click="save()">关联手机号</button>
+        </div>
+    </ion-content>
+</ion-view>

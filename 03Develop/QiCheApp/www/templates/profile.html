@@ -1,0 +1,91 @@
+<ion-view view-title="个人信息">
+  <ion-content class="stable-bg">
+
+    <ion-list>
+      <ion-item class="item light item-icon-right" ng-click="modifyPhoto()">
+
+        <img style="position: absolute;
+    right: 50px;
+    max-width: 40px;
+    max-height: 40px;
+    width: 100%;
+    border-radius: 50%;
+    margin-top: -20px;
+    top: 50%;" ng-if="portrait" ng-src="{{'data:image/jpeg;base64,' + portrait}}"></img>
+        <img style="position: absolute;
+right: 50px;
+max-width: 40px;
+max-height: 40px;
+width: 100%;
+border-radius: 50%;
+margin-top: -20px;
+top: 50%;" ng-if="!portrait" ng-src="{{user.portraiturl}}"></img>
+        <p>头像</p>
+        <i class="icon  ion-ios-arrow-right"></i>
+      </ion-item>
+    </ion-list>
+    <div class="separate-big"></div>
+
+    <ion-list>
+      <ion-item class="item item-icon-right" ng-click="modifyNickName()">
+        <p>昵称</p>
+        <label class="item-sub item-icon-right">{{user.nickname}}</label>
+        <i class="icon  ion-ios-arrow-right"></i>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item class="item item-icon-right" ng-click="modifyBirthday()">
+        <p>出生日期</p>
+        <label class="item-sub">{{user.birthday}}</label>
+        <i class="icon  ion-ios-arrow-right"></i>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item class="item item-icon-right" ng-click="modifyBrand()">
+        <p>购买车型</p>
+        <label class="item-sub">{{brand}}</label>
+        <i class="icon  ion-ios-arrow-right"></i>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item class="item item-icon-right" ng-click="modifyCarNum()">
+        <p>车牌号</p>
+        <label class="item-sub">{{auto.car_num}}</label>
+        <i class="icon  ion-ios-arrow-right"></i>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item class="item item-icon-right" ng-click="modifyChassisNum()">
+        <p>车架号</p>
+        <label class="item-sub">{{auto.chassis_num}}</label>
+        <i class="icon  ion-ios-arrow-right"></i>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item class="item item-icon-right" ng-click="modifyCreated()">
+        <p>上牌时间</p>
+        <label class="item-sub">{{auto.created}}</label>
+        <i class="icon  ion-ios-arrow-right"></i>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item class="item item-icon-right" ng-click="modifyMileage()">
+        <p>当前公里数(km)</p>
+        <label class="item-sub">{{auto.mileage}}</label>
+        <i class="icon  ion-ios-arrow-right"></i>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item class="item item-icon-right" ng-click="modifyBuyTime()">
+        <p>购买日期</p>
+        <label class="item-sub">{{auto.buy_time}}</label>
+        <i class="icon  ion-ios-arrow-right"></i>
+      </ion-item>
+    </ion-list>
+    <div class="padding">
+      <button class="button button-balanced button-block" ng-click="save()">
+        保存
+      </button>
+    </div>
+  </ion-content>
+</ion-view>

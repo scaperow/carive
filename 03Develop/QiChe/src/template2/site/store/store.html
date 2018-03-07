@@ -1,0 +1,393 @@
+{% extends "layout/site.html" %}
+
+{% block title %}{{s.name}}-服务门店-车装甲{% endblock %}
+{% block keyword %}{{s.name}}{% endblock %}
+{% block description %}{% endblock %}
+{% block css %}
+<link type="text/css" href="/style2/css/qiye.css" rel="stylesheet" />
+<style>
+    .item_btn{
+        width:206px;
+        margin-top: 15px;
+        margin-left:6px;
+        text-align: center;
+        border: 0px solid #008D3E;
+        background-color: #008D3E;
+        color: #fff;
+        font-size: 24px;
+        font-weight: bold;
+        padding: 10px 0px;
+        border-radius: 3px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+</style>
+{% endblock %}
+{% block js %}
+<script src="/style2/js/jquery-1.7.2.min.js?v=1"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
+<script>
+    haux.dom.addEventHandler(window, "load", function(){
+        var sliderObj = new haux.component.Slider({
+            element:document.getElementById("slider-box"),
+            flashTime:500
+        });
+        sliderObj.startAutoSwitch();
+    });
+    function init_map(){
+        var CityName = '{{handler.get_secure_cookie("city_name")}}';
+        if(CityName=="" || CityName =="--请选择城市--"){
+            alert("请先选择好城市！");
+//            $("#aSetMap").click();
+            return;
+        }
+        var Longitude = 0, Latitude = 0, Address = "";
+        Longitude = $("#x").val();
+        Latitude =  $("#y").val();
+        var map = new BMap.Map("allmap");
+//        map.enableScrollWheelZoom();
+        map.addControl(new BMap.NavigationControl());  //添加默认缩放平移控件
+        if (Longitude > 0 || Latitude > 0) {
+            var point = new BMap.Point(Longitude, Latitude);
+            var marker = new BMap.Marker(point);  // 创建标注
+            map.addOverlay(marker);              // 将标注添加到地图中
+            map.centerAndZoom(point, 16);
+        }
+        else {
+            map.centerAndZoom(CityName, 12);
+        }
+    }
+
+    $(function(){
+        init_map();
+        GetStoreComments(0);
+
+        $('#btn_fav_store').bind('click',function(){
+            $.get("/ajax/addfav_store/{{sid}}", function (msg) {
+                data =jQuery.parseJSON(msg);
+                if(data.status){
+                    $("#btn_fav_store").html("已收藏");
+                }
+                else{
+                    alert(data.msg)
+                }
+            });
+        });
+    });
+
+    function GetStoreComments(type){
+        var sid = parseInt($("#comment_page").attr("data-id"));
+        var page = parseInt($("#comment_page").attr("data-page"));
+//        alert(page);
+        var page_total = parseInt($("#comment_page").attr("data-total-page"));
+        if(type == -2){ // 首页
+            page = 1;
+        }
+        else if(type == -1 || type ==1){ // -1上一页 1下一页
+            page = page + type;
+        }
+        else if(type == 2){
+            page = page_total
+        }
+        if(page<1 || page > page_total){
+            return;
+        }
+        $.get("/ajax/GetStoreComments", {sid:sid, page:page},function(data){
+            data = jQuery.parseJSON(data);
+            if(data.flag==1){
+                $("#review-block dd[id!='comment_page']").remove();
+                if(data.total>0) {
+                    $("#comment_page").attr("data-page", page);
+                    $("#comment_page").attr("data-total-page", data.total_page);
+                    $("#comment_page").attr("data-total", data.total);
+                    $("#page_total").html("共" + data.total + "条记录&nbsp;" + page + "/" + data.total_page + "页");
+                    var lists = data.data;
+                    var html = "";
+                    for (var i = 0; i < lists.length; i++) {
+                        html += "<dd class=\"review-block-1\">";
+                        html += "    <h4>";
+                        html += "        " + lists[i].username + " @ <span class=\"time\">" + lists[i].created + "</span>";
+                        html += "    </h4>";
+                        html += "    <a href=\"#\" class=\"tyre product\" target=\"_blank\">专业快速洗车</a>";
+                        html += "    <span class=\"score\">";
+                        html += "        质量<s class=\"score-" + lists[i].qualityscore + "\"></s>";
+                        html += "    </span>";
+                        html += "    <span class=\"score\">";
+                        html += "        服务<s class=\"score-" + lists[i].servicescore + "\"></s>";
+                        html += "    </span>";
+                        html += "    <span class=\"score\">";
+                        html += "        价格<s class=\"score-" + lists[i].pricescore + "\"></s>";
+                        html += "    </span>";
+                        html += "    <span class=\"detail\">" + lists[i].comment + "</span>";
+                        html += "</dd>";
+                    }
+                    $("#comment_page").before(html);
+                }
+                else{
+                    var html = "";
+                    html += "<dd class=\"review-block-1\">"
+                    html += "暂时没有车主点评！";
+                    html += "</dd>";
+                    $("#comment_page").before(html);
+                    $("#comment_page").remove();
+                }
+            }
+            else{
+                alert(data.msg)
+            }
+        });
+    }
+</script>
+{% endblock %}
+{% block content %}
+<div class="qylouceng">
+    <div class="qyleft">
+        <div class="summary">
+            <h3>{{s.name}}</h3>
+            <p class="score">
+                <s class="score-{{'%.0f' %  s.star_score}}"></s>
+                <span>共有{{s.comment_count}}条评论</span>
+                <span class="credit">企业信誉：{{s.credit_score}}分</span>
+                <a id="btn_fav_store" class="favorite">
+                    {% if fav_store %}
+                    已收藏
+                    {% else %}
+                    收藏
+                    {% endif %}
+                </a>
+                <i class="share bdsharebuttonbox">
+                    <a href="#" class="bds_more" data-cmd="more" style="padding: 0px;background-image: none;font-style: normal;float:none;margin: 0px;">分享</a>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+                </i>
+
+            </p>
+            <div class="service-title">
+                <a href="javascript:void(0);" class="current">服务项目</a>
+                <!--<a href="javascript:void(0);"><img src="images/mfxm.jpg" /></a>-->
+                <!--<a href="javascript:void(0);">特价项目</a>-->
+            </div>
+            <div class="service-content">
+                {% for c in categoryfronts %}
+                <a href="#?{{c.id}}">{{c.name}}</a>
+                {% endfor %}
+            </div>
+            <div class="operate-box">
+                <a class="mfxm item_btn" href="/store_products/{{s.id}}?is_bargain=1">免费项目</a>
+                <a class="tjxm item_btn" href="/store_products/{{s.id}}?is_bargain=2">特价项目</a>
+            </div>
+            <div class="slider-box" id="slider-box">
+                <div class="visible-content">
+                    <a class="previous" href="javascript:void(0)"></a>
+                    <a class="next" href="javascript:void(0)"></a>
+                    <div class="scroll-content">
+                        <ul>
+                            {%- for pic in s.store_pics -%}
+                            <li slider-clone="true">
+                                <div class="img-shell">
+                                    <span>
+                                        <i>
+                                            <img class="bigImage" src="{{pic.path}}">
+                                        </i>
+                                    </span>
+                                </div>
+                            </li>
+                            {%- endfor %}
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="nav">
+                    <ul>
+                        {% set pic_num = 0 %}
+                        {%- for pic in s.store_pics -%}
+                        {% if pic_num ==0 %}
+                        <li slider-index="{{pic_num}}" class="current">
+                        {% else %}
+                        <li slider-index="{{pic_num}}">
+                        {% endif %}
+                            <a href="javascript:void(0)">
+                                <div class="img-shell">
+                                <span>
+                                    <i>
+                                        <img class="bigImage" src="{{pic.path}}">
+                                    </i>
+
+                                </span>
+                                </div>
+                            </a>
+                        </li>
+                        {% set pic_num = pic_num + 1 %}
+                        {%- endfor -%}
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+            </div>
+
+        </div>
+        <div class="shop-intro">
+            <div class="intro">
+                <div class="title">
+                    <h4>门店介绍</h4>
+                </div>
+                <div class="content">
+                    <img src="{{s.image}}" width="120" height="90" class="fm">{{sintro}}
+                </div>
+            </div>
+            <div class="nav">
+                <div class="title">
+                    <h4>快捷导航</h4>
+                </div>
+                <div class="content">
+                    <!--<a class="mfxm" href="#"><img src="images/mfxm.jpg"></a>-->
+                    <!--<a class="tjxm" href="#"><img src="images/mfxm.jpg"></a>-->
+                    <a class="anav ml0" href="/store_news/{{s.id}}/1">公司资质</a>
+                    <a class="anav ml10" href="/store_news/{{s.id}}/2">公司团队</a>
+                    <a class="anav ml0" href="/store_news/{{s.id}}/3">公司案例</a>
+                    <a class="anav ml10" href="/store_products/{{s.id}}">产品服务</a>
+                </div>
+            </div>
+        </div>
+        <div class="product-block">
+            <div class="shop-product-title">
+                <h4>产品服务</h4>
+                <a href="/store_products/{{s.id}}">更多>></a>
+            </div>
+            <ul class="shop-products">
+                {% if products_count > 0 %}
+                {% for p in products%}
+                <li onmousemove="this.className='hover'" onmouseout="this.className=''">
+                    <a href="/product/{{p.id}}" class="service">
+                        <img src="{{p.product.cover}}" alt="{{p.product.name}}">
+                        <h4>{{p.product.name}}</h4>
+                        <span class="price-now"><s>￥</s>{{p.price}} </span><span class="price-old">￥{{p.orginalprice}}</span>
+                        <span class="sales-count">已售{{p.product.orders}} </span><span class="comment-count">{{p.product.comment_count}}人评价 </span>
+                    </a>
+                </li>
+                {% endfor %}
+                {% else %}
+                <li style="text-align: center;border: none;width: 98%;line-height: 210px;font-size: 24px;">
+                    暂时没有数据！
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+        <div id="review-block" class="">
+            <dl class="reviews">
+                <dt>
+                    <span>车主点评</span>
+                </dt>
+
+                <!--<dd class="review-block-1">-->
+                    <!--<h4>-->
+                        <!--135***3844 @ <span class="time">2015-10-09 16:12</span>-->
+                    <!--</h4>-->
+                    <!--<a href="#" class="tyre product" target="_blank">专业快速补胎</a>-->
+                    <!--<span class="score">-->
+                        <!--质量<s class="score-5"></s>-->
+                    <!--</span>-->
+                    <!--<span class="score">-->
+                        <!--服务<s class="score-5"></s>-->
+                    <!--</span>-->
+                    <!--<span class="score">-->
+                        <!--价格<s class="score-5"></s>-->
+                    <!--</span>-->
+                    <!--<span class="detail">很专业 服务态度好</span>-->
+                <!--</dd>-->
+
+                <dd class="review-block-1" id="comment_page" data-id="{{sid}}" data-page="1" data-total-page="5" data-total="23">
+                    <div class="page-nav">
+                        <div>
+                            <script type="text/javascript">
+                                function review_block(pageNo) {
+                                    pageNo = parseInt(pageNo);
+//                                    alert(pageNo);
+                                    var pageMax = parseInt($("#comment_page").attr("data-total"));
+                                    if (isNaN(pageNo) || pageNo<1) {
+                                        alert('请输入有效的页码');
+                                        return;
+                                    }
+                                    if(pageNo>pageMax){
+                                        pageNo = pageMax;
+                                    }
+                                    $("#comment_page").attr("data-page", pageNo);
+                                    GetStoreComments(0);
+                                }
+                            </script>
+
+                            <a id="page_first" class="current previous" href="javascript:void(0);" onclick="GetStoreComments(-2)">首页</a>
+                            <a id="page_previous" class="current previous" href="javascript:void(0);" onclick="GetStoreComments(-1)">上一页</a>
+                            <span>...</span>
+                            <a id="page_next" class="next" href="javascript:void(0);" onclick="GetStoreComments(1)">下一页</a>
+                            <a id="page_last" class="previous" href="javascript:void(0);" onclick="GetStoreComments(2)">尾页</a>
+
+                            <span id="page_total">共0条记录&nbsp;1/0页</span>
+                            <span style="color: black;">
+                            到第<input id="review-block_txtPage"> 页
+                            </span>
+                            <a id="goto" href="javascript:void(0);" onclick="review_block(document.getElementById('review-block_txtPage').value);">确定</a>
+                            <div class="clear"></div>
+
+
+
+                        </div>
+                    </div>
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <div class="qyright">
+        <div class="shop-map">
+            <input type="hidden" id="x" value="{{s.x}}">
+            <input type="hidden" id="y" value="{{s.y}}">
+            <div id="allmap" style="width: 300px;height: 260px;">
+            </div>
+            <a href="/store/map/{{sid}}" class="expand" target="_blank">查看完整地图</a>
+        </div>
+        <div class="list-box orange-box ">
+            <dl>
+                <dt>
+                    附近促销
+                </dt>
+
+                {% for p in near_products %}
+                <dd class="pro-block-3 w278">
+                    <a href="/product/{{p.product.id}}" target="_blank">
+                        <img src="{{p.product.cover}}" alt="{{p.product.name}}">
+                        <h4>{{p.product.name}}</h4>
+                        <span class="price-now"><s>￥</s>{{p.price}}</span>
+                    </a>
+                </dd>
+                {% endfor %}
+
+            </dl>
+        </div>
+
+        <div class="list-box orange-box">
+            <dl>
+                <dt>
+                    附近门店
+                </dt>
+
+                {% for p in near_stores %}
+                <dd class="shop-block-1 w278">
+                    <a href="/store/{{p.id}}" target="_blank">
+                        <div class="img-shell">
+                            <span>
+                                <i>
+                                    <img src="{{p.image}}" alt="{{p.name}}">
+                                </i>
+                            </span>
+                        </div>
+                        <h4>{{p.name}}</h4>
+                        <s class="score-{{'%.0f' %  p.star_score}}"></s>
+                        <span class="address">{{p.address}}</span>
+                    </a>
+                </dd>
+                {% endfor %}
+
+            </dl>
+        </div>
+    </div>
+</div>
+{% endblock %}

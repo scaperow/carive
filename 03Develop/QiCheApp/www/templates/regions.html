@@ -1,0 +1,32 @@
+<ion-view view-title="设置所在城市">
+  <ion-content>
+    <div class="list">
+      <div class="item item-input-inset">
+        <label class="item-input-wrapper">
+          <input type="text" placeholder="城市/行政区/拼音" ng-model="keyword">
+        </label>
+      </div>
+      <div class="item">
+        <p>
+          定位到的城市
+        </p>
+      </div>
+      <div class="item"  ng-if="progress">
+        {{progress}}
+      </div>
+      <a class="item"  ng-if="!progress " ng-click="confirmCurrentLocation(location.id)">
+        {{location.address.city}}
+      </a>
+
+
+      <div class="item ">
+        <p>
+          所有城市
+        </p>
+      </div>
+      <a class="item" ng-repeat="region in regions | filter:keyword" ng-click="confirmCurrentLocation(region.id)">
+        {{region.name}}
+      </a>
+    </div>
+  </ion-content>
+</ion-view>

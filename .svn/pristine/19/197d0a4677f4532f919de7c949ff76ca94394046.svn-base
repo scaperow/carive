@@ -1,0 +1,53 @@
+{% extends "layout/store.html" %}
+{% block content %}
+<div class="row">
+   <nav>
+   <div class="navbar-header">
+      <a class="navbar-brand" href="#">分类管理</a>
+   </div>
+   <div class="pull-left navbar-form">
+         <a class="btn btn-mg btn-default" href="/store/category/0">添加</a>
+   </div>
+</nav>
+</div>
+            {%set messages=handler.get_flashed_messages() %}
+            {%if messages%}
+            <div class="msg">
+                {% for type, msg in messages%}
+                <span>{{msg}}</span>
+                {% endfor %}
+            </div>
+            {%endif%}
+<div class="row">
+    <div class="panel panel-primary">
+
+    <div class="panel-body">
+        <div class="table-responsive">
+        <table class="table table-hover" id="tb_users">
+            <thead>
+                <tr>
+                    <th>分类编号</th>
+                    <th>分类名</th>
+                    <th>产品数量</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% if categorys -%}
+            {% for c in categorys -%}
+            <tr>
+              <td>{{c.id}}</td>
+              <td>{{c.name}}</td>
+              <td><a href="/store/category/list/{{c.id}}">{{c.p_count}}</a></td>
+              <td><a class="btn btn-sm btn-info" href="/store/category/{{c.id}}">修改</a>
+                  <a class="btn btn-sm btn-warning" href="/store/category/change/{{c.id}}?s=0">删除</a></td>
+            </tr>
+			{%- endfor %}
+			{%- endif %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+    </div>
+</div>
+{% endblock %}

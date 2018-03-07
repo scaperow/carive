@@ -1,0 +1,47 @@
+<ion-view view-title="问答">
+  <ion-content class="stable-bg">
+    <ion-list>
+      <ion-item>
+        <div style="font-size:14px;white-space:normal">{{question.content}}</div>
+        <div class="separate-big"></div>
+        <img ng-src="{{question.user_photo}}" ng-if="question.user_photo" style="width: 16px;height: 16px;border-radius:50%; margin-top:2px"></img>
+        <img src="img/default-photo.jpg" ng-if="!question.user_photo" style="width: 16px;height: 16px;border-radius:50%;margin-top:2px"></img>
+        <label>{{question.user_name | mobilemask}}</label>&nbsp;<i style="font-size:14px"> {{question.created}}</i>
+      </ion-item>
+    </ion-list>
+    <div class="padding">
+      <ion-list ng-repeat="best in bests" ng-if="bests">
+        <div style="padding:6px; font-size:14px;opacity:0.5" class="balanced-bg light">
+          最佳答案
+        </div>
+        <ion-item>
+          <div style="font-size:14px;white-space:normal">{{best.content}}</div>
+          <div class="separate-big"></div>
+          <img ng-src="{{best.user_photo}}" ng-if="best.user_photo" style="width: 16px;height: 16px;border-radius:50%; margin-top:2px"></img>
+          <img src="img/default-photo.jpg" ng-if="!best.user_photo" style="width: 16px;height: 16px;border-radius:50%;margin-top:2px"></img>
+          <label>{{best.user_name | mobilemask}}</label>&nbsp;<i style="font-size:14px"> {{best.created}}</i>
+          <div style="text-align:right">
+            <button class="button button-stable" ng-click="supportAnswer(best.id)"><i class="iconfont">&#xe608;</i>&nbsp;{{best.supports}}</button>
+          </div>
+        </ion-item>
+        <div class="separate-big"></div>
+      </ion-list>
+
+      <ion-list ng-repeat="answer in answers" ng-if="answers">
+        <div style="padding:6px; font-size:14px; background:#ccc" class="dark">
+          其他答案
+        </div>
+        <ion-item>
+          <div style="font-size:14px;white-space:normal">{{answer.content}}</div>
+          <div class="separate-big"></div>
+          <img ng-src="{{answer.user_photo}}" ng-if="answer.user_photo" style="width: 16px;height: 16px;border-radius:50%; margin-top:2px"></img>
+          <img src="img/default-photo.jpg" ng-if="!answer.user_photo" style="width: 16px;height: 16px;border-radius:50%;margin-top:2px"></img>
+          <label>{{answer.user_name | mobilemask}}</label>&nbsp;<i style="font-size:14px"> {{answer.created}}</i>
+          <div style="text-align:right">
+            <button class="button button-stable" ng-click="supportAnswer(answer.id)"><i class="iconfont">&#xe608;</i>&nbsp;{{answer.supports}}</button>
+          </div>
+        </ion-item>
+        <div class="separate-big"></div>
+      </ion-list>
+    </div>
+</ion-view>

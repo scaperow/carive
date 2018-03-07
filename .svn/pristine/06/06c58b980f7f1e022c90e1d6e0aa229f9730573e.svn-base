@@ -1,0 +1,26 @@
+<ion-view view-title="我的收藏">
+    <ion-content>
+        <div class="text-center padding grey">
+            <label>向左滑动删除</label>
+         </div>
+        <ion-list>
+
+            <ion-item ng-repeat="item in items"
+                      class="item-thumbnail-left" ng-click="showDetail(item.id)">
+
+                <img ng-src="{{item.img}}">
+
+                <h2>{{item.name}}</h2>
+
+                <p>
+                    <label class="grey">{{item.resume}}</label>
+                    <br/>
+                    <label class="grey">{{item.standard}}</label>
+                    <br/>
+                    <label class="italic assertive h4">{{item.price}}</label><label class="grey">元/份</label>
+                </p>
+                <ion-option-button class="button-assertive" ng-click="remove(item.id)">删除</ion-option-button>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

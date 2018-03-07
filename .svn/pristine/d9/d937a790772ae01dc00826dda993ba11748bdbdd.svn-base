@@ -1,0 +1,127 @@
+{% extends "layout/site.html" %}
+{% block js %}
+<!--<link rel="stylesheet" href="/style2/css/list.css" type="text/css" media="screen">-->
+<link rel="stylesheet" href="/style2/css/help.css" type="text/css" media="screen">
+{% endblock %}
+{% block content %}
+
+<style>
+
+    .pro_base {
+        background-color: #71a33b;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div  class="clearfix wrap container">
+    <!-- Main -->
+    <div id="product_list_content" class="content">
+        <!-- Crumb -->
+        <div class="crumb">
+            <ul>
+                <li class="home"><a href="/"></a></li>
+                <li class="step_arrow"></li>
+                <li><a href="#">{{p.name}}</a></li>
+            </ul>
+        </div>
+        <div style="clear: both"></div>
+
+
+        <div id="product_list" class="clearfix product_list">
+            <div class="help_contain">
+                <div class="title">
+                    <h1 style="font-size:26px;letter-spacing:10px;">{{p.title}}</h1>
+                </div>
+                <div class="title_line">&nbsp;</div>
+                {{p.content}}
+            </div>
+        </div>
+        <div style="clear: both"></div>
+
+
+    </div>
+
+    <div class="sliderbar">
+
+        <!-- 分类 -->
+        <div id="help_slider" class="slider help_slider">
+            <div class="title active">
+                <h2><a href="#"><i class="help_ico"></i>用户帮助中心</a></h2>
+                <i class="line"></i>
+            </div>
+            <div class="inner">
+                <ul>
+                    <li>
+                        <div class="pro_base"><a href="/page/gwlc" class="tit">相关服务</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                        <dl class="pro_sublist">
+                            <dd><a href="/page/gwlc" rel="nofollow"><i></i>购物流程</a></dd>
+                            <dd><a href="/page/psazsm" rel="nofollow"><i></i>配送安装说明</a></dd>
+                            <dd><a href="/page/mffwxm" rel="nofollow"><i></i>免费服务项目</a></dd>
+                            <dd><a href="/page/xfjfsm" rel="nofollow"><i></i>消费积分说明</a></dd>
+                            <dd><a href="/page/cjwt" rel="nofollow"><i></i>常见问题</a></dd>
+
+                        </dl>
+                    </li>
+                    <li>
+                        <div class="pro_base"><a href="/page/zffs" class="tit">支付方式</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                        <dl class="pro_sublist">
+                            <dd><a href="/page/zffs" rel="nofollow">支付宝支付</a>            <i></i></dd>
+                            <dd><a href="/page/zffs" rel="nofollow">银联/转账</a>              <i></i></dd>
+                            <dd><a href="/page/zffs" rel="nofollow">货到付款</a>     <i></i></dd>
+
+                        </dl>
+                    </li>
+                    <li>
+                        <div class="pro_base"><a href="/page/gywm" class="tit">关于我们</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                        <dl class="pro_sublist">
+                            <dd><a href="/page/gywm" rel="nofollow">车装甲简介 </a> <i></i></dd>
+                            <dd><a href="/page/lxwm" rel="nofollow">联系我们 </a> <i></i></dd>
+                            <dd><a href="/page/rczp" rel="nofollow">人才招聘 </a> <i></i></dd>
+                            <dd><a href="/page/app" rel="nofollow">车装甲APP下载</a> <i></i></dd>
+
+                        </dl>
+                    </li>
+                    <li>
+                        <div class="pro_base"><a href="/page/shfw" class="tit">售后服务</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                        <dl class="pro_sublist">
+                            <dd><a href="/page/shfw" rel="nofollow">申请退换货说明</a>   <i></i></dd>
+                            <dd><a href="/page/cpbx" rel="nofollow">产品保修</a><i></i></dd>
+                            <dd><a href="/page/tsjy" rel="nofollow">投诉建议</a><i></i></dd>
+
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div style="clear: both"></div>
+</div>
+<script>
+    jQuery(function ($) {
+        var shell = $('#help_slider');
+        if (!shell.length) { return; }
+        shell.find('.pro_sublist').each(function (i) {
+            var self = $(this);
+            self.data('maxHeight', self.height()).css('overflow', 'hidden');
+            if (this.parentNode.className.indexOf('current') < 0) {
+                self.css('height', 0);
+            }
+        });
+        shell.delegate('a.trigger', 'click', function (e) {
+            e.preventDefault();
+            var isExtended = this.className.indexOf('open') > -1,
+                    panel = $('.pro_sublist', this.parentNode.parentNode);
+            panel.stop().show().animate({
+                height: isExtended ? 0 : panel.data('maxHeight'),
+                opacity: isExtended ? 0 : 1
+            }, 200, function () {
+                if (isExtended) {
+                    panel.hide();
+                }
+            });
+            this.className = isExtended ? 'trigger' : 'trigger open';
+        });
+    });
+
+</script>
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends "layout/login.html" %}
+{% block content %}
+
+{% block js %}
+<script type="text/javascript" src="/style2/js/jquery.min.js"></script>
+<script src="/style2/js/bootstrap.js"></script>
+
+{% endblock %}
+
+            
+
+                <div style="width: 1190px; margin: 0 auto; margin-top: 20px;">
+                    <div style="float: left; width: 255px; height: 40px; border-right: 1px solid #dad9d9;">
+
+                        <a href="/">
+                            <img src="/style2/images/logo2.png" alt="车装甲"></a>
+                    </div>
+                    <div style="font-family: 微软雅黑; font-size: 30px; color: #6c6a6a; padding: 0px 0 0 15px; float: left;">
+                        重置密码
+                         
+                
+                    
+                    </div>
+
+                </div>
+
+
+<div class="container" style="padding: 30px 0px; display: table;">
+
+
+
+
+    <form action="/resetpassword" method="post" id="form-validate" class="form-horizontal">
+{{xsrf()}}
+        <div style="border: 5px solid #C9C9C9;">
+
+            <style>
+                .control-label
+                {
+                    font-family: 微软雅黑;
+                    font-size: 18px;
+                    color: #6c6a6a;
+                }
+            </style>
+            <table>
+
+                <tr>
+
+                    <td>
+                        <div style="width: 450px; padding-left: 200px;">
+                            <div class="form-group input-group">
+                                <label class="control-label" style="color: red;">
+                                    {%set messages=handler.get_flashed_messages() %}
+                    {%-if messages-%}
+                   
+                        {% for type, msg in messages%}
+                       提示： {{msg}}
+                        {% endfor %}
+                    
+            {%-endif-%}
+
+                                </label>
+                            </div>
+                            {% if mobile %}
+                            
+                                    <div class="form-group input-group">
+                    <label class="control-label">新密码</label>
+                    <br />
+
+                    <input style="width: 320px;" id="password" name="password" type="password" class="form-control Validform_error"  pattern=".{6,18}$"    title="密码长度必需在6~18之间" placeholder="密码不能为空"   required onchange="checkPasswords()">
+                </div>
+                <div class="form-group input-group">
+                    <label class="control-label">确认密码</label><br />
+                    <input id="apassword" style="width: 320px;" name="apassword" type="password" class="form-control" placeholder="请输入确认密码" value="" required onchange="checkPasswords()">
+                </div>
+                            <div class="form-group input-group">
+                                <button id="btn_submit_agr"
+                                    style="width: 320px; height: 35px; font-size: 20px;"
+                                    type="submit" class="btn btn-success" title="提交">
+                                    提 交
+                                </button>
+                            </div>
+                            {% else %}
+                            <div class="form-group input-group">
+                                <label class="control-label">无法修改密码，请联系管理员</label>
+                            </div>
+                            {% endif %}
+
+                        </div>
+                    </td>
+                    <td>
+                        <div style="float: left; padding-left: 50px; padding-top: 20px;">
+                            <img src="/style2/images/regedit.jpg" width="400" height="200" />
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </form>
+    <script type="text/javascript">
+        var dataForm = new VarienForm('form-validate', true);
+
+        function checkPasswords() {
+            var passl = document.getElementById("password");
+            var pass2 = document.getElementById("apassword");
+            if (passl.value != pass2.value)
+                pass2.setCustomValidity("两次密码必须输入一致！");
+            else
+                pass2.setCustomValidity('');
+        }
+    </script>
+</div>
+
+{% endblock %}
+ 
+
+
+ 

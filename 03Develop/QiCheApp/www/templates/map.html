@@ -1,0 +1,98 @@
+<ion-view view-title="{{tab === 'ACCOUNT'?'我的':line?line.name:'铁路信息化'}}">
+    <ion-nav-buttons side="right">
+        <a class="button-icon icon ion-navicon" ng-click="toggle()" ng-if="tab!== 'ACCOUNT'"></a>
+        <!--<a class="button-icon icon ion-navicon" ng-click="backCountryMap()" ng-show="!line"></a>-->
+    </ion-nav-buttons>
+    <ion-nav-buttons side="left">
+        <a class="button-icon icon ion-ios-arrow-back" ng-click="backCountryMap()" ng-show="line"></a>
+    </ion-nav-buttons>
+
+    <ion-side-menus>
+        <ion-side-menu-content>
+            <ion-tabs class="tabs-icon-top tabs-striped tabs-positive">
+                <ion-tab title="试验室" icon-off="ion-ios-home-outline" icon-on="ion-ios-home" ng-click="selectTab('TESTROOM')">
+                    <ion-view>
+                        <div id="room-map" ></div>
+                    </ion-view>
+                </ion-tab>
+                <ion-tab title="拌合站" icon-off="ion-ios-timer-outline" icon-on="ion-ios-timer" ng-click="selectTab('STATION')">
+                    <ion-view>
+                        <div id="station-map"></div>
+                    </ion-view>
+                </ion-tab>
+
+                <ion-tab title="我的" icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" ng-click="selectTab('ACCOUNT')">
+                    <ion-view>
+                        <ion-content style="background: #efefef">
+                            <div class="row text-center">
+                                <div class="col menu-item " ng-click="mine()">
+                                    <div class="icon ion-ios-person positive"></div>
+                                    <label>账户信息</label>
+                                </div>
+                                <a href="#/about" class="col menu-item ">
+                                    <div class="icon ion-ios-flag assertive"></div>
+                                    <label>关于金舟</label>
+                                </a>
+                                <a class="col menu-item royal-bg" href="tel:02962763213">
+                                    <div class="icon ion-ios-keypad royal"></div>
+                                    <label>联系客服</label>
+                                </a>
+                            </div>
+
+                        </ion-content>
+                    </ion-view>
+                </ion-tab>
+            </ion-tabs>
+        </ion-side-menu-content>
+
+
+
+        <ion-side-menu side="right">
+            <header class="bar bar-header bar-assertive">
+                <div class="title">Side Menu</div>
+            </header>
+            <ion-content has-header="true">
+                <ion-list ng-if="tab === 'TESTROOM' && line">
+
+                    <a ui-sref="entry" class="item item-text-wrap"
+                       ng-click="showLineSummary(line.ID)">全线信息</a>
+                    <a class="item item-text-wrap" ng-repeat="testRoom in testRooms"
+                       ng-click="showRoomSummary(testRoom.RoomCode,'', line.ID)">
+                        {{testRoom.name}}
+                    </a>
+                </ion-list>
+
+                <ion-list ng-if="tab === 'TESTROOM' && !line">
+                    <a class="item item-text-wrap" ng-if="roomLine"  ng-click="clickLineFromSide(roomLine.ID,'TESTROOMTAG')" ng-repeat="roomLine in roomLines track by $index">
+                        {{roomLine.name}}
+                    </a>
+                </ion-list>
+
+
+                <ion-list ng-if="tab === 'STATION' && line">
+                    <a ui-sref="entry" class="item item-text-wrap" ng-if="line"
+                       ng-click="showLineSummary(line.ID)">全线信息</a>
+                    <a class="item item-icon-left item-text-wrap" ng-repeat="station in stationRooms"
+                       ng-click="showRoomSummary(station.StationCode,station.ID, line.ID)">
+                        <i class="icon ing" ng-if="station.IsWork === 1"></i>
+                        <i class="icon stop" ng-if="station.IsWork === 0"></i>
+                        {{station.CompanyName}}
+                        <br/>
+                        {{station.StationName}}
+                    </a>
+                </ion-list>
+
+                <ion-list ng-if="tab === 'STATION' && !line">
+                    <a class="item item-text-wrap" ng-if="stationLine" ng-click="clickLineFromSide(stationLine.ID,'STATIONTAG')" ng-repeat="stationLine in stationLines track by $index">
+                        {{stationLine.name}}
+                    </a>
+                </ion-list>
+
+
+            </ion-content>
+        </ion-side-menu>
+    </ion-side-menus>
+
+</ion-view>
+
+

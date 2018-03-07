@@ -1,0 +1,106 @@
+{% extends "layout/site.html" %}
+{% block title %}选择城市{% endblock %}
+{% block keyword %}{% endblock %}
+{% block description %}{% endblock %}
+{% block css %}
+    <link href="/style2/css/SelectCity.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+{% block js %}
+<script>
+
+    function province_change(id, default_id){
+        $("#city_code > option").remove();
+        $("#city_code").append("<option value=\"0\">--请选择城市--</option>");
+        if(id > 0){
+            GetSubAreas(id, "city_code", default_id);
+        }
+    }
+    function GetSubAreas(id,ddl_id,default_id) {
+    //    alert(default_id);
+        $.get("/ajax/GetSubAreas", { pcode: id, is_site:1,  t: Math.random() }, function (data) {
+            data = jQuery.parseJSON(data);
+            if(data.flag==1){
+                for(var i=0; i< data.data.length; i++){
+                    if(default_id.length>0){
+                        if(data.data[i]["code"]==default_id){
+                            $("#" + ddl_id).append("<option value=\"" + data.data[i]["id"] + "\" selected>" + data.data[i]["name"] + "</option>");
+                        }
+                        else{
+                            $("#" + ddl_id).append("<option value=\"" + data.data[i]["id"] + "\">" + data.data[i]["name"] + "</option>");
+                        }
+                    }
+                    else {
+                        $("#" + ddl_id).append("<option value=\"" + data.data[i]["id"] + "\">" + data.data[i]["name"] + "</option>");
+                    }
+                }
+            }
+            else{
+                alert(data.msg)
+            }
+        });
+    }
+    function PostCityID(city_id){
+        $("#city_id").val(city_id);
+        $("#formCityID").submit();
+    }
+    function SelectClick(){
+        var city_id=$("#city_code").val();
+        if(city_id!=""){
+            PostCityID(city_id);
+        }
+        else{
+            alert("请选择城市！");
+        }
+    }
+</script>
+{% endblock %}
+{% block content %}
+<div class="w clearfix">
+    <form action="" method="post" id="formCityID">
+        {{xsrf()}}
+        <input type="hidden" name="city_id" id="city_id">
+        <div class="choosecities">
+            <div class="hotcities">
+                <h2 class="enter-city">
+                    进入<a href="javascript:void(0);" onclick="PostCityID(322)">西安站</a></h2>
+                <p class="city-list">
+                    <span>热门城市：</span>
+                      {% for area in items_recommend %}
+                            <a href="javascript:void(0);" onclick="PostCityID({{area.id}})">{{area.name}}</a>
+                      {% endfor %}
+                </p>
+            </div>
+            <div class="filter" id="yui_3_8_0_1_1375178016589_134">
+                <span class="label">按省份选择：</span>
+                <span class="province-city-select">
+                  <select name="province_code" id="province_code" onchange="province_change(this.value,'')" data-default="" style="height:22px;">
+                      <option value="">--请选择省份--</option>
+                      {% for area in items %}
+                      <option value="{{area.code}}">{{area.name}}</option>
+                      {% endfor %}
+                  </select>
+                  <select name="city_code" id="city_code" style="height:22px;" data-default="">
+                      <option value="">--请选择城市--</option>
+                  </select>
+                </span>
+                <input id="btnSelect" type="button" class="button" value="选择" onclick="SelectClick()" style="cursor: pointer;" />
+
+            </div>
+            <div class="citieslist">
+                <h2>
+                    按拼音首字母选择<span class="arrow">»</span></h2>
+                <ol class="hasallcity" id="olCities" runat="server">
+                      {% for spell in list_spell %}
+                    <li>
+                        <p class="cf">
+                            <span class="label"><strong>{{spell.first}}</strong></span><span>
+                            {% for area in spell.citys %}<a href="javascript:void(0);" onclick="PostCityID({{area.id}})">{{area.name}}</a>{% endfor %}
+                            </span></p>
+                    </li>
+                      {% endfor %}
+                </ol>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

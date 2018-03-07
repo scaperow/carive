@@ -1,0 +1,95 @@
+<ion-view view-title="汽车生活网">
+  <ion-nav-buttons side="right">
+    <button class="button button-icon  icon ion-ios-search" ng-click="search()"></button>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="left">
+    <button class="button icon-right  button-clear " ng-click="setLocation()">
+      <i class="icon ion-ios-location"></i>
+      西安
+    </button>
+
+  </ion-nav-buttons>
+  <ion-content delegate-handle="content" scroll-overflow="true"
+               id="contentScroll" class="stable-bg">
+    <ion-refresher
+      on-refresh="refresh(true)">
+    </ion-refresher>
+    <ion-slide-box ng-if="!loading" delegate-handle="slide-ads" does-continue="true" auto-play="true"
+                   class="light-border">
+      <ion-slide ng-repeat="ad in ads">
+        <img style="width:100%" ng-src="{{ad.img}}" ng-click="docker(ad.id)">
+      </ion-slide>
+    </ion-slide-box>
+    <div>
+      <div class="row" style="padding:0;">
+        <ion-item class="col   menu-item "
+                  ng-click="showCategory('xc')">
+          <div class="icon assertive ion-ios-analytics"></div>
+          <label class='description'>洗车</label>
+        </ion-item>
+        <ion-item class="col  menu-item"
+                  ng-click="showCategory('by')">
+          <!--<div class="icon balanced iconfont">&#xe606;</div>-->
+          <div class="icon positive ion-ios-medkit"></div>
+          <label class='description'>保养</label>
+        </ion-item>
+        <ion-item class="col  menu-item"
+                  ng-click="showCategory('wx')">
+          <!--<div class="icon energized iconfont">&#xe618;</div>-->
+          <div class="icon balanced ion-ios-gear"></div>
+          <label class='description'>维修</label>
+        </ion-item>
+        <ion-item class="col  menu-item"
+                  ng-click="searchStore('md')">
+          <!--<div class="icon balanced iconfont"> &#xe621;</div>-->
+          <div class="icon royal ion-ios-world"></div>
+          <label class='description'>门店</label>
+        </ion-item>
+      </div>
+    </div>
+    <div class="separate-big"></div>
+    <ion-list>
+      <ion-item>
+        <p>
+          附近商品服务
+        </p>
+      </ion-item>
+      <ion-item ng-repeat="product in products"
+                class="item  item-thumbnail-left" ng-click="showProduct(product.id)">
+        <img ng-src="{{product.cover}}">
+
+        <h2>{{product.name}}</h2>
+
+        <p>
+          {{product.description}}
+        </p>
+        <p>
+          <i>{{product.distance}}千米</i>
+        </p>
+      </ion-item>
+    </ion-list>
+    <div class="separate-big"></div>
+    <ion-list>
+      <ion-item>
+        <p>
+          附近门店
+        </p>
+      </ion-item>
+      <ion-item ng-repeat="store in stores"
+                class="item  item-thumbnail-left" ng-click="showStore(store.id)">
+        <img ng-src="{{store.img}}">
+
+        <h2>{{store.name}}</h2>
+
+        <p>
+          {{store.description}}
+        </p>
+        <p>
+          <i>{{store.distance}}千米</i>
+        </p>
+        <ng-stars counter="store.stars"></ng-stars>
+      </ion-item>
+    </ion-list>
+
+  </ion-content>
+</ion-view>

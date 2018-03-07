@@ -1,0 +1,36 @@
+<ion-view view-title="提问">
+ <ion-nav-buttons side="right">
+   <button ng-click="postNewQuestion()"  class="button button-clear">提交</button>
+ </ion-nav-buttons>
+  <ion-content class="stable-bg circle">
+    <div class="list">
+      <div class="item">
+        <label class="login-item-input-wrapper">
+          <textarea placeholder="请描述您的问题" ng-model="$parent.content" rows="8"></textarea>
+        </label>
+      </div>
+    </div>
+    <div class="row " ng-if="imgs.length >= 1">
+      <div  ng-if="imgs.length >= 1">
+        <img ng-src="{{'data:image/jpeg;base64,' + imgs[0]}}" ng-click="removePicture(0)" style="width:100px;height:100px;margin-right:6px;">
+      </div>
+      <div  ng-if="imgs.length >= 2">
+        <img ng-src="{{'data:image/jpeg;base64,' + imgs[1]}}" ng-click="removePicture(1)" style="width:100px;height:100px;margin-right:6px;">
+      </div>
+      <div  ng-if="imgs.length >= 3">
+        <img ng-src="{{'data:image/jpeg;base64,' + imgs[2]}}" ng-click="removePicture(2)" style="width:100px;height:100px;margin-right:6px;">
+      </div>
+    </div>
+    <div class="padding" if="!imgs || imgs.length < 3">
+      <button id="playButton" class="button button-clear button-icon ion-ios-plus-empty" style="max-width: none;
+    max-height: none;
+    line-height: normal;
+    font-size: 80px;
+    border: solid 1px #ccc;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;" ng-click="setPicture()">
+      </button>
+    </div>
+  </ion-content>
+</ion-view>

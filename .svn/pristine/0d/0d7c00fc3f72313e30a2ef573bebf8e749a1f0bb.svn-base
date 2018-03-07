@@ -1,0 +1,242 @@
+﻿@charset "utf-8";
+/*
+KISSY CSS Reset
+理念：清除和重置是紧密不可分的
+特色：1.适应中文 2.基于最新主流浏览器
+维护：玉伯(lifesinger@gmail.com), 正淳(ragecarrier@gmail.com)
+*/
+
+/* 清除内外边距 */
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, /* structural elements 结构元素 */
+dl, dt, dd, ul, ol, li, /* list elements 列表元素 */
+pre, /* text formatting elements 文本格式元素 */
+fieldset, lengend, button, input, textarea, /* form elements 表单元素 */
+th, td { /* table elements 表格元素 */
+    margin: 0;
+    padding: 0;
+}
+
+/* 设置默认字体 */
+body,
+button, input, select, textarea { /* for ie */
+    /*font: 12px/1 Tahoma, Helvetica, Arial, "宋体", sans-serif;*/
+    font: 12px Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif; /* 用 ascii 字符表示，使得在任何编码下都无问题 */
+	outline: none
+}
+
+h1 { font-size: 18px; /* 18px / 12px = 1.5 */ }
+h2 { font-size: 16px; }
+h3 { font-size: 14px; }
+h4, h5, h6 { font-size: 100%; }
+h1, h2, h3, h4, h5, h6{font-family:微软雅黑,arial}
+
+address, cite, dfn, em, var { font-style: normal; } /* 将斜体扶正 */
+code, kbd, pre, samp, tt { font-family: "Courier New", Courier, monospace; } /* 统一等宽字体 */
+small { font-size: 12px; } /* 小于 12px 的中文很难阅读，让 small 正常化 */
+
+/* 重置列表元素 */
+ul, ol { list-style: none; }
+
+/* 重置文本格式元素 */
+a { text-decoration: none; color:black}
+a:hover { text-decoration: none; }
+
+abbr[title], acronym[title] { /* 注：1.ie6 不支持 abbr; 2.这里用了属性选择符，ie6 下无效果 */
+    border-bottom: 1px dotted;
+    cursor: help;
+}
+
+q:before, q:after { content: ''; }
+
+/* 重置表单元素 */
+legend { color: #000; } /* for ie6 */
+fieldset, img { border: none; } /* img 搭车：让链接里的 img 无边框 */
+/* 注：optgroup 无法扶正 */
+button, input, select, textarea {
+    font-size: 100%; /* 使得表单元素在 ie 下能继承字体大小 */
+}
+
+/* 重置表格元素 */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* 重置 hr */
+hr {
+    border: none;
+    height: 1px;
+}
+
+/* 让非ie浏览器默认也显示垂直滚动条，防止因滚动条引起的闪烁 */
+html { overflow-y: scroll; }
+
+
+body {
+  min-width: 1200px;
+}
+
+/* `Containers
+----------------------------------------------------------------------------------------------------*/
+
+.container-24,.container-20{
+  margin-left: auto;
+  margin-right: auto;
+  width: 1200px;
+  border:0;
+  padding:0;
+}
+
+/* `Grid >> Global
+----------------------------------------------------------------------------------------------------*/
+
+.grid-1,.grid-2,.grid-3,.grid-4,.grid-5,.grid-6,.grid-7,.grid-8,.grid-9,.grid-10,.grid-11,.grid-12,
+.grid-13,.grid-14,.grid-15,.grid-16,.grid-17,.grid-18,.grid-19,.grid-20,.grid-21,.grid-22,.grid-23,.grid-24 {
+  display: inline;
+  float: left;
+}
+.grid-1-m,.grid-2-m,.grid-3-m,.grid-4-m,.grid-5-m,.grid-6-m,.grid-7-m,.grid-8-m,.grid-9-m,.grid-10-m,.grid-11-m,.grid-12,
+.grid-13-m,.grid-14-m,.grid-15-m,.grid-16-m,.grid-17-m,.grid-18-m,.grid-19-m,.grid-20-m,.grid-21-m,.grid-22-m,.grid-23-m,.grid-24-m {
+  display: inline;
+  float: left;
+  margin:0 5px;
+}
+
+/* grid = 24 cols*/
+.grid-1{width:50px}
+.grid-2{width:100px}
+.grid-3{width:150px}
+.grid-4{width:200px}
+.grid-5{width:250px}
+.grid-6{width:300px}
+.grid-7{width:350px}
+.grid-8{width:400px}
+.grid-9{width:450px}
+.grid-10{width:500px}
+.grid-11{width:550px}
+.grid-12{width:600px}
+.grid-13{width:650px}
+.grid-14{width:700px}
+.grid-15{width:750px}
+.grid-16{width:800px}
+.grid-17{width:850px}
+.grid-18{width:900px}
+.grid-19{width:950px}
+.grid-20{width:1000px}
+.grid-21{width:1050px}
+.grid-22{width:1100px}
+.grid-23{width:1150px}
+.grid-24{width:1200px}
+
+.grid-1-m{width:40px}
+.grid-2-m{width:90px}
+.grid-3-m{width:140px}
+.grid-4-m{width:190px}
+.grid-5-m{width:240px}
+.grid-6-m{width:290px}
+.grid-7-m{width:340px}
+.grid-8-m{width:390px}
+.grid-9-m{width:440px}
+.grid-10-m{width:490px}
+.grid-11-m{width:540px}
+.grid-12-m{width:590px}
+.grid-13-m{width:640px}
+.grid-14-m{width:690px}
+.grid-15-m{width:740px}
+.grid-16-m{width:790px}
+.grid-17-m{width:840px}
+.grid-18-m{width:890px}
+.grid-19-m{width:940px}
+.grid-20-m{width:990px}
+.grid-21-m{width:1040px}
+.grid-22-m{width:1090px}
+.grid-23-m{width:1140px}
+.grid-24-m{width:1190px}
+
+/* `Grid = 20 Columns*/
+.container-20 .grid-1{width:60px}
+.container-20 .grid-2{width:120px}
+.container-20 .grid-3{width:180px}
+.container-20 .grid-4{width:240px}
+.container-20 .grid-5{width:300px}
+.container-20 .grid-6{width:360px}
+.container-20 .grid-7{width:420px}
+.container-20 .grid-8{width:480px}
+.container-20 .grid-9{width:540px}
+.container-20 .grid-10{width:600px}
+.container-20 .grid-11{width:660px}
+.container-20 .grid-12{width:720px}
+.container-20 .grid-13{width:780px}
+.container-20 .grid-14{width:840px}
+.container-20 .grid-15{width:900px}
+.container-20 .grid-16{width:960px}
+.container-20 .grid-17{width:1020px}
+.container-20 .grid-18{width:1080px}
+.container-20 .grid-19{width:1140px}
+.container-20 .grid-20{width:1200px}
+
+.container-20 .grid-1{width:50px}
+.container-20 .grid-2{width:110px}
+.container-20 .grid-3{width:170px}
+.container-20 .grid-4{width:230px}
+.container-20 .grid-5{width:290px}
+.container-20 .grid-6{width:350px}
+.container-20 .grid-7{width:410px}
+.container-20 .grid-8{width:470px}
+.container-20 .grid-9{width:530px}
+.container-20 .grid-10{width:590px}
+.container-20 .grid-11{width:650px}
+.container-20 .grid-12{width:710px}
+.container-20 .grid-13{width:770px}
+.container-20 .grid-14{width:830px}
+.container-20 .grid-15{width:890px}
+.container-20 .grid-16{width:950px}
+.container-20 .grid-17{width:1010px}
+.container-20 .grid-18{width:1070px}
+.container-20 .grid-19{width:1130px}
+.container-20 .grid-20{width:1190px}
+
+
+/*grid = 16 cols*/
+.container-16 .grid-1{width:75px}
+.container-16 .grid-2{width:150px}
+.container-16 .grid-3{width:225px}
+.container-16 .grid-4{width:300px}
+.container-16 .grid-5{width:375px}
+.container-16 .grid-6{width:450px}
+.container-16 .grid-7{width:525px}
+.container-16 .grid-8{width:600px}
+.container-16 .grid-9{width:675px}
+.container-16 .grid-10{width:750px}
+.container-16 .grid-11{width:825px}
+.container-16 .grid-12{width:900px}
+.container-16 .grid-13{width:975px}
+.container-16 .grid-14{width:1050px}
+.container-16 .grid-15{width:1125px}
+.container-16 .grid-16{width:1200px}
+
+.container-16 .grid-1-m{width:65px}
+.container-16 .grid-2-m{width:140px}
+.container-16 .grid-3-m{width:215px}
+.container-16 .grid-4-m{width:290px}
+.container-16 .grid-5-m{width:365px}
+.container-16 .grid-6-m{width:440px}
+.container-16 .grid-7-m{width:515px}
+.container-16 .grid-8-m{width:590px}
+.container-16 .grid-9-m{width:665px}
+.container-16 .grid-10-m{width:740px}
+.container-16 .grid-11-m{width:815px}
+.container-16 .grid-12-m{width:890px}
+.container-16 .grid-13-m{width:965px}
+.container-16 .grid-14-m{width:1040px}
+.container-16 .grid-15-m{width:1115px}
+.container-16 .grid-16-m{width:1190px}
+
+.clear {
+  clear: both;
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}

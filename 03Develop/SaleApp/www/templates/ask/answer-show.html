@@ -1,0 +1,32 @@
+<ion-view view-title="问题详细">
+  <ion-content class="stable-bg">
+    <div class="padding">
+      <div class="item item-avatar" style="min-height:90px">
+        <img src="{{question.user_photo}}">
+        <div class="avatar_level">LV{{question.user_level}}</div>
+        <label class="balanced">{{question.user_name}}</label>&nbsp;<i style="font-size:14px"> {{question.created}}</i>
+        <div style="font-size:14px; white-space:normal">{{question.content}}</div>
+      </div>
+      <div class="card">
+        <div style="padding:6px; font-size:14px; background:#ccc" class="dark">
+          我的答案
+        </div>
+        <label class="login-item-input-wrapper">
+          {{$parent.content}}
+        </label>
+      </div>
+      <ion-list ng-repeat="answer in answers" ng-if="answers">
+        <div style="padding:6px; font-size:14px; background:#ccc" class="dark">
+          其他答案
+        </div>
+        <ion-item>
+          <div style="font-size:14px;white-space:normal">{{answer.content}}</div>
+          <label>{{answer.user_name}}</label>&nbsp;<i style="font-size:14px"> {{answer.created}}</i>
+          <div style="text-align:right">
+            <button class="button button-stable" ng-click="supportAnswer(answer.id)"><i class="iconfont">&#xe608;</i>&nbsp;{{answer.supports}}</button>
+          </div>
+        </ion-item>
+        <div class="separate-big"></div>
+      </ion-list>
+    </div>
+</ion-view>

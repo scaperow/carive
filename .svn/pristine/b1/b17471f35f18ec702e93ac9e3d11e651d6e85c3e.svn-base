@@ -1,0 +1,113 @@
+{% extends "layout/admin.html" %}
+{% block content %}
+
+
+<div class="row">
+    <nav>
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">消息群发</a>
+        </div>
+    </nav>
+</div>
+<div class="row">
+    <div class="panel panel-primary">
+        <div class="panel-body">
+
+            {%set messages=handler.get_flashed_messages() %}
+            {%if messages%}
+            <div class="msg" style="color:red;">
+                {% for type, msg in messages%}
+                <span>{{msg}}</span>
+                {% endfor %}
+            </div>
+            {%endif%}
+
+            <form action="" method="post" enctype="multipart/form-data">
+                {{xsrf()}}
+
+                <div class="form-group has-success">
+                    <input type="radio" id="jpush" name="sms_type" checked value="0" /><label for="jpush">极光</label>
+                    <input type="radio" id="sms" name="sms_type" value="1" /><label for="sms">短信</label>
+                    <input type="radio" id="site" name="sms_type" value="2" /><label for="site">站内</label>
+                </div>
+                <div class="form-group has-success">
+                    <input type="radio" id="is_all_users" name="is_users" value="all_user" /><label for="is_all_users">所有注册用户</label>
+                    <input type="radio" id="is_users" name="is_users" checked value="user" /><label for="is_users">单个用户</label>
+                    <input type="radio" id="is_group_users" name="is_users" value="group_user" /><label for="is_group_users">分组用户</label>
+                </div>
+                <div class="form-group has-success">
+                    <input type="radio" id="type0" name="user_type" value="0"><label name="lbl" for="type0">普通C端用户</label>
+                    <input type="radio" id="type1" name="user_type" value="1"><label name="lbl" for="type1">门店B端用户</label>
+                    <input type="radio" id="type2" name="user_type" value="2"><label name="lbl" for="type2">厂商A端用户</label>
+                    <input type="radio" id="type3" name="user_type" value="3"><label name="lbl" for="type3">代理商用户</label><br>
+                    <label class="control-label">手机号码（逗号分割）</label>
+                    <input type="text" name="number" id="number" class="form-control" value=""  required  placeholder="手机号码" />
+                </div>
+
+                <div class="form-group has-success" id="title">
+                    <label class="control-label">标题</label>
+                    <input type="text" name="title" class="form-control" value="" maxlength="100"  placeholder="标题" title="请输入标题" />
+                </div>
+                <div class="form-group has-success">
+                    <label class="control-label">内容（短信不超过60字符/条）</label>
+                    <input type="text" name="content" class="form-control" value=""  required  placeholder="内容" title="请输入内容" />
+                </div>
+
+
+                <div class="form-group has-success">
+                    <input type="submit" name="sub" value="提 交" class="btn btn-outline btn-primary btn-sm">
+                    <!--<input type="reset" name="sub" value="重 置" class="btn btn-outline btn-primary btn-sm">-->
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+    $(function(){
+
+        $("input:radio[name='user_type']").hide();
+        $("label[name='lbl']").hide();
+        $("#title").hide();
+        $("input:radio[name='is_users']").click(function(){
+            var v = $("input:radio[name='is_users']:checked").val();
+            if(v == "all_user"){
+                $("#number").val('');
+                $("#number").prop("readonly","readonly");
+                $("input:radio[name='user_type']").hide();
+                $("label[name='lbl']").hide();
+                $("input:radio[name='user_type']").attr("checked",false);
+            }else if(v == "group_user"){
+                $("#number").val('');
+                $("#number").prop("readonly","readonly");
+                $("input:radio[name='user_type']").show();
+                $("label[name='lbl']").show();
+            }
+            else{
+                $("#number").val('');
+                $("#number").removeAttr("readonly");
+                $("input:radio[name='user_type']").hide();
+                $("label[name='lbl']").hide();
+                $("input:radio[name='user_type']").attr("checked",false);
+            }
+        });
+
+
+        $("input:radio[name='sms_type']").click(function(){
+            var v = $("input:radio[name='sms_type']:checked").val();
+            if(v == "2"){
+                $("#title").show();
+            }
+            else{
+                $("#title").hide();
+            }
+        });
+    });
+</script>
+{% endblock %}

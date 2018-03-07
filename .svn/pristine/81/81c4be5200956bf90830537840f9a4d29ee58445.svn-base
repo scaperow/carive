@@ -1,0 +1,94 @@
+<ion-view view-title="详情">
+
+  <ion-nav-buttons side="right">
+    <button ng-click="share(product.psid)" class="button button-clear"><i style="font-size:23px" class="ion-android-share"></i>分享</button>
+    <button ng-click="doFavorite(product.psid)" ng-class="favorite?'button-energized ion-ios-heart':'button-light ion-ios-heart'" class="button button-clear icon-left ">{{favorite?'已收藏':'收藏'}}</button>
+  </ion-nav-buttons>
+  <ion-content class="stable-bg">
+    <div class="light-bg">
+      <ion-slide-box does-continue="true" auto-play="true">
+        <ion-slide ng-repeat="pics in product.pics">
+          <img style="width:100%;" ng-src="{{pics.img}}">
+        </ion-slide>
+      </ion-slide-box>
+      <div class="item small border-clear" style="border-top-style:none; height:60px; line-height:40px; position:relative">
+        <span class="balanced sub-title">￥</span>
+        <span class="balanced title">{{product.price}}</span>
+        <span class="grey sub-title"> 原价 ￥{{product.orginalprice}}</span>
+        <!-- <button class="button  button-balanced break-bar" style="margin-top: auto;
+    margin-bottom: auto;
+    position: absolute;
+    right: 100px;
+    top: 5px;" ng-click="buy()">加入购物车</button>
+        <button class="button  button-energized break-bar" style="margin-top: auto;
+    margin-bottom: auto;
+    position: absolute;
+    right: 10px;
+    top: 5px;" ng-click="ordernow()">立即抢购</button> -->
+      </div>
+    </div>
+    <div class="separate-big"></div>
+    <div class="item  item-text-wrap border-clear">
+      <div class="sub-title">{{product.name}}</div>
+      <div style="text-align:right; margin-top:12px;font-size:14px" class="grey">
+        <i class="icon ion-ios-clock-outline note" style="font-size:16px;"></i><i> 30分钟</i>
+        <i class="icon ion-ios-person-outline note" style="font-size:16px;"></i><i> 5人买购</i>
+      </div>
+    </div>
+    <div class="separate-big"></div>
+    <div class="item border-clear" style="position:relative; height:78px;">
+      <div class="sub-title ">{{product.storeName}}</div>
+      <ng-stars counter="product.store_star_score" style="font-size:23px;"></ng-stars><span class="energized">{{product.store_star_score}}</span>
+      <div class="button  button-balanced break-bar ion-ios-telephone" style="    margin-top: auto;
+margin-bottom: auto;
+position: absolute;
+right: 10px;
+width: 40px;
+height: 40px;
+border-radius: 20px;
+min-width:40px;
+min-height:40px;
+  top:18px;" ng-click="$root.call('02988888888'); $event.stopPropagation();"></div>
+    </div>
+    <div class="separate-big"></div>
+    <ion-item class="border-clear">
+      <div class="header">
+        购买须知
+      </div>
+      <div ng-bind-html="product.prompt" class="prompt">
+      </div>
+    </ion-item>
+    <div class="separate-big"></div>
+    <ion-item class="border-clear">
+      <div class="header" >
+        消费评价 {{ '（' + '0' +'）'}}
+      </div>
+      <p ng-if="comment && comment.items.length === 0">暂无评价</p>
+    </ion-item>
+    <ion-list>
+      <ion-item ng-repeat="comment in comments.items">
+        <label ng-if="comment.nickname">{{comment.nickname}}</label>
+        <label ng-if="comment.username && !comment.nickname">{{comment.username.substring(0,3) +'****' + comment.username.substring(7, comment.username.length - 7)}}</label>
+        <div class=" item-text-wrap item-content">
+          <p>
+            {{comment.content}}
+          </p>
+        </div>
+        <label class="item-note">
+          {{ comment.created}}
+        </label>
+      </ion-item>
+      <ion-infinite-scroll ng-if="hasMore" on-infinite="fetchComments()" distance="1%" />
+    </ion-list>
+  </ion-content>
+  <ion-footer-bar class="bar-stable padding border-clear" style="height: auto; background:transparent">
+    <div class="row">
+      <div class="col col-50">
+        <button class="button  button-balanced break-bar button-full"  ng-click="buy()">加入购物车</button>
+      </div>
+      <div class="col col-50">
+        <button class="button  button-energized break-bar button-full"  ng-click="ordernow()">立即抢购</button>
+      </div>
+    </div>
+  </ion-footer-bar>
+</ion-view>

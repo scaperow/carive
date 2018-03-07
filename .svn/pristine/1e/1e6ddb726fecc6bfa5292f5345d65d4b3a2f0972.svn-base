@@ -1,0 +1,188 @@
+{% extends "layout/site.html" %}
+{% block js %}
+<!--<link rel="stylesheet" href="/style2/css/list.css" type="text/css" media="screen">-->
+<link rel="stylesheet" href="/style2/css/help.css" type="text/css" media="screen">
+{% endblock %}
+{% block content %}
+
+<style>
+
+    .pro_base {
+        background-color: #71a33b;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div  class="clearfix wrap container">
+    <!-- Main -->
+    <div id="product_list_content" class="content">
+        <!-- Crumb -->
+        <div class="crumb">
+            <ul>
+                <li class="home"><a href="/"></a></li>
+                <li class="step_arrow"></li>
+                <li><a href="#">关于我们</a></li>
+            </ul>
+        </div>
+        <div style="clear: both"></div>
+
+
+        <div id="product_list" class="clearfix product_list">
+            <div class="help_contain">
+                <div class="title">
+                    <h1>支付方式</h1>
+                </div>
+                <div class="title_line"></div>
+                <a name="dsfwszf"></a><h3>第三方网上支付</h3>
+
+                <p> 车装甲支持网银支付（储蓄卡和信用卡）与支付宝支付。</p>
+
+                <a name="hdfk"></a><h3>货到付款</h3>
+
+                <p> 您可以选择现金支付。当您选择货到付款支付方式生成订单后，会有车装甲的工作人员会根据您的订购要求为您发货，当商品配送到您指定地址进行支付。</p>
+
+                <a name="ptzhyezf"></a><h3>储值账户支付 </h3>
+
+                <p>
+                    储值账户是用户在车装甲平台的个人专用电子账户，用于车装甲平台订单支付等交易方式的账款管理，您可以选择支付宝/网银/车装甲充值卡对车装甲个人账户进行充值，并可以登录网站查询您的个人储值账户可用余额及账户消费情况。这样解决了您每次购物在使用网银或支付宝充值的麻烦，您下订单后直接在支付信息里选择账户余额支付既可。</p>
+
+
+            </div>
+        </div>
+        <div style="clear: both"></div>
+
+
+    </div>
+
+    <div class="sliderbar">
+
+        <!-- 分类 -->
+        <div id="help_slider" class="slider help_slider">
+            <div class="title active">
+                <h2><a href="#"><i class="help_ico"></i>用户帮助中心</a></h2>
+                <i class="line"></i>
+            </div>
+            <div class="inner">
+                <ul>
+                    <li>
+                        <div class="pro_base"><a href="/help/shopping#jytk" class="tit">购物指南</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                        <dl class="pro_sublist">
+                            <dd><a href="/help/shopping#jytk" rel="nofollow"><i></i>交易条款</a></dd>
+                            <dd><a href="/help/shopping#gwxz" rel="nofollow"><i></i>购物须知</a></dd>
+                            <dd><a href="/help/shopping#gwlc" rel="nofollow"><i></i>购物流程</a></dd>
+                            <dd><a href="/help/shopping#sppj" rel="nofollow"><i></i>商品评价</a></dd>
+
+                        </dl>
+                    </li>
+
+
+                    <li>
+                        <div class="pro_base"><a href="/help/delivery#ptpsfw" class="tit">配送服务</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                        <dl class="pro_sublist">
+                            <dd><a href="/help/delivery#ptpsfw" rel="nofollow">配送范围</a>            <i></i></dd>
+                            <dd><a href="/help/delivery#pssj" rel="nofollow">配送时间</a>              <i></i></dd>
+                            <dd><a href="/help/delivery#psfsjfy" rel="nofollow">配送方式及费用</a>     <i></i></dd>
+
+                        </dl>
+                    </li>
+
+
+                    <li>
+                        <div class="pro_base"><a href="/help/pay#dsfwszf" class="tit">支付方式</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                        <dl class="pro_sublist">
+                            <dd><a href="/help/pay#dsfwszf" rel="nofollow">第三方网上支付 </a> <i></i></dd>
+                            <dd><a href="/help/pay#hdfk" rel="nofollow">货到付款 </a> <i></i></dd>
+                            <dd><a href="/help/pay#syjfzf" rel="nofollow">积分支付 </a> <i></i></dd>
+                            <dd><a href="/help/pay#ptzhyezf" rel="nofollow">平台账户支付</a> <i></i></dd>
+
+                        </dl>
+                    </li>
+
+
+
+                    <li>
+                        <div class="pro_base"><a href="/help/service#fwcl" class="tit">售后服务</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                        <dl class="pro_sublist">
+                            <dd><a href="/help/service#fwcl" rel="nofollow">服务承诺</a>   <i></i></dd>
+                            <dd><a href="/help/service#yhyjs" rel="nofollow">验货与拒收</a><i></i></dd>
+                            <dd><a href="/help/service#thhyz" rel="nofollow">退换货原则</a><i></i></dd>
+                            <dd><a href="/help/service#thhlc" rel="nofollow">退换货流程</a><i></i></dd>
+
+                        </dl>
+                    </li>
+
+
+
+                    <li>
+                        <div class="pro_base"><a href="/help/member#hyqyhyw" class="tit">会员相关</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                        <dl class="pro_sublist">
+                            <dd><a href="/help/member#hyqyhyw" rel="nofollow">会员权利和义务</a>  <i></i></dd>
+                            <dd><a href="/help/member#jfsm" rel="nofollow">积分说明</a> <i></i></dd>
+                            <dd><a href="/help/member#hydjsm" rel="nofollow">会员等级说明</a> <i></i></dd>
+                        </dl>
+                    </li>
+
+                    <li>
+                        <div class="pro_base"><a href="/help/media" class="tit">媒体报道</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                    </li>
+                    <li>
+                        <div class="pro_base"><a href="/help/about#gsjj" class="tit">关于我们</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                        <dl class="pro_sublist">
+                            <dd><a href="/help/about#gsjj" rel="nofollow">公司简介</a><i></i></dd>
+                            <dd><a href="/help/about#ptln" rel="nofollow">平台理念</a><i></i></dd>
+                            <dd><a href="/help/about#jyly" rel="nofollow">经营领域</a><i></i></dd>
+                            <dd><a href="/help/about#lxwm" rel="nofollow">联系我们</a><i></i></dd>
+                        </dl>
+                    </li>
+
+
+
+
+                </ul>
+            </div>
+
+
+
+        </div>
+
+
+
+    </div>
+
+    <div style="clear: both"></div>
+</div>
+
+
+<script>
+
+    jQuery(function ($) {
+        var shell = $('#help_slider');
+        if (!shell.length) { return; }
+        shell.find('.pro_sublist').each(function (i) {
+            var self = $(this);
+            self.data('maxHeight', self.height()).css('overflow', 'hidden');
+            if (this.parentNode.className.indexOf('current') < 0) {
+                self.css('height', 0);
+            }
+        });
+        shell.delegate('a.trigger', 'click', function (e) {
+            e.preventDefault();
+
+
+            var
+                    isExtended = this.className.indexOf('open') > -1,
+                    panel = $('.pro_sublist', this.parentNode.parentNode);
+            panel.stop().show().animate({
+                height: isExtended ? 0 : panel.data('maxHeight'),
+                opacity: isExtended ? 0 : 1
+            }, 200, function () {
+                if (isExtended) {
+                    panel.hide();
+                }
+            });
+            this.className = isExtended ? 'trigger' : 'trigger open';
+        });
+    });
+
+</script>
+{% endblock %}

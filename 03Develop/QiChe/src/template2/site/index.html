@@ -1,0 +1,618 @@
+{% extends "layout/site.html" %}
+{% block title %}车装甲-你身边的汽车养护专家,在线购买、预约安装、加急订单、配送及时、放心服务、轻松购物{% endblock %}
+{% block keyword %}{% endblock %}
+{% block description %}{% endblock %}
+{% block css %}
+        
+{% endblock %}
+{% block js %}
+<script>
+    ismenu = "li_index";
+    $(function () {
+        $("#cwz").click(function(){
+            layer.open({
+                type: 1,
+                title: '违章查询',
+                closeBtn: 1,
+                area: '500px',
+                skin: 'layer-ext-moon', //没有背景色
+                shadeClose: true,
+                content: $('#weizhang')
+            });
+        });
+        $("#cyh").click(function(){
+            layer.open({
+                type: 1,
+                title: '汽车油耗计算器',
+                closeBtn: 1,
+                area: '540px',
+                skin: 'layer-ext-moon', //没有背景色
+                shadeClose: true,
+                content: $('#youhao')
+            });
+        });
+
+        $("#cdjsq").click(function(){
+            layer.open({
+                type: 1,
+                title: '车贷计算器',
+                closeBtn: 1,
+                area: '540px',
+                skin: 'layer-ext-moon', //没有背景色
+                shadeClose: true,
+                content: $('#chedai')
+            });
+        });
+        $("#ctq").click(function(){
+            layer.open({
+                type: 1,
+                title: false,
+                closeBtn: false,
+                area: '740px',
+                skin: 'layer-ext-moon', //没有背景色
+                shadeClose: true,
+                content: $('#tianqi')
+            });
+        });
+        $(".cateMenu").show();
+        $(".buy_number_input").each(function () {
+            $(this).children(".decrease_num").bind('click', function () {
+                var q = $(this).next();
+                var ovalue = parseInt(q.val());
+                if (ovalue > 1) { q.val(ovalue - 1); }
+
+            });
+            $(this).children(".increase_num").bind('click', function () {
+                var q = $(this).prev();
+                var ovalue = parseInt(q.val());
+                if (ovalue < 99) { q.val(ovalue + 1); }
+
+            });
+        });
+
+        $(".itemWrapper").hover(function(){
+            $(this).find(".product_list_index").show();
+        },function(){
+            $(this).find(".product_list_index").hide();
+            $(".qg").show();
+        });
+
+        $('.buy').click(function () {
+            var pid = $(this).attr('data-pid');
+            var psid = $(this).attr('data-psid');
+            var PAmount = $(this).parent().find(".buy_number").val();
+            $.get("/ajax/addCart", { pid: pid, quantity: PAmount, psid: psid, t: Math.random() }, function (data) {
+                $("#cart_body").load("/cartcontrol?t=" + Math.random());
+                if(data == '-1')
+                {
+                    alert("商品数量错误，请重新选择！");
+                }else if(data == '-2'){
+                    layer.alert("您已超出该商品当日最大购买数量！");
+                }
+                else{
+                    layer.confirm("加入购物车成功,是否继续！", {
+                        btn: ['去结算', '继续购物'],
+                        shade: 0.2
+                    },function () {
+                        //location.reload();
+                        location.href = "/cart/show";
+                    },function () {
+                        //parent.$.fn.colorbox.close();
+                    });
+                }
+            });
+        });
+
+        $(".qg").show();
+        timer();
+        var param = getUrlParam("n");
+        if (param == 'frist'){
+            show_frist();
+        }
+
+        $("#pj li.tab-item").hover(function(){
+            $("#pj li.tab-item").removeClass("tab-selected");
+            $(this).addClass("tab-selected");
+            var clstag = $(this).attr("clstag");
+            if(clstag == "bargain"){
+                $("#bargain_list").show();
+                $("#hot_list").hide();
+                $("#recommend_list").hide();
+            }else if(clstag == "hot"){
+                $("#bargain_list").hide();
+                $("#hot_list").show();
+                $("#recommend_list").hide();
+            }else if(clstag == "recommend"){
+                $("#bargain_list").hide();
+                $("#hot_list").hide();
+                $("#recommend_list").show();
+            }
+        });
+
+        $("#fw li.tab-item").hover(function(){
+            $("#fw li.tab-item").removeClass("tab-selected");
+            $(this).addClass("tab-selected");
+            var clstag = $(this).attr("clstag");
+            if(clstag == "fw_bargain"){
+                $("#fw_bargain_list").show();
+                $("#fw_hot_list").hide();
+                $("#fw_recommend_list").hide();
+            }else if(clstag == "fw_hot"){
+                $("#fw_bargain_list").hide();
+                $("#fw_hot_list").show();
+                $("#fw_recommend_list").hide();
+            }else if(clstag == "fw_recommend"){
+                $("#fw_bargain_list").hide();
+                $("#fw_hot_list").hide();
+                $("#fw_recommend_list").show();
+            }
+        });
+
+        $("#store li.tab-item").hover(function(){
+            $("#store li.tab-item").removeClass("tab-selected");
+            $(this).addClass("tab-selected");
+            var clstag = $(this).attr("clstag");
+            if(clstag == "s_date"){
+                $("#s_date_list").show();
+                $("#s_hot_list").hide();
+                $("#s_recommend_list").hide();
+            }else if(clstag == "s_hot"){
+                $("#s_date_list").hide();
+                $("#s_hot_list").show();
+                $("#s_recommend_list").hide();
+            }else if(clstag == "s_recommend"){
+                $("#s_date_list").hide();
+                $("#s_hot_list").hide();
+                $("#s_recommend_list").show();
+            }
+        });
+    });
+    var count = 0;
+    function timer(){
+        count ++;
+        $(".timer").each(function(){
+//            var end_datetime = $(this).attr("data-time");
+            var end_count = $(this).attr("data-count");
+            end_count -= count;
+            var ts = parseInt(end_count * 1000);//计算剩余的毫秒数
+            var dd = parseInt(ts / 1000 / 60 / 60 / 24, 10);//计算剩余的天数
+            var hh = parseInt(ts / 1000 / 60 / 60 % 24, 10);//计算剩余的小时数
+            var mm = parseInt(ts / 1000 / 60 % 60, 10);//计算剩余的分钟数
+            var ss = parseInt(ts / 1000 % 60, 10);//计算剩余的秒数
+            dd = checkTime(dd);
+            hh = checkTime(hh);
+            mm = checkTime(mm);
+            ss = checkTime(ss);
+            var str = '';
+            if(dd > 0)
+                str += dd + "天"
+            if(hh > 0)
+                str += hh + "时"
+            else
+                str += "00时"
+            if(mm > 0)
+                str += mm + "分"
+            else
+                str += "00分"
+            if(ss > 0)
+                str += ss + "秒"
+            else
+                str += "00秒"
+            if (hh == 0 && mm == 0 && ss ==0){
+                $(this).parent().parent().parent().find(".btnWP_lock").hide();
+                $(this).parent().parent().parent().find(".btnWP").show();
+            }
+            $(this).html(str);
+        });
+        setTimeout("timer()",1000);
+    }
+    function checkTime(i){
+        if (i < 10) {
+            i = "0" + i;
+        }
+        return i;
+    }
+
+    function show_frist(){
+        layer.open({
+            title: '提示信息',
+            type: 1,
+            skin: 'layui-layer-demo',
+            closeBtn: 1,
+            shift: 2,
+            shadeClose: true, //开启遮罩关闭
+            content: '<div class="layui-layer-content"><div style="padding:15px; line-height: 30px; font-size: 14px;">恭喜您，注册成功！<br/>5元现金已经充入您的账户，点击<a href="/user/balance" style="color:orangered;">我的余额</a>查询； <br>5元余额=XXXX=XXXX  点击<a href="/" style="color:orangered;">我要选商品</a>。</div></div><span class="layui-layer-setwin"></span>'
+        });
+    }
+    //获取url中的参数
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    }
+</script>
+{% endblock %}
+{% block content %}
+
+        <div class="grid-4">&nbsp </div>
+        <div class="grid-15">
+            <div class="slider-box" id="prime-slider">
+                <div class="visible-content">
+                    <a href="#" class="previous"></a><a href="#" class="next"></a>
+                    <div class="scroll-content">
+                        <ul class="vertical">
+                            {% for n in banner1 %}
+                            <li><a href="{{n.url}}" title="{{n.imgalt}}" target="_blank">
+                                <img class="bigImage" src="/upload/ad/{{n.picurl}}" alt="{{n.imgalt}}">
+                            </a></li>
+                            {% endfor %}
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="nav-point">
+                    <ul>
+{#                        {% for i,n in banner %}#}
+{#                        <li class="">{{ i }} </li>#}
+{#                        {% endfor %}#}
+                        <li class="current">1 </li>
+                        <li>2 </li>
+                        <li>3 </li>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="slider-box" id="scroll-advs">
+                <div class="visible-content">
+                    <div class="scroll-content">
+                        <ul>
+                            {% for n in banner2 %}
+                            <li><a href="{{n.url}}" title="{{n.imgalt}}" target="_blank">
+                                <img src="/upload/ad/{{n.picurl}}" alt="{{n.imgalt}}" />
+                            </a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <a href="#" class="previous"></a><a href="#" class="next"></a>
+                </div>
+            </div>
+        </div>
+        <div class="grid-5">
+            <div class="img-shell prime-promo">
+                <span>
+                    <!-- /index.html#ad1 -->
+
+                    <i><a href="/signup" title="注册送好礼" target="_blank">
+                        <img data-img="2" src="/style2/images/registerad.jpg" alt="注册送好礼">
+                    </a></i></span>
+            </div>
+            <div class="list-box promotions outline">
+                <dl class="col-2 inside">
+                    <dt>汽车快报 <a href="/help/media">更多&gt;&gt;</a> </dt>
+                    {% for n in news %}
+                    <dd><a href="/news/{{n.id}}" target="_blank">{{n.title}}</a></dd>
+                    {% endfor %}
+                </dl>
+            </div>
+            <div class="list-box-service lotteries outline">
+                <dl class="lotteries inside" style="display: ;">
+                    <dt>便捷服务 </dt>
+                    <dd><a href="#" id="cyh"><i class="funicon funicon04"></i>
+                        <br>
+                        查油耗</a></dd>
+                    <dd><a href="#" id="cwz"><i class="funicon funicon02"></i>
+                        <br>
+                        查违章</a></dd>
+                    <dd><a href="#" id="cdjsq"><i class="funicon funicon07"></i>
+                        <br>
+                        车贷计算器</a></dd>
+                    <dd><a href="#"><i class="funicon funicon09"></i>
+                        <br>
+                        查车险</a></dd>
+                    <dd><a href="#"><i class="funicon funicon05"></i>
+                        <br>
+                        车型对比</a></dd>
+                    <dd><a href="#" id="ctq"><i class="funicon funicon03"></i>
+                        <br>
+                        查天气</a></dd>
+                </dl>
+                <!-- /index.html#ad2 -->
+
+                <!--<a href="/info8a294a584d41eb7d014d657bd8ba570c.html" title="二维码" target="_blank">
+                    <img data-img="2" src="/style2/images/img-ff8080814f5b4e64014f5b6737530022.do" alt="二维码">
+                </a> -->
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="todaytui">
+            <div class="tips">
+                <img src="/style2/images/todaytui.jpg" height="151" width="200">
+            </div>
+            <ul>
+                {% for n in recommend %}
+                <li>
+                    <a href="/product/{{n.id}}" target="_blank" title="{{ n.product.name }}">
+                        <img src="{{n.product.cover}}" width="149" height="149"></a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="clear"></div>
+        <div class="guessyou">
+            <div class="headerbg"></div>
+            <div class="header">
+                <h2>猜你喜欢</h2>
+                <a href="/category/0" target="_banlk" style="padding-right:0px;background:none; display:none;">更多>></a>
+            </div>
+            <ul>
+                {% for ps in cnxh %}
+                <li>
+                    <div class="p-img">
+                        <a href="/product/{{ps.id}}" target="_blank" title="{{ ps.product.name }}">
+                            <img src="{{ps.product.cover}}"></a>
+                    </div>
+                    <div class="p-info" style="border: none;">
+                        <div class="p-name">
+                            <a href="/product/{{ps.id}}" target="_blank" title="{{ ps.product.name }}"><span style="text-overflow: ellipsis; height:35px;overflow: hidden;display: block;">{{ps.product.name}}</span></a>
+                        </div>
+                        <div class="p-price">
+                            ¥{% if user%}
+                            {% if user.grade == 0 %}
+                            {{ps.price}}
+                            {% elif user.grade == 1 %}
+                            {{ps.ourprice}}
+                            {% elif user.grade == 2 or user.grade == 3 %}
+                            {{ps.pf_price}}
+                            {% endif %}
+                            {% else %}
+                            {{ps.price}}
+                            {% endif %}
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="louceng" id="pj">
+            <div class="header">
+                <h2><i>1F</i>汽车配件</h2>
+                <ul class="tab">
+                    <li class="tab-item" clstag="bargain"><a href="javascript:void(0)">特价配件</a></li>
+                    <li class="tab-item tab-selected" clstag="hot"><a href="javascript:void(0)">热销配件</a></li>
+                    <li class="tab-item" clstag="recommend"><a href="javascript:void(0)">精品配件</a></li>
+                </ul>
+            </div>
+            <ul class="category">
+                {% for n in category1 %}
+                <li>
+                    <a href="/category/{{n.code}}">{{n.name}}</a>
+                </li>
+                {% endfor %}
+            </ul>
+            <ul class="products" id="hot_list">
+                {% for n in qcpj %}
+                <li>
+                    <a href="/product/{{n.id}}" target="_blank" class="service" title="{{ n.product.name }}">
+                        <img src="{{n.product.cover}}" alt="{{n.product.name}}">
+                        <h4>{{n.product.name}}</h4>
+                        <span class="price-now"><s>￥</s>
+                            {% if user%}
+                            {% if user.grade == 0 %}
+                            {{n.price}}
+                            {% elif user.grade == 1 %}
+                            {{n.ourprice}}
+                            {% elif user.grade == 2 or user.grade == 3 %}
+                            {{n.pf_price}}
+                            {% endif %}
+                            {% else %}
+                            {{n.price}}
+                            {% endif %} </span><span class="price-old">￥{{n.orginalprice}}</span>
+{#                        <span class="sales-count">已售{{n.product.orders}} </span><span class="comment-count">{{n.product.comment_count}}人评价 </span>#}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            <ul class="products" id="recommend_list" style="display:none;">
+                {% for n in qcpj_recommend %}
+                <li>
+                    <a href="/product/{{n.id}}" target="_blank" class="service" title="{{ n.product.name }}">
+                        <img src="{{n.product.cover}}" alt="{{n.product.name}}">
+                        <h4>{{n.product.name}}</h4>
+                        <span class="price-now"><s>￥</s>
+                            {% if user%}
+                            {% if user.grade == 0 %}
+                            {{n.price}}
+                            {% elif user.grade == 1 %}
+                            {{n.ourprice}}
+                            {% elif user.grade == 2 or user.grade == 3 %}
+                            {{n.pf_price}}
+                            {% endif %}
+                            {% else %}
+                            {{n.price}}
+                            {% endif %} </span><span class="price-old">￥{{n.orginalprice}}</span>
+{#                        <span class="sales-count">已售{{n.product.orders}} </span><span class="comment-count">{{n.product.comment_count}}人评价 </span>#}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            <ul class="products" id="bargain_list" style="display:none;">
+                {% for n in qcpj_bargain %}
+                <li>
+                    <a href="/product/{{n.id}}" target="_blank" class="service" title="{{ n.product.name }}">
+                        <img src="{{n.product.cover}}" alt="{{n.product.name}}">
+                        <h4>{{n.product.name}}</h4>
+                        <span class="price-now"><s>￥</s>
+                            {% if user%}
+                            {% if user.grade == 0 %}
+                            {{n.price}}
+                            {% elif user.grade == 1 %}
+                            {{n.ourprice}}
+                            {% elif user.grade == 2 or user.grade == 3 %}
+                            {{n.pf_price}}
+                            {% endif %}
+                            {% else %}
+                            {{n.price}}
+                            {% endif %} </span><span class="price-old">￥{{n.orginalprice}}</span>
+{#                        <span class="sales-count">已售{{n.product.orders}} </span><span class="comment-count">{{n.product.comment_count}}人评价 </span>#}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="louceng" id="fw">
+            <div class="header">
+                <h2><i>2F</i>汽车服务</h2>
+                <ul class="tab">
+                    <li class="tab-item" clstag="fw_bargain"><a href="javascript:void(0)">特价服务</a></li>
+                    <li class="tab-item tab-selected" clstag="fw_hot"><a href="javascript:void(0)">热销服务</a></li>
+                    <li class="tab-item" clstag="fw_recommend"><a href="javascript:void(0)">服务推荐</a></li>
+                </ul>
+            </div>
+            <ul class="category">
+                {% for n in category2 %}
+                <li>
+                    <a href="/category/{{n.code}}">{{n.name}}</a>
+                </li>
+                {% endfor %}
+            </ul>
+            <ul class="products" id="fw_hot_list">
+                {% for n in qcfw %}
+                <li>
+                    <a href="/product/{{n.id}}" target="_blank" class="service" title="{{ n.product.name }}">
+                        <img src="{{n.product.cover}}" alt="{{n.product.name}}">
+                        <h4>{{n.product.name}}</h4>
+                        <span class="price-now"><s>￥</s>
+                            {% if user%}
+                            {% if user.grade == 0 %}
+                            {{n.price}}
+                            {% elif user.grade == 1 %}
+                            {{n.ourprice}}
+                            {% elif user.grade == 2 or user.grade == 3 %}
+                            {{n.pf_price}}
+                            {% endif %}
+                            {% else %}
+                            {{n.price}}
+                            {% endif %} </span><span class="price-old">￥{{n.orginalprice}}</span>
+{#                        <span class="sales-count">已售{{n.product.orders}} </span><span class="comment-count">{{n.product.comment_count}}人评价 </span>#}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            <ul class="products" id="fw_recommend_list" style="display:none;">
+                {% for n in qcfw_recommend %}
+                <li>
+                    <a href="/product/{{n.id}}" target="_blank" class="service" title="{{ n.product.name }}">
+                        <img src="{{n.product.cover}}" alt="{{n.product.name}}">
+                        <h4>{{n.product.name}}</h4>
+                        <span class="price-now"><s>￥</s>
+                            {% if user%}
+                            {% if user.grade == 0 %}
+                            {{n.price}}
+                            {% elif user.grade == 1 %}
+                            {{n.ourprice}}
+                            {% elif user.grade == 2 or user.grade == 3 %}
+                            {{n.pf_price}}
+                            {% endif %}
+                            {% else %}
+                            {{n.price}}
+                            {% endif %}</span><span class="price-old">￥{{n.orginalprice}}</span>
+{#                        <span class="sales-count">已售{{n.product.orders}} </span><span class="comment-count">{{n.product.comment_count}}人评价 </span>#}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            <ul class="products" id="fw_bargain_list" style="display:none;">
+                {% for n in qcfw_bargain %}
+                <li>
+                    <a href="/product/{{n.id}}" target="_blank" class="service" title="{{ n.product.name }}">
+                        <img src="{{n.product.cover}}" alt="{{n.product.name}}">
+                        <h4>{{n.product.name}}</h4>
+                        <span class="price-now"><s>￥</s>
+                            {% if user%}
+                            {% if user.grade == 0 %}
+                            {{n.price}}
+                            {% elif user.grade == 1 %}
+                            {{n.ourprice}}
+                            {% elif user.grade == 2 or user.grade == 3 %}
+                            {{n.pf_price}}
+                            {% endif %}
+                            {% else %}
+                            {{n.price}}
+                            {% endif %} </span><span class="price-old">￥{{n.orginalprice}}</span>
+{#                        <span class="sales-count">已售{{n.product.orders}} </span><span class="comment-count">{{n.product.comment_count}}人评价 </span>#}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="louceng" id="store" style="margin-bottom: 10px;">
+            <div class="header">
+                <h2><i>3F</i>服务门店</h2>
+                <ul class="tab">
+                    <li class="tab-item" clstag="s_recommend"><a href="javascript:void(0)">明星门店</a></li>
+                    <li class="tab-item tab-selected" clstag="s_hot"><a href="javascript:void(0)">热销门店</a></li>
+                    <li class="tab-item" clstag="s_date"><a href="javascript:void(0)">最新加盟</a></li>
+                </ul>
+            </div>
+            <ul class="category">
+                {% for n in area %}
+                <li>
+                    <a href="/store?region={{n.code}}">{{n.name}}</a>
+                </li>
+                {% endfor %}
+            </ul>
+            <ul class="shops" id="s_hot_list">
+                {% for n in stores %}
+                <li>
+                    <a href="/store/{{n.id}}" target="_blank" title="{{n.name}}">
+                        <img src="{{n.image}}" alt="{{n.name}}">
+                        <h4>{{n.name}}</h4>
+                        <p class="comment"><s class="score score-3"></s><span>{{n.comment_count}}人评价</span> </p>
+                        <p class="characteristic">{{n.trait or '　'}}</p>
+                        <p class="address">{{n.address}}</p>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            <ul class="shops" id="s_recommend_list" style="display:none;">
+                {% for n in store_recommend %}
+                <li>
+                    <a href="/store/{{n.id}}" target="_blank" title="{{n.name}}">
+                        <img src="{{n.image}}" alt="{{n.name}}">
+                        <h4>{{n.name}}</h4>
+                        <p class="comment"><s class="score score-3"></s><span>{{n.comment_count}}人评价</span> </p>
+                        <p class="characteristic">{{n.trait or '　'}}</p>
+                        <p class="address">{{n.address}}</p>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            <ul class="shops" id="s_date_list" style="display:none;">
+                {% for n in store_date %}
+                <li>
+                    <a href="/store/{{n.id}}" target="_blank" title="{{n.name}}">
+                        <img src="{{n.image}}" alt="{{n.name}}">
+                        <h4>{{n.name}}</h4>
+                        <p class="comment"><s class="score score-3"></s><span>{{n.comment_count}}人评价</span> </p>
+                        <p class="characteristic">{{n.trait or '　'}}</p>
+                        <p class="address">{{n.address}}</p>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+<div id="weizhang" style="display:none;">
+    <iframe name="weizhang" src="http://www.cheshouye.com/api/weizhang/" width="500" height="380" frameborder="0" scrolling="no"></iframe>
+</div>
+<div id="youhao" style="display:none;">
+    <iframe name="youhao" src="/youhao" width="540" height="230" frameborder="0" scrolling="no"></iframe>
+</div>
+<div id="chedai" style="display:none;">
+    <iframe name="youhao" src="/chedai" width="540" height="230" frameborder="0" scrolling="no"></iframe>
+</div>
+<div id="tianqi" style="display:none;">
+{#    <iframe name="sinaWeatherTool" src="http://weather.news.sina.com.cn/chajian/iframe/weatherStyle40.html?city=%E8%A5%BF%E5%AE%89" width="260" height="113" marginwidth="0" marginheight="0" hspace="0" vspace="0" frameborder="0" scrolling="no"></iframe>#}
+    <iframe name="youhao" src="http://flash.weather.com.cn/wmaps/index.swf" width="740" height="560" frameborder="0" scrolling="no"></iframe>
+</div>
+<script language="JavaScript" src="http://code.54kefu.net/kefu/js/b164/919964.js" type="text/javascript" charset="utf-8"></script>
+{% endblock %}

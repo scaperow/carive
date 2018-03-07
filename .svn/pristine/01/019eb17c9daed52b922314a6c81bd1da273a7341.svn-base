@@ -1,0 +1,36 @@
+/* CSS Document */
+
+body { background-color:#4ca515; padding:0px; margin:0px; background-image:url(/style2/images/activity/topup/bg.jpg); background-position:center bottom; background-repeat:repeat-x; width:auto}
+.ft_lt { float:left}
+
+
+
+a img { border:none;}
+
+.top { margin:0px auto; }
+.banner01 { background-image:url(/style2/images/activity/topup/top.jpg); background-repeat:no-repeat; background-position:center top; width:100%; height:392px; margin:0PX AUTO;}
+.banner02 { background-image:url(/style2/images/activity/topup/top02.jpg); background-repeat:no-repeat; background-position:center top;width:100%;height:253px; display:block}
+
+
+
+
+.MAIN { width:1032PX; background-color:#FFF; border:solid 24PX #d3a34e; margin:0PX AUTO;  border-top:none;border-right:solid 23px #d3a34e; text-align:center; padding-top:20px;}
+
+
+
+
+
+.jx_title {background-image:url(/style2/images/activity/topup/jx.jpg); background-position:center top; background-repeat:no-repeat; width:1000px; height:100px;}
+.jx { height:250px;}
+
+.JX01{ background-image:url(/style2/images/activity/topup/ZP_01_HOVER.jpg); width:232px; height:103PX; display:block; margin-left:50px;}
+.JX02 { background-image:url(/style2/images/activity/topup/YQ_HOVER.jpg); width:343px; height:103PX; display:block; margin:0px 60px;}
+.JX03{ background-image:url(/style2/images/activity/topup/XSMX_HOVER.jpg); width:232px; height:103PX; display:block;}
+
+.JX01:HOVER  { background-image:url(/style2/images/activity/topup/ZP_01.jpg); width:232px; height:103PX; display:block; margin-left:50px;}
+.JX02:HOVER { background-image:url(/style2/images/activity/topup/YQ.jpg); width:343px; height:103PX; display:block; margin:0px 60px;}
+.JX03:HOVER  { background-image:url(/style2/images/activity/topup/XSMX.jpg); width:232px; height:103PX; display:block;}
+
+
+
+.BT { text-align:center; font-size:12px; font-family:"微软雅黑"; padding-top:15px; padding-bottom:0px; background-image:url(/style2/images/activity/topup/bt.jpg); height:50px; background-repeat:no-repeat; background-position:center top; color:#fff; margin:0px auto; line-height:1px;}

@@ -1,0 +1,35 @@
+<ion-view view-title="提现记录">
+  <ion-nav-buttons side="right">
+    <button class="button button-icon icon "></button>
+  </ion-nav-buttons>
+  <ion-content>
+    <ion-list>
+
+      <ion-item ng-repeat="item in items"  style="min-height: 70px;border-top: solid #ddd 8px;">
+
+        <!-- <img ng-src="img/icon-ccb.png" style="max-width: 50px;max-height: 50px;left:20px;"> -->
+
+        <h2 style="font-weight: bold;" ng-if="item.account_type === 0">{{item.account_name}}({{item.account_account.substring(item.account_account.length - 6)}})
+          <label style="float:right;color: #00A83B;">￥{{item.sum_money}}</label>
+        </h2>
+
+        <h2 style="font-weight: bold;" ng-if="item.account_type === 1">支付宝({{item.account_account}})
+          <label style="float:right;color: #00A83B;">￥{{item.sum_money}}</label>
+        </h2>
+
+        <p style="margin-top: 10px;">
+          <label style="color: #ACA8A3">{{item.processing_time}}</label>
+          <label style="float:right;color: #ACA8A3">{{item.processing_result}}</label>
+        </p>
+
+      </ion-item>
+    </ion-list>
+    <div ng-if="items.length == 0">
+      <div class="text-center grey">
+        抱歉，提现记录 ~
+      </div>
+    </div>
+    <ion-infinite-scroll ng-if="hasMore" on-infinite="load()" distance="1%">
+    </ion-infinite-scroll>
+  </ion-content>
+</ion-view>

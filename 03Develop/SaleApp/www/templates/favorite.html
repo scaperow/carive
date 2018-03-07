@@ -1,0 +1,41 @@
+<ion-view view-title="我的收藏">
+  <ion-content>
+
+    <div class="button-bar padding">
+      <button class="button button-small button-calm button-outline  {{switchItem === 'PRODUCT'? 'active': ''}}" ng-click="switchProduct()">
+        商品
+      </button>
+      <button class="button button-small button-calm button-outline {{switchItem === 'STORE' ? 'active': ''}}" ng-click="switchStore()">
+        商家
+      </button>
+    </div>
+    <div class="text-center padding grey">
+      <label>向左滑动删除</label>
+    </div>
+    <ion-list ng-if="switchItem === 'PRODUCT'">
+      <ion-item ng-repeat="item in items" class="item-thumbnail-left" ng-click="showDetail(item.id)">
+        <img ng-src="{{item.cover}}">
+        <h2>{{item.name}}</h2>
+        <p>
+          <label class="grey">{{item.resume}}</label>
+          <br/>
+          <label class="italic assertive h4">{{item.price}}</label>
+          <label class="grey">元/份</label>
+        </p>
+        <ion-option-button class="button-assertive" ng-click="removeProduct(item.id)">删除</ion-option-button>
+      </ion-item>
+    </ion-list>
+    <ion-list ng-if="switchItem === 'STORE'">
+      <ion-item ng-repeat="item in stores" class="item-thumbnail-left" ng-click="showDetail(item.id)">
+        <img ng-src="{{item.cover}}">
+        <h2>{{item.name}}</h2>
+        <p>
+          {{item.intro}}
+        </p>
+        <label>信誉 {{item.credit_score}} 级别</label>
+        <ng-stars counter="item.star_score"></ng-stars>
+        <ion-option-button class="button-assertive" ng-click="removeStore({{item.store_id}})">删除</ion-option-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

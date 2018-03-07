@@ -1,0 +1,63 @@
+<ion-view view-title="晒单">
+  <ion-nav-buttons side="right">
+    <button class="button button-block button-balanced" ng-click="postNewTopic()">
+      提交
+    </button>
+  </ion-nav-buttons>
+  <ion-content class="stable-bg circle" lazy-scroll>
+    <div class="list">
+      <div class="item">
+        <label class="login-item-input-wrapper">
+          <textarea placeholder="{{repliedUserName?'回复给'+repliedUserName:''}}" ng-model="$parent.content" rows="8"></textarea>
+        </label>
+      </div>
+    </div>
+    <div class="row " ng-if="imgs.length >= 1">
+      <div class="col-33" ng-if="imgs.length >= 1">
+        <img image-lazy-src="{{'data:image/jpeg;base64,' + imgs[0]}}" ng-click="removePicture(0)">
+      </div>
+      <div class="col-33" ng-if="imgs.length >= 2">
+        <img image-lazy-src="{{'data:image/jpeg;base64,' + imgs[1]}}" ng-click="removePicture(1)">
+      </div>
+      <div class="col-33" ng-if="imgs.length >= 3">
+        <img image-lazy-src="{{'data:image/jpeg;base64,' + imgs[2]}}" ng-click="removePicture(2)">
+      </div>
+    </div>
+    <div class="row" ng-if="imgs.length >= 4">
+      <div class="col-33" ng-if="imgs.length >= 4">
+        <img image-lazy-src="{{'data:image/jpeg;base64,' + imgs[3]}}" ng-click="removePicture(3)">
+      </div>
+      <div class="col-33" ng-if="imgs.length >= 5">
+        <img image-lazy-src="{{'data:image/jpeg;base64,' + imgs[4]}}" ng-click="removePicture(4)">
+      </div>
+      <div class="col-33" ng-if="imgs.length >= 6">
+        <img image-lazy-src="{{'data:image/jpeg;base64,' + imgs[5]}}" ng-click="removePicture(5)">
+      </div>
+    </div>
+    <div class="row" ng-if="imgs.length >= 7">
+      <div class="col-33" ng-if="imgs.length >= 7">
+        <img image-lazy-src="{{'data:image/jpeg;base64,' + imgs[6]}}" ng-click="removePicture(6)">
+      </div>
+      <div class="col-33" ng-if="imgs.length >= 8">
+        <img image-lazy-src="{{'data:image/jpeg;base64,' + imgs[7]}}" ng-click="removePicture(7)">
+      </div>
+      <div class="col-33" ng-if="imgs.length >= 9">
+        <img image-lazy-src="{{'data:image/jpeg;base64,' + imgs[8]}}" ng-click="removePicture(8)">
+      </div>
+    </div>
+    <div class="padding" if="!imgs || imgs.length < 9">
+      <button id="playButton" class="button button-clear button-icon ion-ios-plus-empty" style="max-width: none;
+    max-height: none;
+    line-height: normal;
+    font-size: 80px;
+    border: solid 1px #ccc;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;" ng-click="setPicture()">
+      </button>
+    </div>
+    <!-- {{imgs}} -->
+    <!-- <img image-lazy-src="{{'data:image/jpeg;base64,' + img}}" ng-repeat="img in imgs" style="width:100px;" ></img> -->
+
+  </ion-content>
+</ion-view>

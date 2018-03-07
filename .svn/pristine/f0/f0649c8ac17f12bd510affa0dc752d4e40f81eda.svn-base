@@ -1,0 +1,13 @@
+/* CSS Document */
+
+body { background-color:#cf3837; text-align:center; margin:0px; padding-top:10px;}
+
+.JX { background-image:url(/style2/images/activity/invite_friends/bg.jpg); background-position:center TOP; background-repeat:no-repeat; height:205PX; width:781PX; margin:0PX AUTO; margin-top:50PX; padding-top:140PX;}
+.JX01 { background-image:url(/style2/images/activity/invite_friends/CJ.png); width:151PX; height:62PX; display:block; float:left; margin-left:180PX;}
+.JX02 { background-image:url(/style2/images/activity/invite_friends/CZ.png); width:151PX; height:62PX; display:block; float:left; margin:0PX 40PX;}
+.JX03 { background-image:url(/style2/images/activity/invite_friends/MS.png); width:151PX; height:62PX; display:block; float:left; margin:0PX 80PX;}
+
+
+.JX01:HOVER { background-image:url(/style2/images/activity/invite_friends/CJHOVER.png); width:151PX; height:62PX; display:block; float:left; margin-left:180PX;}
+.JX02:HOVER { background-image:url(/style2/images/activity/invite_friends/CZ_HOVER.png); width:151PX; height:62PX; display:block; float:left; margin:0PX 40PX;}
+.JX03:HOVER { background-image:url(/style2/images/activity/invite_friends/MS_HOVER.png); width:151PX; height:62PX; display:block; float:left; margin:0PX 80PX}

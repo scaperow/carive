@@ -1,0 +1,55 @@
+﻿@charset "utf-8";
+/**
+    加入心愿单弹出层CSS
+*/
+/*全局*/
+.fl{float: left}
+.fr{float: right}
+.mt5{margin-top: 5px}
+.clearfix:after {content: " "; display: table; clear: both}
+.clearfix {zoom: 1}
+input.disabled {border: none}
+input{outline: none}
+/*覆盖弹出层默认样式*/
+.OnSale #colorbox,.OnSale  #cboxOverlay,.OnSale  #cboxWrapper,.OnSale #cboxContent{border: none; overflow: visible}
+.OnSale #cboxContent{ background: none}
+.OnSale #cboxLoadedContent{margin-top: 0}
+.OnSale #cboxClose,.OnSale #cboxClose:hover{width: 23px; height: 23px; overflow: hidden; white-space: nowrap;
+    top: 10px; right: -45px; margin: 0; padding: 0;right: -12px; text-indent: 99em;top: -12px;
+}
+/*弹出层容器*/
+.onsale_layer{background: #FFF}
+    .onsale_layer p{font-family:SimSun,'\5B8B\4F53';}
+    .onsale_tit{color: #ed145b;font-weight: 700;height: 28px;line-height: 28px;padding: 0 15px;background: #faf7f8;border-bottom: 1px solid #e6e5e5}
+    .onsale_layer_wrap{padding: 20px 30px;}
+    .onsale_layer [type="text"]:focus { border:1px solid #8EC52B; }
+    .onsale_mobile,.onsale_confirm_code{line-height: 1.5em;height:16px;padding: 5px;border: 1px solid #ccc;width: 135px}
+    .onsale_layer_tips{font-size: 18px;font-weight: 700;padding:0 0 15px 0;_padding:0 0 10px 0}
+
+    /*按钮样式*/
+    .onsale_layer .submit_subscribe,.onsale_layer .get__wish_confirm_code { overflow: visible; filter: progid:DXImageTransform.Microsoft.gradient(startColorStr=#fffa2e71, endColorStr=#ffed155b), progid:DXImageTransform.Microsoft.DropShadow(color=#ffbbbbbb, offX=0, offY=1, positives=true); background: #ed155b; background: -webkit-gradient(linear, left top, left bottom, from(#fa2e71), to(#ed155b)); background: -webkit-linear-gradient(top, #fa2e71, #ed155b); background: -moz-linear-gradient(top, #fa2e71, #ed155b); background: -o-linear-gradient(top, #fa2e71, #ed155b); background: linear-gradient(to bottom, #fa2e71, #ed155b); -webkit-box-shadow: 0 1px 2px 0 #bbb; box-shadow: 0 1px 2px 0 #bbb; text-shadow: 1px 1px 3px #b9154a; display: inline-block; font-family: inherit; word-break: keep-all; white-space: nowrap; font-weight: normal; text-align: center; line-height: 26px; font-size: 12px; cursor: pointer; padding: 0 16px; height: 26px; color: #fff; border: 0; }
+    /*禁用按钮样式*/
+    .onsale_layer .onsale_disabled{ filter: progid:DXImageTransform.Microsoft.gradient(startColorStr=#D5D5D5, endColorStr=#ccc), progid:DXImageTransform.Microsoft.DropShadow(color=#f4769d, offX=0, offY=1, positives=true);
+    background: #FAF7F8; background: -webkit-gradient(linear, left top, left bottom, from(#D5D5D5), to(#ccc)); background: -webkit-linear-gradient(top, #D5D5D5, #ccc); background: -moz-linear-gradient(top, #D5D5D5, #ccc); background: -o-linear-gradient(top, #D5D5D5, #ccc); background: linear-gradient(to bottom, #D5D5D5, #ccc);
+    text-shadow: 1px 1px 3px #ccc;
+    color: #999;
+}
+/*输出框的外容器及提示*/
+.onsale_input_wrap{position: relative}
+    .onsale_input_wrap label { color: #666666; float: left; line-height: 30px; text-align: right; width: 50px;height: 50px }
+    /*.onsale_btn_wrap{padding: 5px 0 0;}*/
+    .onsale_act{padding: 5px 0;height: 16px;overflow: hidden}
+
+.onsale_err i,.success_tips i{width:19px;height:20px;overflow:hidden;float: left}
+.onsale_err i{background-position:-10px -11px;position: absolute;left: 0;top: 0;margin: 4px 0px 0px 175px;_margin: 4px 0px 0px 125px;}
+.onsale_err .onsale_act{ color: #E42626;height: 16px;overflow: hidden}
+
+.success_tips i{width:24px;height:24px;overflow:hidden;float: left}
+    .onsale_success{background: #FFF}
+    .success_tips{ padding:  0; font-size: 14px;  height: 30px;line-height: 24px}
+        .success_tips i{ margin: 0 7px 0 0; }
+
+.ok_wrap{border: 1px solid #fbd0de;background: #fffcfd;padding:10px 15px; line-height:2;margin-top: 10px;}
+    .onsale_cancel{padding: 5px 0}
+    .onsale_cancel a{color: #0abede}
+    .onsale_layer .get__wish_confirm_code{padding: 0 10px;vertical-align:top;}

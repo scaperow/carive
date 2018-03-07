@@ -1,0 +1,131 @@
+{% extends "layout/store.html" %}
+{% block css %}
+<link href="/style2/css/plugins/dataTables.bootstrap.css" rel="stylesheet">
+{% endblock %}
+{% block content %}
+
+<script language="javascript" type="text/javascript" src="/style2/js/jquery.min.js"></script>
+<script language="javascript" type="text/javascript" src="/style2/js/My97DatePicker/WdatePicker.js"></script>
+
+<SCRIPT LANGUAGE="javascript">
+    var xsrf='{{handler.xsrf_token}}';
+</SCRIPT>
+<div class="row">
+    <nav>
+        <a class="navbar-brand" href="javascript:void(0)">库存管理</a>
+        <!--<div class="pull-left navbar-form" style="height:30px; line-height:30px;">-->
+             <!--<a type="button" href="/store/product_sel" class="btn btn-outline btn-default btn-xs">申请易凡采购</a>-->
+        <!--</div>-->
+        <!--<div class="pull-left navbar-form" style="height:30px; line-height:30px;display:none ;">-->
+             <!--<a type="button" href="/store/inventory_add_byorder" class="btn btn-outline btn-default btn-xs">通过订单入库</a>-->
+        <!--</div>-->
+        <div class="pull-right navbar-form">
+            <div class="input-group">
+                <input type="text" name="keyword" id="keyword" class="form-control" placeholder="产品名称" value="{{keyword or ''}}" />
+                <span class="input-group-btn">
+                     <button class="btn btn-default" type="button" onclick="search();">
+                         <i class="fa fa-search"></i>
+                     </button>
+                </span>
+            </div>
+        </div>
+    </nav>
+</div>
+<div class="row">
+    <div class="panel panel-primary">
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-hover" id="tb_users">
+                    <thead>
+                    <tr>
+                        <th>产品名称</th>
+                        <!--<th>规格</th>-->
+                        <th>当前库存</th>
+                        <th>上架状态(易凡)</th>
+                        <!--<th>易凡价格</th>-->
+                        <!--<th>我的价格</th>-->
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for o in inventorys -%}
+                    <tr {%if o.quantity==0 %}style="background-color:#F29B9B;"{%endif%}>
+                        <td>
+                            {{o.product.name}}
+                        </td>
+                        <td>
+                            {{o.quantity}}
+                        </td>
+                        <td>
+                            {%if o.product.status==1 %}
+                                <span style="color: green;">上架</span>
+                            {%else%}
+                                <span style="color: red;">下架</span>
+                            {%endif%}
+                        </td>
+                        <td>
+                            <a href="/store/inventory/{{o.product.id}}"  class="btn btn-outline btn-primary btn-xs">查看详情</a>
+                        </td>
+                    </tr>
+                    {%- endfor %}
+                    </tbody>
+                </table>
+                <div>
+                    <div class="col-sm-4">
+                        <div class="dataTables_info" role="alert" aria-live="polite" aria-relevant="all">
+                            当前：第{{page}}页 / {{totalpage}}页，合计{{total}}条
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="dataTables_paginate paging_simple_numbers">
+                            <ul class="pagination  pagination-sm" id="pageUl" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<script src="/style2/js/jquery.twbsPagination.min.js"></script>
+<script>
+    $(document).ready(function() {
+         $('#pageUl').twbsPagination({
+                    first:'首页',
+                    prev:'上一页',
+                    next:'下一页',
+                    last:'尾页',
+                    totalPages: {{totalpage}},
+            startPage: {{page}},
+            visiblePages: 8,
+            onPageClick: function (event, page) {
+                self.location="/store/inventory?keyword={{keyword}}&page="+page;
+            }
+        });
+        var xsrf='{{handler.xsrf_token}}';
+    });
+
+    function search(){
+        var keyword=$("#keyword").val();
+        location.href="/store/inventory?keyword="+keyword;
+    }
+    function storeUpdateInventoryPrice(isid){
+        var price = parseFloat($("#price"+isid).val());
+        if(isNaN(price)){
+            alert("请输入正确的价格！");
+            $("#price"+isid).focus();
+            return;
+        }
+        $.get("/ajax/storeUpdateInventoryPrice", { isid: isid, price: price, t: Math.random() }, function (data) {
+            if(data*1==1){
+                alert("修改成功！")
+            }
+            else{
+                alert("修改失败！")
+                }
+            });
+    }
+
+</script>
+{% endblock %}

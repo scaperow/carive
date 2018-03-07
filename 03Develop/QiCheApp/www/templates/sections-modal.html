@@ -1,0 +1,15 @@
+<ion-modal-view view-title="选择区域">
+  <ion-header-bar class="bar-dark">
+    <div class="title">设置所在城市</div>
+    <div class="buttons">
+      <button class="button button-clear button-assertive icon ion-ios-close" ng-click="closeSectionsModal()"></button>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="section in sections" ng-click="setSection()">
+        {{section.name}}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-modal-view>

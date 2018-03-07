@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>邀请好友返利活动</title>
+    <style type="text/css">
+        body {background-color:#f7ebc0;  text-align:center; margin:0px; padding-top:0px; font-family:"微软雅黑"; font-weight:bold}
+
+        .main {  padding-bottom:25px;
+            padding-top:0px; background-position:center top; background-repeat:no-repeat; padding-bottom:40PX; width:auto}
+        .box {   height:auto; border:dashed 2px #333; padding:20px; text-align:left; line-height:25PX;}
+        .box  SPAN { color:#cf3837}
+
+    </style>
+</head>
+<body>
+<DIV class="main">
+    <div class="" style="">
+<img src="/style2/images/activity/invite_friends/top_mobile.jpg" width="100%" height="472" />
+</div>
+<div class="box">
+1、老用户推荐新用户，新用户完成注册并下单，新用户下的首订单支付金额的<SPAN>30%</SPAN>返利至老用户账户余额。<BR/>
+2、新用户在完成注册时需填写推荐人账号（手机号）。<BR/>
+3、新用户确认收货后的24小时内返利至老用户账户余额。<BR/>
+4、老用户可以获得的<SPAN>返利金额无上限，也无次数限制</SPAN>。<BR/>
+5、活动期间，如发现恶意注册账号、套取奖金等行为，车装甲保留追究其法律责任的权利。
+</div>
+
+
+</DIV>
+
+</body>
+</html>

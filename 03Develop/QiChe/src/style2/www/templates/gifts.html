@@ -1,0 +1,55 @@
+<ion-view view-title="我的赠品">
+    <ion-header-bar class="bar bar-subheader">
+        <div class="button-bar">
+            <a class="button button-clear {{choose == 'unused' ? 'button-balanced' :''}} " ng-click="switch('unused')">未领取
+            </a>
+            <a class="button button-clear {{choose == 'used' ? 'button-balanced' :''}}" ng-click="switch('used')">已领取
+            </a>
+            <a class="button button-clear {{choose == 'expired'?'button-balanced' :''}}" ng-click="switch('expired')">已过期
+            </a>
+        </div>
+    </ion-header-bar>
+    <ion-content style="background: #efefef">
+<!--
+        <div class="grey text-center padding" ng-if="choose == 'unused'">
+            点击赠品使用
+        </div>
+-->
+        <ion-list ng-if="choose == 'unused' ">
+            <ion-item  class="item item-thumbnail-left" ng-click="showDetail(gift.psid)" ng-if="gift.status == 0 && gift.expirs > now" ng-repeat="gift in gifts" >
+                <img ng-src="{{config.domain + '/upload/' + gift.sku + '/' + gift.cover}}">
+                <h2>{{gift.name}}</h2>
+                <p>
+                    {{gift.reason}}
+                    <br/>
+                    <i ng-if="gift.type !== 2" class="assertive">{{gift.expirs | date : 'MM月dd日'}} 后过期</i>
+                </p>
+            </ion-item>
+        </ion-list>
+
+        <ion-list ng-if="choose == 'used'">
+            <ion-item class="item item-thumbnail-left" ng-click="showDetail(gift.psid)"  ng-repeat="gift in gifts" ng-if=" gift.status == 1 ">
+                <img ng-src="{{config.domain + '/upload/' + gift.sku + '/' + gift.cover}}">
+                <h2>{{gift.name}}</h2>
+                <p>
+                    {{gift.reason}}
+                    <br/>
+                    <i ng-if="gift.type !== 2" class="assertive">{{gift.expirs | date : 'MM月dd日'}} 后过期</i>
+                </p>
+            </ion-item>
+        </ion-list>
+        <ion-list ng-if="choose == 'expired' ">
+            <ion-item class="item item-thumbnail-left" ng-click="showDetail(gift.psid)"  ng-repeat="gift in gifts" ng-if="gift.status == 0 && gift.expirs < now">
+                <img ng-src="{{config.domain + '/upload/' + gift.sku + '/' + gift.cover}}">
+                <h2>{{gift.name}}</h2>
+                <p>
+                    {{gift.reason}}
+                    <br/>
+                    <i ng-if="gift.type !== 2" class="assertive">已过期</i>
+                </p>
+            </ion-item>
+        </ion-list>
+        <ion-infinite-scroll on-infinite="loadMore()" distance="1%" ng-if="hasMore">
+        </ion-infinite-scroll>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,25 @@
+<ion-view view-title="结算详情">
+  <ion-content class="stable-bg">
+    <ion-list>
+      <ion-item class="item" style="background-color: #00B136;color:white;border: none;">
+        <!--<i class="icon  ion-ios-arrow-right"></i>-->
+        <div class="row padding">
+          <div class="col">{{$parent.created}}</div>
+          <div class="col" style="text-align: center;">订单数</div>
+        </div>
+        <div class="row padding">
+          <div class="col">￥{{$parent.sum_money}}</div>
+          <div class="col" style="text-align: center;">{{$parent.order_count}}</div>
+        </div>
+      </ion-item>
+    </ion-list>
+    <div class="separate-big"></div>
+    <ion-list>
+      <ion-item class="item" ng-repeat="order in $parent.orders ">
+        <p>订单时间：{{order.created}}</p>
+        <p>订单编号：{{order.number}}</p>
+        <p>订单金额：{{order.price}}</p>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

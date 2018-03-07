@@ -1,0 +1,63 @@
+<ion-view view-title="门店">
+ <ion-content class="stable-bg">
+  <div class="button-bar padding">
+   <button class="button button-small button-calm button-outline   " ng-click="changeServices()">
+    {{service ? service.name : '服务类型'}}
+   </button>
+   <button class="button button-small button-calm button-outline   " ng-click="changeOrderBy()">
+    {{orderBy ? orderBy.value : '排序类型'}}
+   </button>
+   <button class="button  button-small  button-calm button-outline  " ng-click="changeArea()">
+    {{area ? area.name : '全部区域'}}
+   </button>
+  </div>
+  <!-- <div class="list">
+   <div class="item item-input-inset">
+    <label class="item-input-wrapper">
+     <input type="text" placeholder="输入门店名称" ng-model="keyword">
+    </label>
+   </div>
+  </div> -->
+
+  <div ng-repeat="store in stores">
+   <ion-item class="item  item-thumbnail-left" ng-click="showStore(store.id)">
+    <img ng-src="{{store.image}}">
+
+    <h2>{{store.name}}
+    </h2>
+    <label class="p">信誉 {{store.credit_score}} 级别</label>
+    <ng-stars counter="store.star_score"></ng-stars>
+    <p>
+     {{store.address}}
+    </p>
+    <div>
+     <button class="button button-positive button-small button-outline" ng-click="$root.call('{{store.tel}}');   $event.stopPropagation();">电话</button>
+     <button class="button button-balanced button-small button-outline" ng-click="navigate(store.id); $event.stopPropagation()">导航</button>
+    </div>
+   </ion-item>
+   <ion-item ng-repeat="service in store.items" ng-if="$index < 3" style="padding-top:0; padding-bottom:0" ng-click="showProduct(service.psid)">
+    <div class="row">
+     <div class="col-20 item-text-wrap">
+      <h2 class="assertive">
+       {{service.price}} 元
+      </h2>
+      <label class="drop">{{service.orginal_price}}</label>
+     </div>
+     <div class="col-80">
+      <h2 style="font-size: 14px;color: #444;">
+       {{service.name}}
+      </h2>
+      <p>
+       {{service.resume}}
+      </p>
+     </div>
+    </div>
+   </ion-item>
+   <ion-item ng-if="store.items && store.items.length > 0" class="small text-center" style=" font-size:14px"  ng-click="showOtherProduct(store.id)">
+    其他项目
+   </ion-item>
+   <div class="separate-big"></div>
+  </div>
+
+ </ion-content>
+</ion-view>

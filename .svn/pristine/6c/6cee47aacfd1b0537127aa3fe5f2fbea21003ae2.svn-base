@@ -1,0 +1,67 @@
+{% extends "layout/user.html" %}
+{% block subcontent %}
+<h1> 修改密码 </h1>
+<div class="content">
+	<form   method="post" action="" name="settings_form">
+        {{xsrf()}}
+
+         <label id="err_msg" class="control-label" style="color:red;">
+
+
+                                  {%set messages=handler.get_flashed_messages() %}
+                    {%-if messages-%}
+                   
+                        {% for type, msg in messages%}
+                       提示： {{msg}}
+                        {% endfor %}
+                    
+            {%-endif-%}
+
+                            </label>
+
+		<dl class="formlist">
+			<dt>手机号码</dt>
+			<dd>
+                <span class="data">{{user.mobile}}</span>
+                    <span class="hint">已验证</span>
+            </dd>
+		</dl>
+		<div class="input_container">
+			<label for="old_password">原密码</label>
+			<input type="password" size="30" name="old_password" id="old_password" class="t_input" required >
+   		</div>
+
+		<div class="input_container">
+			<label for="password">新密码</label>
+			<input type="password" size="30" name="password" id="password" class="form-control Validform_error"  pattern="^[a-zA-Z0-9]\w{5,17}$"    title="以字母或者数字开头，长度在6~18之间，只能包含字符、数字和下划线" placeholder="密码不能为空"   required  onchange="checkPasswords()">
+			 
+		</div>
+
+		<div class="input_container">
+			<label for="apassword">确认新密码</label>
+			<input type="password" size="30" name="apassword" id="apassword" class="form-control" placeholder="请输入确认密码" value="" required  onchange="checkPasswords()">
+			 
+		</div>
+
+		<div class="act">
+			  <button id="btn_submit_agr" type="submit" class="btn btn-success" title="提交" >
+                        提 交
+                    </button>
+		</div>
+	</form>
+</div>
+<script>
+
+    function checkPasswords() {
+        var passl = document.getElementById("password");
+        var pass2 = document.getElementById("apassword");
+        if (passl.value != pass2.value)
+            pass2.setCustomValidity("两次密码必须输入一致！");
+        else
+            pass2.setCustomValidity('');
+    }
+
+
+
+</script>
+{% endblock %}

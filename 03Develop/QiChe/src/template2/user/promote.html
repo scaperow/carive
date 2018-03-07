@@ -1,0 +1,99 @@
+{% extends "layout/user.html" %}
+{% block css %}
+<link rel="stylesheet" href="/style2/css/EoFan.css" type="text/css" media="screen">
+<style>
+    p {color: #32312d;font-size: 14px;}
+    .tgv3_index_tgfs1_dz {width: 998px;height: 44px;margin-top: 25px;}
+    ul {list-style-type: none;}
+    li {list-style: none;}
+    .tgv3_index_tgfs1_dz ul li.fzljc {float: left;width: 853px;}
+    .tgv3_index_tgfs1_dz ul li.fzlja {float: right;background: #b30026;text-align: center;font-size: 14px;width: 135px;height: 44px;}
+    .tgv3_index_tgfs1_dz ul li.fzlja a {color: #FFF;line-height: 46px;padding: 14px 39px;text-decoration: none;}
+    .promote_address{width:853px; color:#797979; height:40px; border:2px solid #adadad; border-right:0px; padding:0 4px; line-height:40px;}
+    .red{color:red;}
+    .green{color:green; cursor:pointer;}
+</style>
+<script>
+    function copyurl()
+    {
+        var share_url = $("#sharetext").html();
+        if(window.clipboardData){
+            window.clipboardData.setData("Text",share_url);
+
+            alert("推荐代码已经复制到粘贴板!");
+        }else{
+
+            alert("该浏览器不支持快捷复制，请使用CTR+C手动复制内容!");
+        }
+    }
+</script>
+{% endblock %}
+{% block subcontent %}
+
+<h1> 我的好友推广 </h1>
+<div class="content sector">
+    <div class="content_head">
+        <h2><span style="font-size: 16px; ">推广规则</span></h2>
+        <div class="shipping_address">
+            <div class="input_container">
+                <p>1、老用户推荐新用户，新用户完成注册并下单，下的首订单支付金额的<span class="spark">30%</span>返利至老用户账户余额。</p>
+                <p>2、新用户在完成注册时需填写推荐人账号（手机号）。</p>
+                <p>3、新用户确认收货后的24小时内返利至老用户账户余额。</p>
+                <p>4、老用户可以获得的返利金额无上限，也无次数限制。</p>
+            </div>
+        </div>
+        <h2><span style="font-size: 16px; ">推广方式</span></h2>
+        <div class="shipping_address">
+            <div class="input_container">
+                <p><span class="spark">*</span>复制链接发送邀请给朋友</p>
+                <div class="tgv3_index_tgfs1_dz">
+                    <ul>
+                        <li class="fzljc">
+                            <div class="promote_address"  name="sharetext" id="sharetext" >我发现了一个很方便的果蔬速递网站，质量价格都不错，来试试吧！http://www.xxxx.com/signup?c={{d}}</div>
+                        </li>
+                        <li class="fzlja"><a  href="javascript:void(0)" onclick="copyurl();"  >复制链接</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <table>
+        <tr>
+            <th>好友昵称</th>
+            <th>注册时间</th>
+            <!--<th>注册礼</th>-->
+            <th>首单返利</th>
+        </tr>
+        <tbody>
+        {% for p in promotes %}
+        <tr>
+            <td>
+                {{ p.new_user.nickname or p.new_user.username[:3]+'****'+p.new_user.username[-4:] }}
+            </td>
+            <td>
+                {{p.signuped | datetimeformat}}
+            </td>
+            <!--<td>-->
+                <!--{% if p.signup_gift==0 %}-->
+                <!--<span class="red">未获赠</span>-->
+                <!--{% else %}-->
+                <!--<span class="green" title="{{p.signup_gift_content}}">已赠送</span>-->
+                <!--{% endif %}-->
+            <!--</td>-->
+            <td>
+                {% if p.first_order_gift==0 %}
+                <span class="red">未获赠</span>
+                {% else %}
+                <span class="green" title="{{p.first_order_content}}">已赠送</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}

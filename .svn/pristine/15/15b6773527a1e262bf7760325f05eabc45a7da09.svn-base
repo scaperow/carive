@@ -1,0 +1,262 @@
+{% extends "layout/user.html" %}
+{% block subcontent %}
+
+<link rel="stylesheet" href="/style2/css/user.css" type="text/css" media="screen">
+<script src="/style2/js/layer/layer.min.js" type="text/javascript"></script>
+<link href="/style2/css/plugins/dataTables.bootstrap.css" rel="stylesheet">
+<style type="text/css">
+    * {/* -webkit-box-sizing: border-box; */-moz-box-sizing: border-box;box-sizing: content-box;}
+    .normal_table *{-moz-box-sizing: border-box;box-sizing: border-box;}
+    body {font-size: 12px;}
+    h1, .h1, h2, .h2, h3, .h3 {margin-top: 0;margin-bottom: 0;}
+    p {margin: 0;}
+    .btn{border-radius: 0px;}
+    .showInfo{display: none; text-align:left;border: 1px solid #519500; color: #666666; background: #ffffff; padding:10px;font-size:12px; position:absolute;width:300px; z-index:999;}
+</style>
+<h1> 我的订单 <span style="color:red; font-size: 11px;">未支付的订单将于48小时后删除，请尽快付款哦 ~</span></h1>
+
+
+<div class="content ">
+    <div class="filter">
+        <a href="/user/order" {% if s==-1 %}  class="curr" {% endif %}>全部</a>
+        <a href="/user/order?status=0" {% if s==0 %}  class="curr" {% endif %}>等待付款</a>
+        <a href="/user/order?status=1" {% if s==1 %}  class="curr" {% endif %}>正在处理</a>
+        <a href="/user/order?status=4" {% if s==4 %}  class="curr" {% endif %}>交易完成</a>
+        <a href="/user/order?status=5" {% if s==5 %}  class="curr" {% endif %}>已取消</a>
+    </div>
+    {% if total>0 %}
+    <div class="normal_table">
+
+    <table>
+        <tr>
+            <th>订单编号</th>
+            <th>订单信息</th>
+            <th>订单金额</th>
+            <th>下单时间</th>
+            <th>收货人</th>
+            <th>状态</th>
+            <th>订单类型</th>
+            <th>操作</th>
+        </tr>
+        <tbody>
+        {% for o in orders %}
+        <tr>
+            <td>
+                {{o.ordernum}}
+            </td>
+            <td style="text-align: left;">
+                {% for i in o.items %}
+                  <div>
+                      <a target="_blank" title="{{i.product.name}}" href="/product/{{i.product.defaultstandard}}" style="text-overflow: ellipsis; height:20px;overflow: hidden;display: block; width:350px;float:left;">{{i.product.name}}<span style="color:red;">{% if i.product.store %}({{i.product.store.name}}){% endif %}</span></a>
+                      <span>  x{{i.quantity}}　{{i.price}}元</span>
+                  </div>
+                {% endfor %}
+            </td>
+            <td>
+                {{o.currentprice}}元<br />
+                {% if o.payment==0 %}
+                        货到付款
+                  {% elif o.payment==1 %}
+                        支付宝
+                  {% elif o.payment==2 %}
+                        账户余额
+                  {% elif o.payment==3 %}
+                        网银支付
+                {% elif o.payment==9 %}
+                        系统补发
+                  {%endif%}
+            </td>
+            <td>
+                {{o.ordered|datetimeformat}}
+            </td>
+            <td>
+                  {{ o.take_name}}
+            </td>
+            <td>
+                {{o.ip}}
+                {% if o.ip=='等待付款' %}
+                    <a href="/cart/check?onum={{o.ordernum}}" target="_blank">去支付</a>
+                {% endif %}
+                {{ o.deliverynum and '<br />物流单号：' or '' }}
+                {% if o.deliverynum != '' %}
+                <a class="showWL" style="cursor: pointer;" data="{{o.deliverynum|null}}">{{o.deliverynum|null}}<div class="showInfo"><img src="../../style2/images/loading.gif" style="padding-left: 60px;" /></div></a>
+                {% endif %}
+
+            </td>
+            <td>
+                {{o.order_type == 1 and '<span style="color: red;">预售订单</span>' or '普通订单'}}
+            </td>
+            <td>
+
+                <a target="_blank" href="/user/order/{{o.id}}">详情</a>
+                {% if o.status == 0 or o.status==1 %}
+                    <a name="bt_cancel" alt="{{o.id}}" data-pay="{{o.payment}}" data-status="{{o.status}}" href="#">取消</a>
+                {% elif o.status == 5 %}
+                    <a name="bt_del" alt="{{o.id}}" href="#">删除</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="dataTables_info" role="alert" aria-live="polite" aria-relevant="all">
+                当前：第{{page}}页 / {{totalpage}}页，合计{{total}}条
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="dataTables_paginate paging_simple_numbers">
+                <ul class="pagination  pagination-sm" id="pageUl" />
+            </div>
+        </div>
+    </div>
+    </div>
+    {% else %}
+    <div class="null_info">
+        <h2>该分类下没有数据</h2>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+
+{% block js %}
+<script src="/style2/js/jquery.twbsPagination.min.js"></script>
+        <script>
+            $(function() {
+            $('.showWL').hover(function () {
+                var h = '<ul>';
+                var ss = $(this);
+                var wlNum = $(this).attr('data');
+                setTimeout(function() {
+                    $.get('/ajax/getwlinfo', {deliverynum: wlNum}, function (data) {
+                        data = eval(data);
+                        data = jQuery.parseJSON(data);
+                        if (data.status == '400') {
+                            h += '<li style="line-height: 30px; color: #cc0000; background: #E7E7E7; ">正在派件</li>';
+                        } else if (data.status == '201') {
+                            h += '<li style="line-height: 30px; color: #cc0000; background: #E7E7E7; ">正在派件</li>';
+                        } else {
+                            var wlInfo = data.data;
+                            for (i = 0; i < wlInfo.length; i++) {
+                                if (i == 0) {
+                                    h += '<li style="line-height: 30px; color:#1B730C; background: #E7E7E7; ">' + wlInfo[i].context + '<br />' + wlInfo[i].time + '</li>';
+                                } else {
+                                    h += '<li style="line-height: 30px;">' + wlInfo[i].context + '<br />' + wlInfo[i].time + '</li>';
+                                }
+                            }
+                        }
+                        h = '宅急送 运单号：' + wlNum + '<hr style="margin: 5px;">' + h + '';
+                        h += '</ul>';
+                        ss.parent().find('.showInfo').html(h);
+                    });
+                    ss.parent().find('.showInfo').show();
+                },1000)
+            }, function () {
+                $(this).parent().find('.showInfo').hide();
+            });
+        });
+
+            $(document).ready(function () {
+                $('#pageUl').twbsPagination({
+            first:'首页',
+            prev:'上一页',
+            next:'下一页',
+            last:'尾页',
+            totalPages: {{totalpage}},
+            startPage: {{page}},
+            visiblePages: 8,
+            onPageClick: function (event, page) {
+                    self.location="/user/order?page="+page;
+                }
+        });
+
+        $('a[name="bt_cancel"]').bind('click',function () {
+            var c = $(this);
+            var paywent = $(this).attr("data-pay");
+            var status = $(this).attr("data-status")
+            var oid =$(this).attr('alt');
+            $.layer({
+                shade: [0],
+                area: ['auto', 'auto'],
+                dialog: {
+                    msg: "你确定要取消订单吗？",
+                    btns: 2,
+                    type: 4,//8难过，9开心，10正确,4问号
+                    btn: ['确定', '放弃'],
+                    yes: function () {
+                        if ((paywent == '1' || paywent == '3') && parseInt(status) >= 1){
+                            $.layer({
+                                shade: [0],
+                                area: ['auto', 'auto'],
+                                dialog: {
+                                    msg: "您希望的退款处理方式，退回到？<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='font-size: 0.8em;color: #CDC7C2'>退款说明：账户余额可立即到账。</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='font-size: 0.8em;color: #CDC7C2'>原路返回支付宝需要5-7个工作日</span>",
+                                    btns: 2,
+                                    type: 9,//8难过，9开心，10正确,4问号
+                                    btn: ['原路返回', '账户余额'],
+                                    yes: function () {
+                                        c.hide();
+                                        change_order_status(oid, 5,0);
+                                    }, no: function () {
+                                        c.hide();
+                                        change_order_status(oid, 5,1);
+                                    }
+                                }
+                            });
+                        }else {
+                            change_order_status(oid, 5,0);
+                        }
+                    }, no: function () {
+
+                    }
+                }
+            });
+
+        });
+
+        $('a[name="bt_del"]').bind('click',function () {
+            var oid = $(this).attr('alt');
+            $.layer({
+                shade: [0],
+                area: ['auto', 'auto'],
+                dialog: {
+                    msg: "你确定要删除订单吗？",
+                    btns: 2,
+                    type: 4,//8难过，9开心，10正确,4问号
+                    btn: ['确定', '放弃'],
+                    yes: function () {
+                        change_order_status(oid,-1,0);
+                    }, no: function () {
+
+                    }
+                }
+            });
+
+        });
+    });
+
+    function change_order_status(oid,status,refund){
+        var xsrf='{{handler.xsrf_token}}';
+        $.post("/ajax/user/order/changestatus",
+        {
+            status:status,
+            id:oid,
+            refund:refund,
+            _xsrf : xsrf
+        },
+        function(data){
+            var obj = jQuery.parseJSON(data);
+            if(obj.err==0) {
+                //alert('操作完成！');
+                location.reload();
+            }
+            else
+            {
+                alert('操作遇到异常，请稍后再试');
+            }
+        });
+    }
+    </script>
+{% endblock %}

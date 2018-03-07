@@ -1,0 +1,74 @@
+<ion-view view-title="商品评价">
+    <ion-content class="padding ">
+        <div style="line-height: 32px" class="padding-left">
+            <span class="grey">商品质量</span>
+            <span class="padding-left">
+                <button class=" button button-clear button-small icon {{comment.productRate>=1?'ion-ios-star button-energized':'ion-ios-star-outline'}} "
+                        ng-click="rateProduct(1)"></button>
+                <button class=" button button-clear button-small icon {{comment.productRate>=2?'ion-ios-star button-energized':'ion-ios-star-outline'}}"
+                        ng-click="rateProduct(2)"></button>
+                <button class=" button button-clear button-small icon {{comment.productRate>=3?'ion-ios-star button-energized':'ion-ios-star-outline'}}"
+                        ng-click="rateProduct(3)"></button>
+                <button class=" button button-clear button-small icon {{comment.productRate>=4?'ion-ios-star button-energized':'ion-ios-star-outline'}}"
+                        ng-click="rateProduct(4)"></button>
+                <button class=" button button-clear button-small icon {{comment.productRate>=5?'ion-ios-star button-energized':'ion-ios-star-outline'}}"
+                        ng-click="rateProduct(5)"></button>
+            </span>
+        </div>
+
+        <div style="line-height: 32px; margin-top: 20px" class=" padding-left">
+            <span class="grey">物流速度</span>
+            <span class="padding-left">
+
+                <button class=" button  button-clear button-small icon {{comment.speedRate>=1?'ion-ios-star button-energized':'ion-ios-star-outline'}} "
+                        ng-click="rateSpeed(1)"></button>
+                <button class=" button button-clear button-small icon {{comment.speedRate>=2?'ion-ios-star button-energized':'ion-ios-star-outline'}}"
+                        ng-click="rateSpeed(2)"></button>
+                <button class=" button button-clear button-small icon {{comment.speedRate>=3?'ion-ios-star button-energized':'ion-ios-star-outline'}}"
+                        ng-click="rateSpeed(3)"></button>
+                <button class=" button button-clear button-small icon {{comment.speedRate>=4?'ion-ios-star button-energized':'ion-ios-star-outline'}}"
+                        ng-click="rateSpeed(4)"></button>
+                <button class=" button button-clear button-small icon {{comment.speedRate>=5?'ion-ios-star button-energized':'ion-ios-star-outline'}}"
+                        ng-click="rateSpeed(5)"></button>
+             </span>
+        </div>
+
+        <div style="line-height: 32px; margin-top: 20px" class="padding-left">
+            <span class="grey">商品价格</span>
+           <span class="padding-left">
+                <button class=" button button-clear button-small icon {{comment.priceRate>=1?'ion-ios-star button-energized':'ion-ios-star-outline'}} "
+                        ng-click="ratePrice(1)"></button>
+                <button class=" button button-clear button-small icon {{comment.priceRate>=2?'ion-ios-star button-energized':'ion-ios-star-outline'}}"
+                        ng-click="ratePrice(2)"></button>
+                <button class=" button button-clear button-small icon {{comment.priceRate>=3?'ion-ios-star button-energized':'ion-ios-star-outline'}}"
+                        ng-click="ratePrice(3)"></button>
+                <button class=" button button-clear button-small icon {{comment.priceRate>=4?'ion-ios-star button-energized':'ion-ios-star-outline'}}"
+                        ng-click="ratePrice(4)"></button>
+                <button class=" button button-clear button-small icon {{comment.priceRate>=5?'ion-ios-star button-energized':'ion-ios-star-outline'}}"
+
+                        ng-click="ratePrice(5)"></button>
+               </span>
+        </div>
+
+        <div style="line-height: 32px; margin-top: 20px" class="padding-left padding-bottom">
+            <span class="grey">服务质量</span>
+            <span class="padding-left">
+                <button class=" button button-clear button-small icon {{comment.serviceRate>=1?'ion-ios-star button-energized':'ion-ios-star-outline'}} "
+                        ng-click="rateService(1)"></button>
+                <button class=" button button-clear button-small icon {{comment.serviceRate>=2?'ion-ios-star button-energized':'ion-ios-star-outline'}}"
+                        ng-click="rateService(2)"></button>
+                <button class=" button button-clear button-small icon {{comment.serviceRate>=3?'ion-ios-star button-energized':'ion-ios-star-outline'}}"
+                        ng-click="rateService(3)"></button>
+                <button class=" button button-clear button-small icon {{comment.serviceRate>=4?'ion-ios-star button-energized':'ion-ios-star-outline'}}"
+                        ng-click="rateService(4)"></button>
+                <button class=" button button-clear button-small icon {{comment.serviceRate>=5?'ion-ios-star button-energized':'ion-ios-star-outline'}}"
+                        ng-click="rateService(5)"></button>
+             </span>
+        </div>
+        <label class="item item-input item-stacked-label padding-top">
+            <textarea rows="5" ng-model="comment.content" maxlength="500" placeholder="您的评价对其他买家有很大的帮助 ~"></textarea>
+        </label>
+
+        <button class="button button-assertive button-full" ng-click="save()">提交评论</button>
+    </ion-content>
+</ion-view>

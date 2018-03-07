@@ -1,0 +1,72 @@
+{% extends "layout/site.html" %}
+
+{% block title %}{{s.name}}-服务门店-车装甲{% endblock %}
+{% block keyword %}{{s.name}}{% endblock %}
+{% block description %}{% endblock %}
+{% block css %}
+<link type="text/css" href="/style2/css/qiye.css" rel="stylesheet" />
+{% endblock %}
+{% block js %}
+<script src="/style2/js/jquery-1.7.2.min.js?v=1"></script>
+
+{% endblock %}
+{% block content %}
+<div class="qylouceng">
+    <div class="qyleft">
+        <div class="product-block">
+            <div class="shop-product-title">
+                <h4>{{c.name}}</h4>
+            </div>
+            <ul class="shop-news">
+                {% if news_count > 0 %}
+                {% for p in news%}
+                <li onmousemove="this.className='hover'" onmouseout="this.className=''">
+                    <a href="/store_news_detail/{{p.id}}" class="service">
+                        <img src="{{p.image}}" alt="{{p.title}}">
+                        <h4>{{p.title}}</h4>
+                        <span class="date">{{p.created | dateformat}} </span>
+                    </a>
+                </li>
+                {% endfor %}
+                {% else %}
+                <li style="text-align: center;border: none;width: 98%;line-height: 210px;font-size: 24px;">
+                    暂时没有数据！
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <div class="qyright">
+        <div class="shop-r-intro">
+            <div class="ls"><span>企业名称：</span>{{s.name}}</div>
+            <div class="ls"><span>企业信誉：</span>{{s.credit_score}}分</div>
+            <div class="ls"><span>评价星级：</span><s class="score-{{'%.0f' %  s.star_score}}" style="display: inline-block;"></s>({{s.comment_count}}人评价)</div>
+            <div class="ls" style="height: 38px;padding-top:10px;"><a class="favorite" style="display: none;">收藏门店</a> <a class="return" href="/store/{{sid}}">返回门店</a></div>
+        </div>
+        <div class="list-box orange-box ">
+            <dl>
+                <dt>
+                    产品服务
+                </dt>
+                {% if products_count>0 %}
+                {% for p in products %}
+                <dd class="pro-block-3 w278">
+                    <a href="/product/{{p.product.id}}" target="_blank">
+                        <img src="{{p.product.cover}}" alt="{{p.product.name}}">
+                        <h4>{{p.product.name}}</h4>
+                        <span class="price-now"><s>￥</s>{{p.price}}</span>
+                    </a>
+                </dd>
+                {% endfor %}
+                {% else %}
+                <dd class="pro-block-3 w278">
+                    暂时没有数据！
+                </dd>
+                {% endif %}
+
+
+            </dl>
+        </div>
+    </div>
+</div>
+{% endblock %}

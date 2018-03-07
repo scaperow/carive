@@ -1,0 +1,171 @@
+{% extends "layout/user.html" %}
+{% block subcontent %}
+<h1>我的汽车</h1>
+  <div class="content sector">
+    <h2><span class="addAddress">新增</span><span class="modifyAddress" style="display: none;">修改</span>我的汽车</h2>
+    <form class="shipping_address" action="" method="post" onsubmit="return submit_check()">
+        {{xsrf()}}
+      <input type="hidden" name="edit" class="edit" id="edit" value="" />
+      <div class="input_container input_address_select">
+        <label for="brand_id"><span class="spark">*</span>品牌车型：</label>
+
+        <div class="district_selector">
+          <select name="brand_id" id="brand_id" onchange="brand_change(this.value,0)" data-default="{{default_brand}}" style="height:22px;">
+              <option value="">--请选择品牌--</option>
+              {% for brand in brands %}
+              <option value="{{brand.code}}" {{brand.code==default_brand and 'selected' or ''}}>{{brand.name}}</option>
+              {% endfor %}
+          </select>
+          <select name="xing_id" id="xing_id" onchange="xing_change(this.value,0)" data-default="{{default_xing}}" style="height:22px;">
+              <option value="">--请选择车型--</option>
+          </select>
+          <select name="year_id" id="year_id" data-default="{{default_year}}" style="height:22px;">
+              <option value="">--请选择年款--</option>
+          </select>
+        </div>
+
+        <input type="hidden" name="hidauto_id" id="hidauto_id" value=""/>
+      </div>
+      <div class="input_container">
+        <label for="mileage"><span class="spark">*</span>里程数：</label>
+        <input type="text" size="20" class="t_input" required id="mileage" name="mileage" value="{{userAuto.mileage}}" style="height: 22px;" />
+        千米
+      </div>
+      <div class="input_container">
+        <label for="buy_time"><span class="spark">*</span>购车时间：</label>
+        <input type="text" name="buy_time" id="buy_time" value="{{userAuto and userAuto.buy_time | dateformat or ''}}" required class="t_input"  onClick='WdatePicker({maxDate:"%y-%M-%d"})' style="height: 22px;" />
+
+      </div>
+      <div class="act">
+        <input type="submit" value="保存我的汽车" name="commit" id="shipping_address_submit" class="btn btn-success" />
+        &nbsp; <a style="{{userAuto and 'display: ' or 'display:none'}};" href="/user/autos">取消</a> </div>
+    </form>
+    <h2>已保存的汽车</h2>
+
+    <div id="shipping_address_list">
+
+	<table class="order-tablev2" id="order-list">
+        <colgroup>
+            <col class="name"><col class="address"><col class="code"><col class="hp"><col class="phone"><col class="action"></colgroup>
+        <tbody>
+        <tr class="order_list_title">
+            <th>品牌车型</th>
+            <th>里程数(千米)</th>
+            <th>购车时间</th>
+            <th width="80">操作</th>
+        </tr>
+        {% for a in items %}
+        <tr>
+            <td>{{a[5]}}-{{a[6]}}-{{a[7]}}</td>
+            <td>{{a[3]}}</td>
+            <td>{{ a[4] | dateformat}}</td>
+            <td><a class="sp_address_edit" style="display: inline-block;" href="/user/autos?id={{a[0]}}">修改</a> &nbsp;
+                <a class="sp_address_delete" style="display: inline-block;" href="/user/auto_del/{{a[0]}}" onclick='return confirm("删除后将不可恢复，您确定删除")'>删除</a></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+  </div>
+
+  <style>
+#order-list {
+	margin-bottom: 1px;
+}
+</style>
+
+</div>
+<div class="clear"></div>
+{% endblock %}
+
+{% block js%}
+<script type="text/javascript" src="/style2/js/jquery-1.8.3.min.js"></script>
+<script language="javascript" type="text/javascript" src="/style2/js/My97DatePicker/WdatePicker.js"></script>
+<script>
+$(function(){
+    init_brand();
+});
+function init_brand(){
+    var brand_id=$("#brand_id").attr("data-default");
+    var xing_id=$("#xing_id").attr("data-default");
+    var year_id=$("#year_id").attr("data-default");
+    if(brand_id.length>0){
+        brand_change(brand_id, xing_id);
+        if(parseInt(xing_id)){
+            xing_change(xing_id, year_id)
+        }
+    }
+}
+
+function submit_check(){
+    var year_id = $("#year_id").val();
+    var mileage = $("#mileage").val();
+    var buy_time = $("#buy_time").val();
+    if(year_id == 0){
+        alert("请选择品牌车型！");
+        return false;
+    }
+    if(mileage == '' || !checkRate(mileage)){
+        alert("请输入正确的里程数！");
+        return false;
+    }
+    if(buy_time == ''){
+        alert("请输入正确的购买日期！");
+        return false;
+    }
+    return true;
+}
+//判断正整数
+function checkRate(obj)
+{
+     var re = /^[1-9]+[0-9]*]*$/;
+     if (!re.test(obj))
+     {
+        return false;
+     }
+    return true;
+}
+function brand_change(id, default_id){
+//    var id = $(obj).val();
+    $("#year_id > option").remove();
+    $("#year_id").append("<option value=\"0\">--请选择年款--</option>");
+    $("#xing_id > option").remove();
+    $("#xing_id").append("<option value=\"0\">--请选择车型--</option>");
+    if(id > 0){
+        GetSubBrands(id, "xing_id", default_id);
+    }
+}
+function xing_change(id, default_id){
+//    var id = $(obj).val();
+    $("#year_id > option").remove();
+    $("#year_id").append("<option value=\"0\">--请选择年款--</option>");
+    if(id > 0){
+        GetSubBrands(id, "year_id", default_id);
+    }
+}
+function GetSubBrands(id,ddl_id, default_id) {
+//    alert(default_id);
+    $.get("/ajax/GetSubBrands", { pcode: id,  t: Math.random() }, function (data) {
+        data = jQuery.parseJSON(data);
+        if(data.flag==1){
+            for(var i=0; i< data.data.length; i++){
+                if(default_id.length>0){
+                    if(data.data[i]["code"]==default_id){
+                        $("#" + ddl_id).append("<option value=\"" + data.data[i]["code"] + "\" selected>" + data.data[i]["name"] + "</option>");
+                    }
+                    else{
+                        $("#" + ddl_id).append("<option value=\"" + data.data[i]["code"] + "\">" + data.data[i]["name"] + "</option>");
+                    }
+                }
+                else {
+                    $("#" + ddl_id).append("<option value=\"" + data.data[i]["code"] + "\">" + data.data[i]["name"] + "</option>");
+                }
+            }
+        }
+        else{
+            alert(data.msg)
+        }
+    });
+}
+</script>
+{% endblock %}

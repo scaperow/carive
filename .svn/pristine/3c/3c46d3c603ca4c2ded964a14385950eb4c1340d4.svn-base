@@ -1,0 +1,51 @@
+{% extends "layout/help.html" %}
+{% block js %}
+<link rel="stylesheet" href="/style2/css/help.css" type="text/css" media="screen">
+<style>
+    h2{
+  font-weight: normal;
+  line-height: 20px;
+  padding: 8px 0;
+        font-size: 18px;
+}
+    * {
+  /* -webkit-box-sizing: border-box; */
+  -moz-box-sizing: border-box;
+  box-sizing: inherit;
+}
+</style>
+{% endblock %}
+{% block content %}
+    <!-- Main -->
+    <div id="product_list_content" class="content">
+        <!-- Crumb -->
+        <div class="crumb">
+            <ul>
+                <li class="home"><a href="/"></a></li>
+                <li class="step_arrow"></li>
+                <li><a href="#">汽车快报</a></li>
+            </ul>
+        </div>
+        <div style="clear: both"></div>
+
+
+        <div id="product_list" class="clearfix product_list">
+            <div class="help_contain">
+                {% for ad in madias -%}
+                <div class="row" style="margin: 0 0 10px 0px;padding:0 0 10px 0px;height:30px; border-bottom: dashed 1px #ccc; line-height:30px;">
+                    <!--<div class="col-sm-4" style="margin: 0px;padding:0px;"><a href="{{ad.url}}" target="_blank"><img src="/upload/media/{{ad.picurl}}" width="260" height="158" alt="{{ad.imgalt}}"></a></div>-->
+                    <a href="/news/{{ad.id}}" target="_blank" style=" font-size: 14px;">
+                        <div class="col-sm-12" style="margin: 0px;padding:0px; line-height:30px;">
+                            <div style="float:left;">{{ad.title}}</div>
+                            <div style="float:right">{{ad.created | dateformat}}</div>
+                        </div>
+                    </a>
+                </div>
+			    {%- endfor %}
+            </div>
+        </div>
+        <div style="clear: both"></div>
+
+
+    </div>
+{% endblock %}

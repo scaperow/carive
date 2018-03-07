@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>汽车贷款计算器</title>
+  <style>
+	td, th {
+		font-size: 12px;
+		font-family: Verdana,Geneva,sans-serif;
+	}
+	.all_an_1 {
+		border: 1px solid #12afff;
+		background-image: url(http://f.51240.com/img/all.png?v=15100205);
+		background-repeat: no-repeat;
+		color: #FFF;
+		cursor: pointer;
+		height: 23px;
+		padding-top: 0;
+		padding-right: 5px;
+		padding-bottom: 0;
+		padding-left: 5px;
+		margin: 0;
+		-moz-border-radius: 3px;
+		-khtml-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+	}
+	.all_srk_1 {
+		height: 23px;
+		border: 1px solid #97c4e1;
+		margin: 0;
+		padding: 0;
+		line-height: 23px;
+		text-indent: 2px;
+	}
+  </style>
+  <script>
+	function ss_jc_jc() {
+		if (document.getElementById("ss_dkje").value == "") {
+			alert("汽车贷款金额不能为空！");
+			document.getElementById("ss_dkje").focus();
+			return false
+		}
+		if (document.getElementById("ss_yj").value == "") {
+			alert("汽车贷款利率不能为空！");
+			document.getElementById("ss_yj").focus();
+			return false
+		} 
+		document.getElementById("ss_shezhi").style.display = "none";
+		var ss_dkje = document.getElementById("ss_dkje").value;
+		var obj = document.getElementById("year");
+		var index = obj.selectedIndex;
+		var year = obj.options[index].value;
+		var lilv = parseFloat(document.getElementById("ss_yj").value) / 100;
+
+		var d = parseFloat(year);		//dai kuan qi xian
+		var e =	d*12;				//dai kuan zong yue shu
+		var f = parseFloat(ss_dkje)*10000;	//dai kuan jin e
+
+		var monthly_repayment = lilv*f/12+(lilv*f/12)/(Math.pow((1+lilv/12), e)-1);
+		document.getElementById("jg_gl").innerHTML = monthly_repayment.toFixed(2);
+		document.getElementById("jg_gs").innerHTML = (monthly_repayment * e - f).toFixed(2);
+		document.getElementById("jg_yq").innerHTML = (monthly_repayment*e).toFixed(2);
+		document.getElementById("ss_jieguo").style.display = "block"
+	}
+	function ss_jc_cx() {
+		document.getElementById("ss_jieguo").style.display = "none";
+		document.getElementById("ss_shezhi").style.display = "block"
+	};
+  </script>
+ </head>
+ <body>
+<div id="ss_shezhi" style="display: block;">
+    <table width="500" border="0" cellpadding="0" cellspacing="0" bgcolor="#C5D5C5" align="center">
+        <tbody>
+        <tr>
+            <td>
+                <table width="100%" border="0" cellpadding="8" cellspacing="1" style="line-height:25px;">
+                    <tbody>
+                    <tr>
+                        <td colspan="2" style="text-align: center;font-weight: bold;font-size: 18px;background-color: #fff;">汽车贷款计算器</td>
+                    </tr>
+                    <tr>
+                        <td width="35%" bgcolor="#F5F5F5" align="center">汽车贷款金额：</td>
+                        <td width="65%" bgcolor="#FFFFFF"><input id="ss_dkje" type="text" size="20" maxlength="20" onkeyup="value=value.replace(/[^\d|.]/g,'')" class="all_srk_1" onblur="this.className='all_srk_1';" onfocus="this.className='all_srk_2';"> 万元</td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#F5F5F5" align="center">还款期限：</td>
+                        <td bgcolor="#FFFFFF">
+							<select name="year" id="year">
+								<option value="1">一年</option>
+								<option value="2">两年</option>
+								<option value="3">三年</option>
+								<option value="5">五年</option>
+						    </select>
+						</td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#F5F5F5" align="center">汽车贷款利率：</td>
+                        <td bgcolor="#FFFFFF"><input id="ss_yj" type="text" size="20" maxlength="20" onkeyup="value=value.replace(/[^\d|.]/g,'')" class="all_srk_1" onblur="this.className='all_srk_1';" onfocus="this.className='all_srk_2';" value="6.15"> %</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" bgcolor="#FFFFFF" align="right"><input id="ss_an" type="button" value="开始计算 >>" onclick="ss_jc_jc();" class="all_an_1"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="ss_jieguo" style="display: none;">
+    <table width="500" border="0" cellpadding="0" cellspacing="0" bgcolor="#C5D5C5" align="center">
+        <tbody>
+        <tr>
+            <td>
+                <table width="100%" border="0" cellpadding="8" cellspacing="1" style="line-height:25px;">
+                    <tbody>
+                    <tr>
+                        <td colspan="2" style="text-align: center;font-weight: bold;font-size: 18px;background-color: #fff;">结算结果</td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#F5F5F5" align="center">月均还款：</td>
+                        <td bgcolor="#FFFFFF"><span id="jg_gl"></span> 元</td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#F5F5F5" align="center">支付利息：</td>
+                        <td bgcolor="#FFFFFF"><span id="jg_gs"></span> 元</td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#F5F5F5" align="center">还款总额：</td>
+                        <td bgcolor="#FFFFFF"><span id="jg_yq"></span> 元</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" bgcolor="#FFFFFF" align="right"><input id="ss_an" type="button" value="<< 重新计算" onclick="ss_jc_cx();" class="all_an_1"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+ </body>
+</html>

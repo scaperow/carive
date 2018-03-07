@@ -1,0 +1,53 @@
+{% extends "layout/user.html" %}
+{% block subcontent %}
+<style>
+    .level_n{color: #0075b0; font-size:16px; margin-top: -10px;}
+    .red{color:#cc0000;}
+    .green{color: green;}
+    .show_msg{font-size: 24px;}
+</style>
+<script language="javascript" type="text/javascript" src="/style2/js/My97DatePicker/WdatePicker.js"></script>
+<script>
+    function checkSubmit(){
+        var content = $("#content").val();
+        if(content==""){
+            alert("请先填写您的问题描述！");
+            return false;
+        }
+        else{
+            if(content.length>500){
+                alert("问题描述不能超出500个字符哟！");
+                return false;
+            }
+        }
+        return true;
+    }
+</script>
+<h1>  我要提问 </h1>
+<div class="content sector">
+
+    {% if result==1 %}
+    <div class="show_msg green" style="display: {{result==1 and 'block' or 'none'}}">
+        保存成功！
+    </div>
+    {% else %}
+    {% endif %}
+	<form id="settings-form" method="post" action="">
+        {{xsrf()}}
+		<dl class="formlist" style="margin-bottom: 0px;">
+			<dt><label for="content">问题描述</label></dt>
+			<dd>
+			<span class="data">
+                <textarea type="text" name="content" id="content" class="t_input"
+                           style="width: 394px; height: 129px;" placeholder="请填写您的问题描述">{{p.content}}</textarea>
+			</span>
+			</dd>
+		</dl>
+
+		<div class="act">
+			<input type="submit" value="提交问题" onclick="return checkSubmit();" name="commit" id="settings-submit" class="btn btn-success">
+            <a class="btn " href="/user/question">返回</a>
+		</div>
+	</form>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+<ion-view view-title="我的易凡">
+    <ion-content>
+        <div class="list">
+            <a class="item item-icon-right" href="#/tab/cost">
+                您的账户余额：<span style="color:#e42012;">{{balance}}</span> 元
+            </a>
+            <a class="item item-icon-right" href="#/tab/topup">
+                充值
+                <i class="icon ion-ios7-arrow-right"></i>
+            </a>
+        </div>
+        <div class="button-bar">
+            <a class="button button-clear {{choose =='ALL'? 'button-balanced' :''}}" ng-click="switch('ALL')">全部</a>
+            <a class="button button-clear  {{choose =='IN'? 'button-balanced' :''}}" ng-click="switch('IN')">收入</a>
+            <a class="button button-clear  {{choose =='OUT'? 'button-balanced' :''}}" ng-click="switch('OUT')">支出</a>
+        </div>
+        <ion-list>
+            <ion-item ng-repeat="item in balances" class="item-divider" ng-if="(item.stype == '收入' && choose=='IN') || (item.stype == '支出' && choose=='OUT')|| choose=='ALL'">
+                <p>{{item.log}} </p>
+                <p>{{item.stype}} {{item.amount}}元</p>
+                <label class="item-note">{{item.created}}</label>
+            </ion-item>
+        </ion-list>
+        <!--<div class="padding" ng-if="balances && balances.length > 0">-->
+            <!--<button class="button button-block" ng-click="fetch()">加载更多</button>-->
+        <!--</div>-->
+        <ion-infinite-scroll
+                ng-if="hasMore"
+                on-infinite="fetch()"
+                distance="1%">
+    </ion-content>
+</ion-view>

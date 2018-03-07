@@ -1,0 +1,97 @@
+{% extends "layout/user.html" %}
+{% block subcontent %}
+<style>
+    .level_n{color: #0075b0; font-size:16px; margin-top: -10px;}
+    .red{color:#cc0000;}
+    .checkin {
+    font-family: "微软雅黑";font-size: 18px;font-weight: bold;float: right;text-decoration:none;margin-right:5px;
+        font-size: 14px;text-align: center;
+    }
+    .checkinun {
+    background-color: #519500;border-color: #519500;color: #fff;cursor: pointer;width:80px;
+    }
+    .checkined {
+    background-color: #F9F9F9;border-color: #DBD6D0;color: #737373;width:120px;
+    }
+</style>
+<h1> 个人中心
+    {% if seriesnum<=0 %}
+    <span class="checkin checkinun" id="checkinbox" onclick="checkin()"> 签到 </span>
+    {% else %}
+    <span class="checkin checkined" id="checkinbox"> 连续签到{{seriesnum}}天 </span>
+    {% endif %}
+</h1>
+<div class="content sector">
+
+	<form id="settings-form" method="post" action="">
+        {{xsrf()}}
+        <input type="hidden" name="jm_form_hash" value="1ce8d194">
+		
+        <dl class="formlist">
+            <dt>会员等级</dt>
+            <dd>
+                <a href="/help/member" target="_blank" style="margin:0px;"><span class="data level_n">
+                {{userlevel.levelname}}
+                </span></a>
+                您目前的成长值为<span class="red"> {{user.level}} </span>
+                {% if userlevelnext %}
+                ，再获得<span class="red"> {{userlevelnext.startscore - user.level}} </span>成长值即可升级到 {{userlevelnext.levelname}}
+                {% endif %}
+            </dd>
+		</dl>
+        {% if user.username %}
+		<div class="formlist">
+			<dt>用户名</dt>
+			<dd>
+			    <span class="data">{{user.username}}</span>
+			</dd>
+		</div>
+        {% endif %}
+        {% if user.mobile %}
+		<dl class="formlist">
+			<dt>手机号</dt>
+			<dd>
+				<span class="data">{{user.mobile}}</span>
+			</dd>
+		</dl>
+        {% endif %}
+        {% if user.nickname %}
+		<dl class="formlist">
+			<dt>昵称</dt>
+			<dd>
+				<span class="data">{{user.nickname}}</span>
+			</dd>
+		</dl>
+        {% endif %}
+        {% if user.email %}
+		<dl class="formlist">
+			<dt>Email</dt>
+			<dd>
+				<span class="data">{{user.email}}</span>
+			</dd>
+		</dl>
+        {% endif %}
+
+	</form>
+</div>
+
+<script>
+    var xsrf='{{handler.xsrf_token}}';
+    function checkin(){
+//        alert(xsrf)
+        $.get("/ajax/checkin", { _xsrf : xsrf }, function (data) {
+            var obj = jQuery.parseJSON(data);
+            if(obj.flag==1){
+                $("#checkinbox").removeClass("checkinun");
+                $("#checkinbox").addClass("checkined");
+                $("#checkinbox").removeAttr("onclick");
+                $("#checkinbox").html("连续签到"+obj.seriesnum+"天")
+            }
+            else{
+                $("#checkinbox").html("签到失败")
+//                alert("签到失败！")
+            }
+       });
+    }
+</script>
+{% endblock %}

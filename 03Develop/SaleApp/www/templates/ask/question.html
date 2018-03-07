@@ -1,0 +1,18 @@
+<ion-view view-title="我的提问">
+  <ion-nav-buttons side="right">
+    <!-- <button ng-href="#/search-question" class="button button-clear icon-right ion-ios-search"></button> -->
+    <a ng-href="#/new-question" class="button button-clear icon-right ion-ios-plus-empty"></a>
+  </ion-nav-buttons>
+  <ion-content class="stable-bg">
+    <ion-list ng-repeat="question in questions ">
+      <a class="item" ng-href="#/answer/{{question.id}}">
+        <div style="font-size:14px" class="balanced">{{question.user_name | mobilemask}}</div>
+        <div style="font-size:14px; white-space:normal">{{question.content}}</div>
+        <div style="font-size:14px; text-align:right" class="balanced">{{question.best.user_name | mobilemask}}</div>
+        <p style="font-size:14px;white-space:normal">{{question.best.content}}</p>
+        </ion-item>
+      </a>
+      <div class="separate-big"></div>
+    </ion-list>
+
+</ion-view>

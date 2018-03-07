@@ -1,0 +1,39 @@
+{% extends "layout/user.html" %}
+{% block subcontent %}
+
+<h1> 我的优惠劵 </h1>
+<div class="content">
+    <div class="filter">
+        <a href="/user/coupon?status=1" {% if s==1 %}  class="curr" {% endif %}>未使用</a>
+        <a href="/user/coupon?status=2" {% if s==2 %}  class="curr" {% endif %}>已使用</a>
+        <a href="/user/coupon?status=3" {% if s==3 %}  class="curr" {% endif %}>已过期</a>
+    </div>
+    <table>
+        <tr>
+            <!--<th>卷号</th>-->
+            <th>优惠卷面值</th>
+            <th>适用范围</th>
+             <th>开始时间</th>
+             <th>过期时间</th>
+        </tr>
+        <tbody>
+        {% for c in coupons %}
+
+            <tr>
+
+                <!--<td>{{c.code}}</td>-->
+                <td>￥{{c.coupontotal.price}}</td>
+                <td>{{c.coupontotal.name}}</td>
+                <td>{{(c.starttime|datetimeformat)}}</td>
+                <td>{{(c.endtime|datetimeformat)}}</td>
+            </tr>
+                        
+                        {% endfor %}
+        
+        </tbody>
+    </table>
+
+      
+
+</div>
+{% endblock %}

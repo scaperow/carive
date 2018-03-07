@@ -1,0 +1,7 @@
+<ion-view view-title="违章查询">
+  <ion-content class="light-bg">
+    <!--<iframe name="weizhang" src="http://www.cheshouye.com/api/weizhang/?t=11c1f3" width="100%" height="800px" frameborder="0" scrolling="no"></iframe>-->
+    <iframe name="weizhang" src="http://m.cheshouye.com/api/weizhang/?t=11c1f3" width="100%" height="800px" frameborder="0" scrolling="no"></iframe>
+  </ion-content>
+
+</ion-view>

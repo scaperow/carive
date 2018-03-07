@@ -1,0 +1,361 @@
+{% extends "layout/user.html" %}
+{% block css%}
+<link rel="stylesheet" href="/style2/css/EoFan.css" type="text/css" media="screen">
+<link rel="stylesheet" href="/style2/css/user.css" type="text/css" media="screen">
+
+{% endblock %}
+{% block subcontent %}
+<script>
+    $(function(){
+        var r = {{result}};
+        if(r == '1')
+        {
+            alert('保存成功！');
+            //location.reload();
+        }
+        else if(r == '0'){
+            alert('保存失败！');
+        }
+    });
+</script>
+<h1> 发布产品 </h1>
+<div class="content sector">
+    {%set messages=handler.get_flashed_messages() %}
+    {%-if messages-%}
+        <div style="color: red; font-size: 0.6em; margin-bottom: 25px;">
+            <div id="err_div">
+                {% for type, msg in messages%}
+                {{msg}}
+                {% endfor %}
+            </div>
+        </div>
+    {%-endif-%}
+	<form class="form-horizontal" role="form" action="/user/product/{{p.id|default('0')}}" method="post">
+        {{xsrf()}}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">基本信息
+                </h3>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">名称</label>
+                    <div class="col-sm-10">
+                        <input class="form-control txtName" name="pname" type="text" placeholder="名称不能为空"
+                               value="{{p.name}}" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        简介
+                    </label>
+                    <div class="col-sm-10">
+                        <input class="form-control" name="presume" type="text" placeholder="简介不能为空"
+                               value="{{p.resume}}" required >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        分类
+                    </label>
+                    <div class="col-sm-10">
+                        <select class="form-select" name="pcategory" id="pcategory">
+                            {% for c in categorys %}
+                            <option value="{{c.id}}"  {{default_category.pid ==c.id and 'selected' or ''}}>
+                            {{c.name}}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <select class="form-select" name="category" id="category"  placeholder="请选择分类" required>
+                        </select>
+                        <select class="form-select" name="category3" id="category3"  placeholder="请选择分类" required>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        品牌
+                    </label>
+                    <div class="col-sm-10">
+                      <select name="brand_id" id="brand_id" onchange="brand_change(this.value,0)" data-default="{{default_brand}}" class="form-select">
+                          <option value="0">--请选择品牌--</option>
+                          {% for brand in brands %}
+                          <option value="{{brand.code}}" {{brand.code==default_brand and 'selected' or ''}}>{{brand.name}}</option>
+                          {% endfor %}
+                      </select>
+                      <select name="xing_id" id="xing_id" onchange="xing_change(this.value,0)" data-default="{{default_xing}}" class="form-select">
+                          <option value="0">--请选择车型--</option>
+                      </select>
+                      <select name="year_id" id="year_id" data-default="{{default_year}}" class="form-select">
+                          <option value="0">--请选择年款--</option>
+                      </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        产品类型
+                    </label>
+                    <div class="col-sm-4">
+                        <label class="checkbox-inline">
+                            <input type="radio" name="is_bargain" id="is_bargain"  {{ p.is_bargain == 0 and 'checked' or '' }} {{p.is_bargain or 'checked'}} value="0">普通商品
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="radio" name="is_bargain" id="is_bargain1" {{ p.is_bargain == 1 and 'checked' or '' }} value="1">特价商品
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="radio" name="is_bargain" id="is_bargain2" {{ p.is_bargain == 2 and 'checked' or '' }} value="2">免费商品
+                        </label>
+                    </div>
+                    <label class="col-sm-2 control-label">
+                        服务时间(分钟)
+                    </label>
+                    <div class="col-sm-3">
+                        <input class="form-control service_time" name="service_time" type="text"
+                               value="{{p.service_time or '0'}}" style="width:166px;">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        <span id="lblPrompt">购买须知</span>
+                    </label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" id="prompt" name="prompt" type="text" style="width: 80%; height:120px;" >{{p.prompt}}</textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        详细介绍
+                    </label>
+                    <div class="col-sm-10">
+                        <div style="float: left;margin-left: 10px;width: 100%;">
+                            <textarea  style="width: 80%" class="xheditor-simple1" rows="12" name="pintro" id="pintro">{{p.intro}}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {%-if p-%}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">价格信息 <a id="add_price" style="display: none;" href="/user/editprice/{{p.id}}/0" class="btn btn-outline btn-primary btn-xs">增加</a></h3>
+            </div>
+            <div class="panel-body" style="padding-left: 40px;">
+                {% for c in p.standards %}
+                    <div class="form-group">
+                        <div class="col-sm-2">规格：{{c.name}}</div>
+                        <div class="col-sm-2">市场价：￥{{c.orginalprice}}</div>
+                        <div class="col-sm-2">单价：￥{{c.ourprice}}</div>
+                        <div class="col-sm-2">价格：￥{{c.price}}</div>
+                        <div class="col-sm-2 btn-grou btn-group-xs">
+                            <a type="button" class="btn btn-default" href="/user/editprice/{{p.id}}/{{c.id}}">修改</a>
+                            {%-if not p.defaultstandard==c.id -%}
+                            <a type="button" class="btn btn-default" href="/user/primaryprice/{{c.id}}">设为默认价格</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title" style="float:left;padding-right:20px;">图片信息</h3> <a href="" id="fileupload" class="btn">选择图片…</a>
+                </div>
+                <div class="panel-body" id="pic-box">
+                    {% for c in p.pics -%}
+                    <div class="col-lg-2 .col-xs-12">
+                        {%-if p.cover==c.path -%}
+                        <div class="panel panel-success" style="width:120px; margin-right: 10px;">
+                        {% else %}
+                        <div class="panel panel-default" style="width:120px; margin-right: 10px;">
+                        {% endif %}
+                            <div class="panel-heading center-block">
+                                <img src="{{c.path}}" width="80" height="80">
+                            </div>
+                            <div class="panel-footer">
+                                <div class="btn-group btn-group-xs">
+                                    <a type="button" class="btn btn-default" href="/user/delpic/{{c.id}}">删除</a>
+                                    {%-if not p.cover==c.path -%}
+                                    <a type="button" class="btn btn-default" href="/user/primarypic/{{c.id}}">设为主图</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    {%- endfor %}
+                </div>
+            </div>
+        {%-endif-%}
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" >
+                    </label>
+                    <div class="col-sm-10" style="text-align: right;">
+                        <input type="submit" class="btn btn-success btn-sm" value="{{ p and '完成' or '下一步'}}" />
+                    </div>
+                </div>
+
+    </form>
+</div>
+{% endblock %}
+{% block js %}
+<script src="/style2/js/jquery-1.7.2.min.js?v=1"></script>
+<script src="/style2/xheditor/xheditor-1.2.2.min.js"></script>
+<script src="/style2/xheditor/xheditor_lang/zh-cn.js"></script>
+<script src="/style2/js/jquery.ocupload.js?v=1"></script>
+<script language="javascript" type="text/javascript" src="/style2/js/My97DatePicker/WdatePicker.js"></script>
+<script>
+    $(function(){
+        var pid = "{{p.id}}";
+        var prompt = $("#prompt").val();
+        var s = "<span>有效期</span>\r<p>2015-12-01至2016-01-31（周末、法定假日通用）</p>\r<span>使用时间</span>\r<p>10:00—20:00</p>\r<span>预约方式</span>\r<p>无需预约，消费高峰期可能需要等待。</p>\r<span>其他</span>\r<p>每人仅限购买1份；\r仅限一次体验完毕；\r仅7座及以下车型。</p>";
+        if(prompt == "" && pid == ""){
+            $("#prompt").val(s);
+        }
+
+        $("#lblPrompt").click(function(){
+            $("#prompt").val(s);
+        });
+
+        var xsrf='{{handler.xsrf_token}}';
+        $("#pcategory").change(function(){
+            var pid = $(this).val();
+            $.get("/ajax/get_sub_category", { _xsrf : xsrf , pid : pid}, function (data) {
+                data = jQuery.parseJSON(data);
+                var optionstring = "";
+                if(data.flag == 1) {
+                    for (var j = 0; j < data.data.length; j++) {
+                        optionstring += "<option value=\"" + data.data[j].id + "\" >" + data.data[j].name + "</option>";
+                    }
+                    $("#category").html("<option value=''>请选择...</option> " + optionstring);
+                    {% if default_category2 %}
+                        $("#category option[value='{{default_category2}}']").attr("selected", true);
+                        $("#category").change();
+                    {% endif %}
+                }
+            });
+        });
+        $("#category").change(function(){
+            var pid = $(this).val();
+            $.get("/ajax/get_sub_category", { _xsrf : xsrf , pid : pid}, function (data) {
+                data = jQuery.parseJSON(data);
+                var optionstring = "";
+                if(data.flag == 1) {
+                    for (var j = 0; j < data.data.length; j++) {
+                        optionstring += "<option value=\"" + data.data[j].id + "\" >" + data.data[j].name + "</option>";
+                    }
+                    $("#category3").html("<option value=''>请选择...</option> " + optionstring);
+                    {% if default_category3 %}
+                        $("#category3 option[value='{{default_category3}}']").attr("selected", true);
+                    {% endif %}
+                }
+            });
+        });
+        {% if p %}
+            $("#pcategory option[value='{{default_category}}']").attr("selected", true);
+        {% endif %}
+        $("#pcategory").change();
+
+
+        $("#is_score").click(function(){
+            if(this.checked){
+                $('.jf_time').show();
+            }else{
+                $('.jf_time').hide();
+                $("#score_num").val("0");
+            }
+        });
+
+        $('#pintro').xheditor({tools:'Source,Fullscreen,Img,|,Blocktag,Fontface,FontSize,Bold,Italic,Underline,Strikethrough,FontColor,|,Align,List,Outdent,Indent,Link,Unlink',upBtnText:"浏览", html5Upload:false, upImgUrl:"/ajax/upload",upImgExt:"jpg,gif,png"});
+
+        var myUpload = $('#fileupload').upload({
+            name: 'filedata',
+            action: '/ajax/product/pic/{{p.id}}',
+            enctype: 'multipart/form-data',
+            autoSubmit: true,
+            onClick: function(){
+                alert("");
+            },
+            onSelect: function(){
+                var ext = myUpload.filename().substr(myUpload.filename().length - 3, 3).toLowerCase();
+                if (ext != 'jpg' || ext != 'gif' || ext != 'png')
+                {
+                    return false;
+                }
+            },
+            onComplete: function(response) {
+                eval('var c = ' + response);
+                if (c.id > 0) {
+
+                    $('#pic-box').append('<div class="col-lg-2 .col-xs-12"><div class="panel panel-default" style="width:120px; margin-right: 10px;"><div class="panel-heading center-block"><img src="' + c.path + '" width="80" height="80"></div><div class="panel-footer"><div class="btn-group btn-group-xs"><a type="button" class="btn btn-default" href="/user/delpic/'+c.id+'">删除</a><a type="button" class="btn btn-default" href="/user/primarypic/'+c.id+'">设为主图</a></div></div></div></div>');
+
+                }
+                else{
+                    alert(c.path);
+                }
+
+            },onError: function(response){
+                alert(response);
+            }
+        });
+        init_brand();
+    });
+    //两端去空格函数
+    String.prototype.trim = function() {    return this.replace(/(^\s*)|(\s*$)/g,""); }
+
+function init_brand(){
+    var brand_id=$("#brand_id").attr("data-default");
+    var xing_id=$("#xing_id").attr("data-default");
+    var year_id=$("#year_id").attr("data-default");
+    if(brand_id.length>0){
+        brand_change(brand_id, xing_id);
+        if(parseInt(xing_id)){
+            xing_change(xing_id, year_id)
+        }
+    }
+}
+function brand_change(id, default_id){
+//    var id = $(obj).val();
+    $("#year_id > option").remove();
+    $("#year_id").append("<option value=\"0\">--请选择年款--</option>");
+    $("#xing_id > option").remove();
+    $("#xing_id").append("<option value=\"0\">--请选择车型--</option>");
+    if(id > 0){
+        GetSubBrands(id, "xing_id", default_id);
+    }
+}
+function xing_change(id, default_id){
+//    var id = $(obj).val();
+    $("#year_id > option").remove();
+    $("#year_id").append("<option value=\"0\">--请选择年款--</option>");
+    if(id > 0){
+        GetSubBrands(id, "year_id", default_id);
+    }
+}
+function GetSubBrands(id,ddl_id, default_id) {
+//    alert(default_id);
+    $.get("/ajax/GetSubBrands", { pcode: id,  t: Math.random() }, function (data) {
+        data = jQuery.parseJSON(data);
+        if(data.flag==1){
+            for(var i=0; i< data.data.length; i++){
+                if(default_id.length>0){
+                    if(data.data[i]["code"]==default_id){
+                        $("#" + ddl_id).append("<option value=\"" + data.data[i]["code"] + "\" selected>" + data.data[i]["name"] + "</option>");
+                    }
+                    else{
+                        $("#" + ddl_id).append("<option value=\"" + data.data[i]["code"] + "\">" + data.data[i]["name"] + "</option>");
+                    }
+                }
+                else {
+                    $("#" + ddl_id).append("<option value=\"" + data.data[i]["code"] + "\">" + data.data[i]["name"] + "</option>");
+                }
+            }
+        }
+        else{
+            alert(data.msg)
+        }
+    });
+}
+</script>
+{% endblock %}

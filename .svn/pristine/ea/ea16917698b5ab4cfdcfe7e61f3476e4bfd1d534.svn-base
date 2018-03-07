@@ -1,0 +1,192 @@
+<ion-view view-title="确认订单" id="payment">
+    <ion-content style="background: #e9e9e9" delegate-handle="paymentScroll">
+        <div class="list" ng-hide="hiddenAddressRegion">
+            <div class="item  item-icon-left item-button-right ">
+                <i class="icon ion-ios-location-outline"></i>收货地址
+                <button class="button button-clear ion-ios-arrow-down button-balanced" ng-if="!showAllAddress"
+                        ng-click="expandAddress()"></button>
+                <button class="button button-clear ion-ios-arrow-up button-balanced" ng-if="showAllAddress"
+                        ng-click="collapseAddress()"></button>
+            </div>
+            <div ng-repeat="a in user.addresses" class="item item-radio"
+                 ng-if="!showAllAddress && a.id == order.addrid">
+                <input type="radio" name="address" value="{{a.id}}"
+                       ng-model="order.addrid" ng-change="collapseAddress()">
+
+                <p class="item-content">
+                    {{a.region}} {{ a.street }} {{ a.address }}
+                    <br/>
+                    {{ a.name }} {{ a.mobile }}
+                </p>
+                <i class="radio-icon balanced ion-checkmark"></i>
+            </div>
+
+            <a ng-repeat="a in user.addresses" ng-if="showAllAddress" class="item item-button-right"
+               ng-click="setAddress(a.id)">
+                <p class="item-content">
+                    {{a.region}}-{{ a.street }}<br/>
+                    {{ a.address }}
+                    <br/>
+                    {{ a.name }} {{ a.mobile }}
+                </p>
+
+                <button class="button icon button-clear button-assertive ion-ios-compose-outline"
+                        ng-click="modifyAddress(a.id);$event.stopPropagation()"></button>
+            </a>
+
+            <div class="item" ng-if="showAllAddress">
+                <button class="button button-full button-assertive" ng-click="newAddress();$event.stopPropagation()">
+                    <i class="icon ion-ios-plus"></i>
+                    增加地址
+                </button>
+            </div>
+        </div>
+
+        <div class="list " ng-hide="hiddenPaymentRegion">
+            <div class="item item-icon-left  item-button-right">
+                <i class="icon ion-ios-barcode-outline"></i>
+                支付方式
+            </div>
+            <!-- <a class="item item-icon-right" ng-click="useBalance()">
+                <p class="item-content">
+                    使用余额
+                    <br/>
+                    <span class="assertive" ng-if="order.balance === 0">我的余额 {{user.balance | number:2}}元</span>
+                    <span class="assertive" ng-if="order.balance > 0">已选择余额支付 {{order.balance| number:2}} 元</span>
+                    <i class="icon ion-chevron-right icon-accessory"></i>
+                </p>
+            </a> -->
+            <!-- <a class="item item-icon-right" ng-click="useCoupon()" >
+                <p class="item-content">
+                    使用优惠券
+                    <br/>
+                    <span class="assertive" ng-if="order.coupon > 0">已使用优惠券抵用 {{order.coupon| number:2}} 元</span>
+                    <i class="icon ion-chevron-right icon-accessory"></i>
+                </p>
+            </a> -->
+            <label class="item  item-radio" ng-if="renaminprice > 0">
+                <input type="radio" name="pay" value="1" ng-model="source.payment">
+
+                <p class="item-content">
+                    支付宝
+                </p>
+                <i class="radio-icon  balanced ion-checkmark"></i>
+            </label>
+            <!-- <label class="item item-radio" >
+                <input type="radio" name="pay" value="0" ng-model="source.payment">
+
+                <p class="item-content">
+                    货到付款
+                </p>
+                <i class="radio-icon  balanced ion-checkmark"></i>
+            </label> -->
+            <!--<label class="item item-radio">-->
+            <!--<input type="radio" name="pay" value="3" ng-model="order.payment">-->
+
+            <!--<p class="item-content">-->
+            <!--网银支付-->
+            <!--</p>-->
+            <!--<i class="radio-icon balanced ion-checkmark"></i>-->
+            <!--</label>-->
+        </div>
+
+        <div class="list " ng-hide="hiddenFeeRegion">
+            <div class="item item-icon-left  item-button-right  ">
+                <i class="icon  ion-ios-calculator-outline"></i>
+                费用信息
+            </div>
+            <div class="item ">
+                <p>
+                    商品总额
+                <span class="item-note">
+                    {{ order.price | number:2}} 元
+                </span>
+                </p>
+            </div>
+            <div class="item ">
+                <p>
+                    快递费用
+                    <br>
+                <span class="assertive" ng-if="order.shippingprice !== 0">
+                    还需购买 {{differenceWithShipping}} 元即可包邮哦
+                </span>
+                    <span class="assertive" ng-if="order.shippingprice === 0">
+                    商品满 {{freeShippingFee}} 元已包邮
+                </span>
+                <span class="item-note">
+                       {{order.shippingprice}} 元
+                </span>
+                </p>
+            </div>
+            <a class="item item-icon-right" ng-click="showOffPriceDetail()"  ng-if="order.offPrice > 0">
+                <p>
+                    活动优惠
+                    <br/>
+                    <span class=" assertive" ng-if="!isShowOffPriceDetail">
+                        共优惠{{ order.offPrice }} 元
+                    </span>
+                </p>
+                <p ng-if="isShowOffPriceDetail">
+                    <span ng-repeat="off in offs">
+                        {{off}}
+                    </span>
+                </p>
+                <i class="icon ion-chevron-down icon-accessory" ng-if="!isShowOffPriceDetail"></i>
+                <i class="icon ion-chevron-up icon-accessory" ng-if="isShowOffPriceDetail"></i>
+            </a>
+        </div>
+
+        <div class="list " ng-hide="hiddenDayRegion">
+            <div class="item item-icon-left  item-button-right  ">
+                <i class="icon ion-ios-clock-outline"></i>
+                收货时间
+            </div>
+            <label class="item item-radio">
+                <input type="radio" name="delivery_day" ng-model="order.delivery_day" value="weekday">
+
+                <p class="item-content">
+                    仅工作日
+                </p>
+                <i class="radio-icon balanced ion-checkmark"></i>
+            </label>
+
+            <label class="item item-radio">
+                <input type="radio" name="delivery_day" ng-model="order.delivery_day" value="weekend">
+
+                <p class="item-content">
+                    仅双休日
+                </p>
+                <i class="radio-icon  balanced ion-checkmark"></i>
+            </label>
+
+            <label class="item item-radio">
+                <input type="radio" name="delivery_day" ng-model="order.delivery_day" value="">
+
+                <p class="item-content">
+                    工作日/假日/周末 均可
+                </p>
+                <i class="radio-icon balanced ion-checkmark"></i>
+            </label>
+
+            <label class="item item-input">
+                <textarea placeholder="留言信息" ng-model="order.msg"></textarea>
+            </label>
+        </div>
+
+        <div style="height: 40px;">
+        </div>
+    </ion-content>
+    <ion-footer-bar class=" bar-stable padding" style="height:auto;" ng-if="!hiddenNextStep">
+        <div class="row">
+            <div ng-if="renaminprice > 0" class="col ">
+                <span ng-if="order.balance > 0 || order.coupon > 0">还</span><span>需支付 {{renaminprice|number:2}} 元</span>
+            </div>
+
+            <div class="col" >
+                <button class="button  button-assertive button-full"  ng-click="pay()">
+                    提交订单
+                </button>
+            </div>
+        </div>
+    </ion-footer-bar>
+</ion-view>

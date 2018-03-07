@@ -1,0 +1,345 @@
+{% extends "layout/site.html" %}
+
+{% block title %}积分换购 - 车装甲{% endblock %}
+{% block keyword %}积分换购、优惠、导购、图片、评论、价格{% endblock %}
+{% block description %}车装甲是提供生鲜水果的网上购物商城，您可以在齐全的品类中选购。也可了解最新价格、优惠促销、网友评论导购、图片等相关内容。{% endblock %}
+
+{% block js %}
+<script src="/style2/js/jquery.twbsPagination.min.js"></script>
+<script src="/style2/js/common.js"></script>
+
+<script>
+    function request(paras){
+        var url = location.href;
+        var paraString = url.substring(url.indexOf("?")+1,url.length).split("&");
+        var paraObj = {}
+        for (i=0; j=paraString[i]; i++){
+            paraObj[j.substring(0,j.indexOf("=")).toLowerCase()] = j.substring(j.indexOf("=")+1,j.length);
+        }
+        var returnValue = paraObj[paras.toLowerCase()];
+            if(typeof(returnValue)=="undefined"){
+            return "-1";
+        }else{
+            return returnValue;
+        }
+    };
+    if(request('cid') == '0301'){
+        ismenu="li_shu";
+    }else if(request('cid') == '0302'){
+        ismenu="li_guo";
+    }else if(request('cid') == '01'){
+        ismenu="li_sg";
+    }else {
+        ismenu = "li_hg";
+    }
+    function orderclick(by){
+        var order = jQuery.parseJSON( $('#hd_order').val());
+        if(by==order.orderby)
+        {
+            if(order.desc==0)
+            {
+                order.desc = 1;
+            }
+            else{
+                order.desc = 0
+            }
+        }
+        else
+        {
+            order.desc=1;
+            order.page=1;
+            order.orderby=by;
+        }
+        var url = '/category?keyword='+order.keyword+'&cid='+order.cid.toString()+'&page='+order.page.toString()+'&orderby='+order.orderby+'&desc='+order.desc.toString();
+
+        location = url;
+    }
+
+    $(document).ready(function() {
+        var order = {keyword:'{{keyword}}',page:'{{page}}',orderby:'{{orderby}}',desc:'{{desc}}',cid:'{{cid}}'};
+        $('#hd_order').val(JSON.stringify(order));
+        //$(".cateMenu").show();
+        $(".cateMenu").remove();
+
+        $('#pageUl').twbsPagination({
+            first:'«',
+            prev:'‹',
+            next:'›',
+            last:'»',
+            totalPages: {{totalpage}},
+            startPage: {{page}},
+            visiblePages: 8,
+            onPageClick: function (event, page) {
+                self.location="/category?keyword={{keyword|e|null}}&cid={{cid}}&page="+page;
+            }
+        });
+
+        $('#pageUl2').twbsPagination({
+            first:'«',
+            prev:'‹',
+            next:'›',
+            last:'»',
+            totalPages: {{totalpage}},
+            startPage: {{page}},
+            visiblePages: 8,
+            onPageClick: function (event, page) {
+                self.location="/category?keyword={{keyword|e|null}}&cid={{cid}}&page="+page;
+            }
+        });
+        
+
+    });
+
+
+
+    jQuery(function($){
+        var shell = $('#product_list');
+        var minHeight = 154, maxHeight = 255;
+        function getMask(isDisabled){
+            var mask = document.createElement('i');
+            mask.innerHTML = '<s></s><em>' + (isDisabled ? '售罄' : '详情') + '</em>';
+            mask.className = 'mask';
+            return $(mask);
+        }
+        shell.delegate('li', 'mouseenter', function(){
+            if(this.className.indexOf('more') > -1){ return;}
+
+            var 
+            self = $(this),
+            mask = self.data('picMask'),
+            picElem = self.find('a.pic');
+            if(!mask){
+                mask = getMask((this.className.indexOf('disabled') > -1));
+                self.data('picMask', mask);
+                picElem.prepend(mask);
+            }
+
+            mask.stop().show().animate({opacity:1}, 360, function(){
+                if(!$.support.opacity){
+                    mask.css('filter', 'none');
+                }
+            });
+
+            if(!ds.transitionSupport){
+                if(!this.fixedHeight){
+                    this.fixedHeight = true;
+                    picElem.css('height', maxHeight);
+                }
+                picElem.stop().animate({height: minHeight}, 400);
+            }
+        })
+        .delegate('li', 'mouseleave', function(){
+            if(this.className.indexOf('more') > -1){ return;}
+
+            var 
+            self = $(this),
+            mask = self.data('picMask'),
+            picElem = self.find('a.pic');
+            mask.stop().animate({opacity:0}, 360, function(){
+                mask.hide();
+            });
+		
+            if(!ds.transitionSupport){
+                picElem.stop().animate({height: maxHeight}, 400);
+            }
+        });
+
+
+        $(".c{{c_cid}}").addClass("c_current");
+        var c = $(".c{{cc_cid}}").html();
+        if(c != ''){
+            $(".cc{{cc_cid}}").addClass("cc_current");
+            $(".all_tj").removeClass("all_tj");
+        }
+    });
+
+
+
+
+    jQuery(function($){
+        var shell = $('#cat_slider');
+        if(!shell.length){ return;}
+        shell.find('.pro_sublist').each(function(i){
+            var self = $(this);
+            self.data('maxHeight', self.height()).css('overflow', 'hidden');
+            if(this.parentNode.className.indexOf('current') < 0){
+                self.css('height', 0);
+            }
+        });
+        shell.delegate('a.trigger', 'click', function(e){
+            e.preventDefault();
+		
+            
+            var 
+            isExtended = this.className.indexOf('open') > -1,
+            panel = $('.pro_sublist', this.parentNode.parentNode);
+            panel.stop().show().animate({
+                height: isExtended ? 0 : panel.data('maxHeight'),
+                opacity: isExtended ? 0 : 1
+            }, 200, function(){
+                if(isExtended){
+                    panel.hide();
+                }
+            });
+            this.className = isExtended ? 'trigger' : 'trigger open';
+        });
+    });
+
+</script>
+
+{% endblock %}
+{% block content %}
+<!-- Container -->
+<!-- Container -->
+ 
+<div id="container" class="clearfix wrap container">
+    <!--LEFT-->
+    <div class="LEFT_PRO">
+      <!--LEFT class-->
+    	<DIV class="LT_TOP">
+    	<div class="LEFT_TITLE" style="border-right:solid 1PX #d6d5d5;">
+            全部分类
+            </div>
+    		<DIV class="CLASS_BOX" >
+                {% for c in child -%}
+            	<a href="/category?cid={{c.code}}" class="c{{c.code}}">{{c.name}}  </a>
+                {% endfor %}
+            </DIV>
+
+       </DIV>
+       <div style="clear:both"></div>
+      <!--LEFT product-->
+      <DIV class="HOT_PRO">
+       	<div class="LEFT_TITLE">热销商品</div>
+    <div class="LEFT_PRODUCT_HOT">
+        {% for h in hot %}
+        	<DIV class="PRODCT_LIST">
+            	<a href="/product/{{h.id}}" class="lt_list ft_lt"><img src="upload/{{h.product.sku}}/{{h.product.cover}}" width="80" height="78"></a>
+                     <DIV class="ft_lt" style="margin-left:15px;">
+                	<a href="/product/{{h.id}}">{{h.product.name[0:8]}}</a>
+                    <div class="pro_gg">规格：{{'%.0f' % h.weight}}克</div>
+                	<div class="pro_yj">易凡价：￥{{h.price}}元</div>
+                </DIV>
+             </DIV>
+        {% endfor %}
+
+      </div>
+     </div>
+
+    </div>
+    <!-- end Left  -->
+    <!-- Main -->
+    <div id="product_list_content" class="content">
+        <!-- Crumb -->
+        <div class="crumb">
+            <ul>
+                <li class="home"><a href="/"></a></li>
+                <li class="step_arrow"></li>
+                <li><a href="/category">全部分类</a></li>
+                <li class="step_arrow"></li>
+                <li><a href="/huangou">积分换购</a></li>
+            </ul>
+        </div>
+
+
+           <div style="clear: both"></div>
+
+        <!-- 筛选 -->
+        <input type="hidden" id="hd_order" name="hd_order" value="">
+        <div class="type_order">
+            <ul>
+                <li>
+                    <a {% if orderby=='orders' %} class="current"  {% endif %} href="javascript:void(0);"  onclick="orderclick('orders')" title="销量从高到低">
+                    销量<i {% if orderby=='orders' %} {% if desc==1 %} class="desc_only" {% else %} class="asc_only" {% endif %} {% endif %}></i>
+                    </a>
+                </li>
+                <li>
+                    <a {% if orderby=='price' %} class="current"  {% endif %}  href="javascript:void(0);"  onclick="orderclick('price')" title="价格 排序">
+                        价格<i {% if orderby=='price' %} {% if desc==1 %} class="desc_only" {% else %} class="asc_only" {% endif %} {% endif %} ></i>
+                    </a>
+                </li>
+                <li>
+                    <a {% if orderby=='views' %} class="current"  {% endif %}  href="javascript:void(0);" onclick="orderclick('views')" title="关注度">
+                        关注度<i {% if orderby=='views' %} {% if desc==1 %} class="desc_only" {% else %} class="asc_only" {% endif %} {% endif %}></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+           <div style="clear: both"></div>
+        <!-- Pager -->
+        <div class="pager prepaid_mt25">
+            <div class="page_list" id="pageUl2"></div>
+        </div>
+        <!-- 列表 -->
+           <div style="clear: both"></div>
+        {% if total>0 %}
+        <div id="product_list" class="clearfix product_list">
+            <ul>
+                {% for index,ps in standards -%}
+                    {% if (index+1)%4==0  %}
+                        <li id="li_7285" style="margin-right:0px;">
+                    {% else %}
+                        <li id="li_7285">
+                    {% endif%}
+                        <div class="pro_item">
+                            <a href="/product/{{ps.id}}" class="pic" target="_blank">
+                                <i class="mask"><s></s><em>详情</em></i>
+                                 <img src="upload/{{ps.product.sku}}/{{ps.product.cover}}" width="224" height="224" alt="{{ps.product.name}}" />
+                            </a>
+                            <div class="props">
+                                <div class="pro_tag">
+                                    <div class="pro_tag_inner">                                        
+                                        <em class="save">{{ps.name}}</em>
+                                    </div>
+                                </div>
+                                <a href="/product/{{ps.id}}" class="tit" title="{{ps.product.name}}" target="_blank">{{ps.product.name}}</a>
+                                <div class="sell_out"><i></i>原价：
+                                    {% if ps.price < ps.ourprice or ps.price> 100 %}
+                                    <em>&yen;{{ps.price}}</em><em style="font-weight: 100; color: #666666;">/份</em>
+                                    {% else %}
+                                    <em>&yen;{{ps.ourprice}}</em><em style="font-weight: 100; color: #666666;">/斤</em>
+                                    {% endif %}
+                                     {{ps.product.score_num}}积分换购
+                                </div>
+                                <a href="/product/{{ps.id}}" id="p_7285" data-id="7285" data-sku="IP02770" class="btnWP buy" title="加入购物车"><span>立即购买</span></a>
+                                <div class="star_wrap"><span class="label">评分</span> 
+                                    <a href="#" target="_blank" id="commented_7285" class="star">
+                                          <span>({{ps.product.orders}})</span>
+                                    <em style="width:96%"></em>
+                                    </a>
+                                  
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                {%- endfor %}
+            </ul>
+        </div>
+        {% else %}
+        <div style="min-height: 300px; text-align: center; padding-top: 80px; font-size: 16px;">
+            抱歉，未找到您要找的信息
+        </div>
+        {% endif %}
+        <div style="clear: both"></div>
+
+        <!-- 底部分页 -->
+        <div class="pager prepaid_mt25">
+
+
+            <div class="page_list" id="pageUl"></div>
+
+        </div>
+           <div style="clear: both"></div>
+    </div>
+
+    <div class="sliderbar">
+		
+		  
+			
+		</div>
+
+    <div style="clear: both"></div>
+</div>
+ 
+
+{% endblock %}

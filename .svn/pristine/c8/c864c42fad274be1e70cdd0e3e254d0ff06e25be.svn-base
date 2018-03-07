@@ -1,0 +1,82 @@
+{% extends "layout/site.html" %}
+{% block css %}
+<link rel="stylesheet" href="/style2/css/EoFan.css" type="text/css" media="screen">
+{% block subcss %}
+{% endblock %}
+{% endblock %}
+{% block content %}
+<div class="usercenter">
+  <div class="profile">
+    <div class="nav">
+      {% if user.grade == 0 %}
+      <h2 style="cursor:pointer;" onclick="location.href='/user/home';"><b></b>我的汽车网</h2>
+        <a href="/user/order" class="list {% if c=='order' %} selected {% endif %}  "><b></b>我的订单</a>
+        <a href="/user/fav" class="fav {% if c=='fav' %} selected {% endif %}"><b></b>我收藏的产品</a>
+        <a href="/user/fav_store" class="fav {% if c=='fav_store' %} selected {% endif %}"><b></b>我收藏的门店</a>
+        <a href="/user/question" class="fav {% if c=='question' %} selected {% endif %}"><b></b>我提出的问题</a>
+        <a href="/user/circle" class="fav {% if c=='circle' %} selected {% endif %}"><b></b>我的圈子</a>
+      <h2><b></b>个人账户</h2>
+        <a href="/user/profile" class="settings {% if c=='profile' %} selected {% endif %}"><b></b>设置账户信息</a>
+        <a href="/user/address" class="addr {% if c=='address' %} selected {% endif %}"><b></b>管理收货地址</a>
+        <a href="/user/autos" class="addr {% if c=='autos' %} selected {% endif %}"><b></b>我的汽车</a>
+        <a href="/user/balance" class="balance {% if c=='balance' %} selected {% endif %}"><b></b>我的余额</a>
+        <a href="/user/coupon" class="cards {% if c=='coupon' %} selected {% endif %}" style="display:none;"><b></b>我的优惠劵</a>
+        <a href="/user/gift" class="gift {% if c=='gift' %} selected {% endif %}" style="display:none;"><b></b>我的礼品</a>
+        <a href="/user/score" class="score {% if c=='score' %} selected {% endif %}"><b></b>我的积分</a>
+        <a href="/user/promote" class="promote {% if c=='promote' %} selected {% endif %}"><b></b>我的好友推广</a>
+        <a href="/user/message" class="promote {% if c=='message' %} selected {% endif %}"><b></b>我的消息</a>
+        <a href="/user/password" class="password {% if c=='password' %} selected {% endif %}"><b></b>修改密码</a>
+        <a href="/user/feedback" class="feedback {% if c=='feedback' %} selected {% endif %}"><b></b>意见反馈</a>
+      <!--<h2><b></b>售后服务</h2>
+      <a href="/user/service" class="rmapre {% if c=='service' %} selected {% endif %}"><b></b>我的售后咨询</a> </div>-->
+      {% elif user.grade == 1 %}
+      <h2 style="cursor:pointer;" onclick="location.href='/user/home';"><b></b>我的汽车网</h2>
+        <a href="/user/order" class="list {% if c=='order' %} selected {% endif %}  "><b></b>我的订单</a>
+        <a href="/user/fav" class="fav {% if c=='fav' %} selected {% endif %}"><b></b>我收藏的产品</a>
+        <a href="/user/fav_store" class="fav {% if c=='fav_store' %} selected {% endif %}"><b></b>我收藏的门店</a>
+        <a href="/user/a_question" class="fav {% if c=='a_question' %} selected {% endif %}"><b></b>我回答的问题</a>
+        <a href="/user/circle" class="fav {% if c=='circle' %} selected {% endif %}"><b></b>我的圈子</a>
+      <h2><b></b>产品服务</h2>
+        <a href="/user/product/0" class="settings {% if c=='add_product' %} selected {% endif %}"><b></b>自主发布</a>
+        <a href="/user/product_from" class="settings {% if c=='product_from' %} selected {% endif %}"><b></b>从厂家发布产品</a>
+        <a href="/user/order/orders" class="settings {% if c=='orders' %} selected {% endif %}"><b></b>订单管理</a>
+        <a href="/user/products" class="settings {% if c=='products' %} selected {% endif %}"><b></b>产品管理</a>
+        <a href="/user/news" class="settings {% if c=='news' %} selected {% endif %}"><b></b>信息管理</a>
+        <a href="/user/settlement" class="settings {% if c=='settlement' %} selected {% endif %}"><b></b>结算管理</a>
+      <h2><b></b>个人账户</h2>
+        <a href="/user/profile" class="settings {% if c=='profile' %} selected {% endif %}"><b></b>设置账户信息</a>
+        <a href="/user/profile_store" class="settings {% if c=='profile_store' %} selected {% endif %}"><b></b>门店资料修改</a>
+        <a href="/user/address" class="addr {% if c=='address' %} selected {% endif %}" style="display:none;"><b></b>管理收货地址</a>
+        <a href="/user/store_autos" class="addr {% if c=='autos' %} selected {% endif %}"><b></b>维修品牌管理</a>
+        <a href="/user/balance" class="balance {% if c=='balance' %} selected {% endif %}" style="display:none;"><b></b>我的余额</a>
+        <a href="/user/coupon" class="cards {% if c=='coupon' %} selected {% endif %}" style="display:none;"><b></b>我的优惠劵</a>
+        <a href="/user/gift" class="gift {% if c=='gift' %} selected {% endif %}" style="display:none;"><b></b>我的礼品</a>
+        <a href="/user/score" class="score {% if c=='score' %} selected {% endif %}" style="display:none;"><b></b>我的积分</a>
+        <a href="/user/promote" class="promote {% if c=='promote' %} selected {% endif %}" style="display:none;"><b></b>我的好友推广</a>
+        <a href="/user/message" class="promote {% if c=='message' %} selected {% endif %}"><b></b>我的消息</a>
+        <a href="/user/password" class="password {% if c=='password' %} selected {% endif %}"><b></b>修改密码</a>
+        <a href="/user/feedback" class="feedback {% if c=='feedback' %} selected {% endif %}"><b></b>意见反馈</a>
+      {% elif user.grade == 2 %}
+      <h2 style="cursor:pointer;" onclick="location.href='/user/home';"><b></b>我的汽车网</h2>
+        <a href="/user/product/0" class="settings {% if c=='add_product' %} selected {% endif %}"><b></b>发布产品</a>
+        <a href="/user/order/orders" class="settings {% if c=='orders' %} selected {% endif %}"><b></b>订单管理</a>
+        <a href="/user/products" class="settings {% if c=='products' %} selected {% endif %}"><b></b>产品管理</a>
+      <h2><b></b>个人账户</h2>
+        <a href="/user/profile" class="settings {% if c=='profile' %} selected {% endif %}"><b></b>设置账户信息</a>
+        <a href="/user/profile_store" class="settings {% if c=='profile_store' %} selected {% endif %}"><b></b>门店资料修改</a>
+        <a href="/user/message" class="promote {% if c=='message' %} selected {% endif %}"><b></b>我的消息</a>
+        <a href="/user/password" class="password {% if c=='password' %} selected {% endif %}"><b></b>修改密码</a>
+      {% elif user.grade == 3 %}
+      <h2 style="cursor:pointer;" onclick="location.href='/user/home';"><b></b>我的汽车网</h2>
+        <a href="/user/order/orders" class="settings {% if c=='orders' %} selected {% endif %}"><b></b>订单管理</a>
+      <h2><b></b>个人账户</h2>
+        <a href="/user/profile" class="settings {% if c=='profile' %} selected {% endif %}"><b></b>设置账户信息</a>
+        <a href="/user/profile_store" class="settings {% if c=='profile_store' %} selected {% endif %}"><b></b>门店资料修改</a>
+        <a href="/user/password" class="password {% if c=='password' %} selected {% endif %}"><b></b>修改密码</a>
+      {% endif %}
+    <script src="/style2/js/jquery.lightbox.min.js"></script>
+    </div>
+    {% block subcontent %}{% endblock %}
+</div>
+<div class="clear"></div>
+{% endblock %}

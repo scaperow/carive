@@ -1,0 +1,253 @@
+{% extends "layout/user.html" %}
+{% block subcontent %}
+<script src="/js/jquery.selectui.min.js" ></script>
+<h1>管理收货地址</h1>
+  <div class="content sector">
+    <h2><span class="addAddress">新增</span><span class="modifyAddress" style="display: none;">修改</span>收货地址</h2>
+    <form class="shipping_address" action="" method="post">
+        {{xsrf()}}
+      <input type="hidden" name="edit" class="edit" id="edit" value="" />
+      <div class="input_container">
+        <label for="recipient_name"><span class="spark">*</span>收件人姓名：</label>
+        <input type="text" size="20" required class="t_input recipient_name" id="recipient_name" name="recipient_name" value="" />
+      </div>
+      <div class="input_container input_address_select">
+        <label><span class="spark">*</span>收货地址：</label>
+
+        <div class="district_selector">
+          <select name="ddlProvince" id="ddlProvince" style="height:22px;"><!--disabled="true"-->
+          </select>
+          <select name="ddlCity" id="ddlCity" style="height:22px;">
+          </select>
+          <select name="ddlCounty" id="ddlCounty" style="height:22px;">
+          </select>
+          <select name="ddlStreet" id="ddlStreet" style="height:22px;">
+          </select>
+        </div>
+        <style>
+.ui-district-panel {position:absolute;z-index:1000006;width:380px;height:auto;padding:15px 5px 15px 15px;list-style:none;background:#fff;border:1px solid #ccc;}
+.ui-district-panel li {float:left;width:85px;margin-right:10px;padding:4px 0;color:#666;cursor:pointer;}
+.ui-district-panel li.current {color:#ed145b;}
+.ui-district-panel li.long {width:180px;}
+</style>
+
+        <input type="hidden" name="hidAddressID" id="hidAddressID" value=""/>
+      </div>
+      <div class="input_container">
+        <label for="recipient_street"><span class="spark">*</span>详细地址：</label>
+        <textarea rows="3" cols="60" class="t_input recipient_street" required style="height:auto;resize:none;" id="recipient_street" name="recipient_street"></textarea>
+      </div>
+      <div class="input_container">
+        <label for="recipient_hp">手机号码：</label>
+        <input type="tel" size="20" class="t_input recipient_hp" required id="recipient_hp" name="recipient_hp" value="" maxlength="11"  title="请输入正确的手机号码" pattern="^[1]([3][0-9]{1}|45|47|50|51|52|53|54|55|56|57|58|59|70|75|76|77|78|80|81|82|83|84|85|86|87|88|89)[0-9]{8}$" />
+        <label for="recipient_tel_area" style="float:none;margin-left:20px;">或固定号码：</label>
+        <input type="tel" size="5" class="t_input recipient_tel_area" id="recipient_tel_area" name="recipient_tel_area" value="" maxlength="4" title="三位或者四位数字，可留空" pattern="^\d{3,4}$"  />
+        <span class="rod">-</span>
+        <input type="tel" size="10" class="t_input recipient_tel_number" id="recipient_tel_number" name="recipient_tel_number" value="" maxlength="8" title="七位或者八位数字，可留空" pattern="^\d{7,8}$"   />
+        <span class="rod">-</span>
+        <input type="tel" size="5" class="t_input recipient_tel_ext" id="recipient_tel_ext" name="recipient_tel_ext" value="" maxlength="8" title="三位或者四位数字，可留空" pattern="^\d{3,4}$"   />
+      </div>
+      <div class="act">
+        <input type="submit" value="保存收货地址" name="commit" id="shipping_address_submit" class="btn btn-success" />
+        &nbsp; <a style="display: none;" href="#" id="edit_cancel">取消</a> </div>
+    </form>
+    <h2>已保存的地址</h2>
+
+    <div id="shipping_address_list">
+
+	<table class="order-tablev2" id="order-list">
+        <colgroup>
+            <col class="name"><col class="address"><col class="code"><col class="hp"><col class="phone"><col class="action"></colgroup>
+        <tbody>
+        <tr class="order_list_title">
+            <th>收货人</th>
+            <th>收货地址</th>
+            <th>手机</th>
+            <th>固定电话</th>
+            <th width="80">操作</th>
+            <th></th>
+        </tr>
+        {% for a in addritems %}
+        <tr>
+            <td>{{a.name |escape}}</td>
+            <td class="order_info_td">{{a.province|escape}}-{{a.city|escape}}-{{a.region|escape}}-{{a.street|escape}} {{a.address|escape}}</td>
+            <td style="padding: 0px;">{{ a.mobile |escape}}</td>
+            <td>{{ a.tel }}</td>
+            <td><a class="sp_address_edit" style="display: inline-block;" href="javascript:void(0)" address_id="{{a.id}}">修改</a> &nbsp;
+                <a class="sp_address_delete" style="display: inline-block;" href="javascript:void(0)" address_id="{{a.id}}">删除</a></td>
+            <td class="tdAddress" address_id="{{a.id}}">{{ a.isdefault==1 and '<span style="color:#129a00;">默认地址</span>' or '<a class="setDefault" style="cursor:pointer; color:#0099FF;">设为默认</a>' }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+  </div>
+
+  <style>
+#order-list {
+	margin-bottom: 1px;
+}
+</style>
+
+</div>
+<div class="clear"></div>
+
+{% endblock %}
+
+{% block js%}
+<script src="/style2/js/address.js" ></script>
+<script>
+
+var xsrf='{{handler.xsrf_token}}';
+    $(function(){
+       initLocation({sheng_val:"陕西",shi_val:"西安",xian_val:"",xiang_val:""});
+       $(".sp_address_delete").click(function(){
+            if(confirm("您确认要删除该地址吗？")){
+                var _this = $(this);
+                $.ajax({
+                    url: '/ajax/RemoveAddress?address_id='+_this.attr("address_id")+'&_xsrf='+xsrf,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {},
+                    success:function(data){
+                        if(data.status == 1)
+                        {
+                            location.href='/user/address';
+                        }
+                    }
+                });
+            }
+            return false;
+        });
+
+       $('.sp_address_edit').click(function(){
+            var addressId = $(this).attr('address_id');
+
+            var editWrap = $('.content');
+            var self = $(this);
+            var receiver_id = editWrap.find("#hidAddressID");
+            var receiver_name = editWrap.find("#recipient_name"); //收货人
+            var recipient_address = editWrap.find("#recipient_street"); //收获地址
+            var recipient_hp = editWrap.find("#recipient_hp");//手机
+            var recipient_tel_area = editWrap.find("#recipient_tel_area");
+            var recipient_tel_number = editWrap.find("#recipient_tel_number");
+            var recipient_tel_ext = editWrap.find("#recipient_tel_ext");
+            var recipient_province = editWrap.find('#ddlProvince');//省
+            var recipient_city = editWrap.find('#ddlCity');//市
+            var recipient_region = editWrap.find('#ddlCounty');//区
+            var recipient_street = editWrap.find('#ddlStreet');//街道
+            //editWrap.find("#ddlProvince option:selected").text(),
+
+            $.ajax({
+                url: '/ajax/GetOneAddress',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    _xsrf:xsrf,
+                    address_id: addressId
+                },
+                success:function(data){
+                    var status = parseInt(data.status);
+                    if(status==1){
+                        var d = $.parseJSON(data.addAddress)._data;
+                        receiver_id.val(d.id);
+                        receiver_name.val(d.name);
+                        recipient_address.val(d.address);
+
+                        recipient_hp.val(d.mobile).attr('data', d.mobile);
+                        recipient_province.val(d.province);//省
+                        recipient_city.val(d.city);//市
+                        recipient_region.val(d.region);//区
+                        recipient_street.val(d.street);//街
+                        //recipient_street.hide();
+                        if(d.tel != '') {
+                            var tel = d.tel.split('-');
+                            if(tel.length == 3){
+                                recipient_tel_area.val(tel[0]);
+                                recipient_tel_number.val(tel[1]);
+                                recipient_tel_ext.val(tel[2])
+                            }else if(tel.length == 2)
+                            {
+                                recipient_tel_area.val(tel[0]);
+                                recipient_tel_number.val(tel[1]);
+                            }else
+                            {
+                                recipient_tel_number.val(tel[0]);
+                            }
+
+                        }
+
+                        $('.JS_site_menu_box').each(function () {
+                            var $this = $(this),
+                                $menu = $this.find('.JS_site_menu'),
+                                $txt = $this.find('.JS_site_txt'),
+                                key = $menu.attr('data-name');
+                            if (key == 'city') {
+                                _parentcode = d.city_code;
+                            } else if (key == 'county') {
+                                _parentcode = d.district_code;
+                            }
+                            if (confirm_site[key] && confirm_site[key].name) {
+                                $txt.html( confirm_site[key].name );
+                                $this.next('.JS_site_menu_box').removeClass('disabled')
+                                    .find('.JS_site_menu').attr('parentcode', _parentcode);
+                                $this.removeClass('disabled').find('.JS_site_menu').attr('parentcode', confirm_site[key].parent_code);
+                            } else {
+                                $txt.html( $txt.attr('data') );
+                            }
+                        });
+
+                        var recipient_tel_number_val = '';
+
+                        if(d.phone.length <= 1){
+                            recipient_tel_area.val("");
+                            recipient_tel_number.val("");
+                            recipient_tel_ext.val("");
+                        }else{
+                            // 有2个 - 时
+                            if (d.phone.indexOf("-") >= 0 && d.phone.indexOf("-") != d.phone.lastIndexOf("-")){
+                                recipient_tel_number_val = d.phone.slice(d.phone.indexOf("-")+1, d.phone.lastIndexOf("-"))
+                                recipient_tel_area.val(d.phone.indexOf("-")==0 ? "" : d.phone.slice(0, d.phone.indexOf("-")));
+                                recipient_tel_ext.val(d.phone.slice(d.phone.lastIndexOf("-")+1 , d.phone.length));
+                            }
+                                // 只有一个 - 时,无尾号
+                            else if(d.phone.indexOf("-") >= 0 && d.phone.indexOf("-") == d.phone.lastIndexOf("-") ){
+                                recipient_tel_number_val = d.phone.slice(d.phone.indexOf("-")+1, d.phone.length);
+                                recipient_tel_area.val(d.phone.indexOf("-")==0 ? "" : d.phone.slice(0, d.phone.indexOf("-")));
+                                recipient_tel_ext.val("");
+                            }else{
+                                recipient_tel_number_val = d.phone;
+                            }
+                            recipient_tel_number.val( recipient_tel_number_val ).attr('data', recipient_tel_number_val);
+                        }
+
+                    }else{
+                        try{
+                            alert(data.message);
+                        }catch(e){}
+                    }
+                }
+            });
+
+
+            return false;
+        });
+
+       $('.setDefault').click(function(){
+           var addressId = $(this).parent().attr('address_id');
+           $.ajax({
+                url: '/ajax/SetAddress?addrid='+ addressId,
+                type: 'GET',
+                dataType: 'json',
+                data: {},
+                success:function(data){
+                    if(data == 1)
+                    {
+                        location.href='/user/address';
+                    }
+                }
+            });
+       });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "layout/site.html" %}
+{% block content %}
+<div class="container" style=" margin:0 auto; text-align:center;  padding-left:20px; padding-top:30px; padding-bottom:30px; background:#fff;"  >
+    
+    <h2 style="color: #129a00">
+        抱歉！发现系统错误，管理员会尽快解决！
+    </h2>
+    {% if msg %}
+    {{msg}}
+    {% endif %}
+</div>
+{% endblock %}
+

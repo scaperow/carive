@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-cn" class="csstransitions cssanimations ic_webkit ic_chrome ic_latest">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style>
+        .t_input{
+            line-height: 30px;
+        }
+        .input_container{
+            margin:2px 0;
+        }
+    </style>
+</head>
+<body>
+<div class="usercenter">
+    <div class="content" style="width:642px;">
+        <div class="service_wrap" style="margin-top: 0px;">
+            <h2 class="service_tit"><span>售后回复</span></h2>
+            <div class="s_advice">
+                <form class="service_detail_wrap" action="/user/service-add" method="post" id="service-form">
+                    {{xsrf()}}
+                    <div class="input_container">
+                        <label><span class="spark">*</span>是否收到商品：</label>
+                        <span class="t_input" >{{consult.isreceived == 0 and '未收到' or '收到'}}</span>
+                    </div>
+                    <div class="input_container">
+                        <label><span class="spark">*</span>订单编号：</label>
+                        <span class="t_input" >{{consult.order}}</span>
+                    </div>
+                    <div class="input_container">
+                        <label><span class="spark">*</span>问题详细类别：</label>
+                        <span class="t_input" >{{consult.type}}</span>
+                    </div>
+                    <div class="input_container">
+                        <label><span class="spark">*</span>问题描述：</label>
+                        <span class="t_input" >{{consult.content}}</span>
+
+                    </div>
+                    <div class="input_container">
+                        <label><span class="spark">*</span>联系人姓名：</label>
+                        <span class="t_input" >{{consult.contact}}</span>
+                    </div>
+                    <div class="input_container">
+                        <label><span class="spark">*</span>联系人手机：</label>
+                        <span class="t_input" >{{consult.mobile}}</span>
+                    </div>
+                    <div class="input_container">
+                        <label><span class="spark">*</span>提交时间：</label>
+                        <span class="t_input" >{{consult.created | datetimeformat}}</span>
+                    </div>
+                    <div class="input_container">
+                        <label><span class="spark">*</span>回复内容：</label>
+                        <span class="t_input" >{{consult.reply_content}}</span>
+                    </div>
+                    <p>&nbsp;</p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<ion-view view-title="门店资料修改">
+  <ion-content class="deep-content">
+    <div class="list">
+      <div class="list">
+        <dev class="item item-input item-select">
+          <label class="input-label">
+            省
+          </label>
+          <select ng-model="profile.province" ng-change="changeProvince()">
+            <option selected ng-if="profile.province === '' || !profile.province || !provinces">请选择</option>
+            <option ng-if="provinces" ng-repeat="n in provinces" ng-selected="{{n.code == profile.province}}" value="{{n.code}}">{{n.name}}</option>
+          </select>
+        </dev>
+        <dev class="item item-input item-select">
+          <label class="input-label">
+            市
+          </label>
+
+          <select ng-model="profile.city" ng-change="changeCity()">
+            <option value="">请选择</option>
+            <option ng-if="cities" ng-repeat="n in cities" ng-selected="{{n.code == profile.city}}" value="{{n.code}}">{{n.name}}</option>
+          </select>
+        </dev>
+        <dev class="item item-input item-select">
+          <label class="input-label">
+            区
+          </label>
+          <select ng-model="profile.region" ng-change="changeRegion()">
+            <option value="">请选择</option>
+            <option ng-if="regions" ng-repeat="n in regions" ng-selected="{{n.code == profile.region}}" value="{{n.code}}">{{n.name}}</option>
+          </select>
+        </dev>
+        <!-- <dev class="item item-input item-select">
+          <label class="input-label">
+            街道
+          </label>
+          <select ng-model="profile.street" ng-change="changeStreet()">
+            <option value="">请选择</option>
+            <option ng-if="streets" ng-repeat="n in streets" ng-selected="{{n.code == profile.street}}" value="{{n.code}}">{{n.name}}</option>
+          </select>
+        </dev> -->
+        <label class="item item-input ">
+          <input type="text" placeholder="详细地址" ng-model="profile.address">
+        </label>
+        <label class="item item-input">
+          <input type="text" placeholder="联系人" ng-model="profile.link_man">
+        </label>
+        <label class="item item-input">
+          <input type="text" placeholder="手机号码" ng-model="profile.mobile">
+        </label>
+      </div>
+    </div>
+    <div class="padding">
+      <button class="button button-block button-balanced" ng-click="saveProfileStore()">保存</button>
+      </button>
+    </div>
+  </ion-content>
+</ion-view>

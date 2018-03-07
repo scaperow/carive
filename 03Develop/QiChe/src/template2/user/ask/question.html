@@ -1,0 +1,260 @@
+{% extends "layout/user.html" %}
+{% block css%}
+<link rel="stylesheet" href="/style2/css/EoFan.css" type="text/css" media="screen">
+<link rel="stylesheet" href="/style2/css/user.css" type="text/css" media="screen">
+{% endblock %}
+{% block subcontent %}
+
+<script src="/style2/js/layer/layer.min.js" type="text/javascript"></script>
+<link href="/style2/css/plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+<style>
+    .navbar-brand {
+    float: left;
+    height: 50px;
+    padding: 15px 15px;
+    font-size: 18px;
+    line-height: 20px;
+}
+label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+    .pull-right {
+    float: right!important;
+}
+    .navbar-left {
+    float: left!important;
+}
+    .navbar-form {
+    width: auto;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-right: 0;
+    margin-left: 0;
+    border: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+    .navbar-form {
+    padding: 0px 15px;
+    margin-right: -15px;
+    margin-left: -15px;
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.1),0 1px 0 rgba(255,255,255,.1);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.1),0 1px 0 rgba(255,255,255,.1);
+}
+    .btn-group, .btn-group-vertical {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+    .btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+    .btn-group>.btn:first-child:not(:last-child):not(.dropdown-toggle) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.btn-group>.btn:first-child {
+    margin-left: 0;
+}
+    .btn-default:active, .btn-default.active, .open>.dropdown-toggle.btn-default {
+    background-image: none;
+}
+    .btn-info {
+    color: #fff;
+    background-color: #5bc0de;
+    border-color: #46b8da;
+}
+    .navbar-form .form-control {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+}
+    .navbar-form .form-control {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+}
+.form-control {
+    margin-left: 1px;
+    float:none;
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+    .btn-primary {
+    color: #fff;
+    background-color: #428bca;
+    border-color: #357ebd;
+}
+    .btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+.btn-xs, .btn-group-xs > .btn {
+    padding: 1px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+    .profile table a {
+    color: #666;
+    text-decoration: inherit;
+}
+</style>
+<h1> 我提出的问题
+    <span>
+        <a style="color:red; font-size: 11px;" href="/user/question/0">我要提问>></a>
+    </span>
+</h1>
+
+
+<div class="content ">
+    {%set messages=handler.get_flashed_messages() %}
+    {%-if messages-%}
+    <div style="color: red; font-size: 1.0em; margin-bottom: 25px;">
+        <div id="err_div">
+            {% for type, msg in messages%}
+            {{msg}}
+            {% endfor %}
+        </div>
+    </div>
+    {%-endif-%}
+    <div class="filter">
+
+        <div class="pull-right">
+            <form class="navbar-form navbar-left" action="" method="get" role="search">
+                <input type="hidden" name="page" value="{{page}}">
+
+                <div class="input-group">
+                    <input type="text" name="keyword" class="form-control" placeholder="问题标题" value="{{keyword or ''}}" style="width:100px;" />
+
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            搜索
+                        </button>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% if total>0 %}
+    <div class="normal_table">
+
+    <table>
+        <tr>
+            <th>问题内容</th>
+            <th>回答数</th>
+            <th>浏览次数</th>
+            <th>提问时间</th>
+            <th>操作</th>
+        </tr>
+        <tbody>
+        {% if lists %}
+            {% for p in lists -%}
+            <tr>
+                <td>
+                    <a href="/user/question/{{p.id}}">{{p.content}}</a>
+                </td>
+                <td>
+                    {{p.answers}}
+                </td>
+                <td>
+                    {{p.clicks}}
+                </td>
+                <td>
+                    {{p.created | datetimeformat}}
+                </td>
+                <td>
+                    <a href="/user/question/{{p.id}}">编辑</a>
+                </td>
+            </tr>
+            {%- endfor %}
+        {% endif %}
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="dataTables_info" role="alert" aria-live="polite" aria-relevant="all">
+                当前：第{{page}}页 / {{totalpage}}页，合计{{total}}条
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="dataTables_paginate paging_simple_numbers">
+                <ul class="pagination  pagination-sm" id="pageUl" />
+            </div>
+        </div>
+    </div>
+    </div>
+    {% else %}
+    <div class="null_info">
+        <h2>该条件下没有数据</h2>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+
+{% block js %}
+<script src="/style2/js/jquery.twbsPagination.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#pageUl').twbsPagination({
+            first:'首页',
+            prev:'上一页',
+            next:'下一页',
+            last:'尾页',
+            totalPages: {{totalpage}},
+            startPage: {{page}},
+            visiblePages: 8,
+            onPageClick: function (event, page) {
+                self.location="/admin/question?status={{status}}&pcategory={{cid}}&keyword={{keyword or ''}}&defaultstandard={{defaultstandard}}&page="+page;
+            }
+        });
+    });
+
+</script>
+{% endblock %}

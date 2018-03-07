@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn" class="csstransitions cssanimations ic_webkit ic_chrome ic_latest">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>  {% block title %}车装甲 {% endblock %}</title>
+    <link rel="stylesheet" href="/style2/css/bootstrap.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/style2/css/gb.css" type="text/css" media="screen">
+    <link href="/style2/css/qcreset.css" rel="stylesheet" type="text/css" />
+    <link href="/style2/css/qcbase.css" rel="stylesheet" type="text/css" />
+
+    {% block css %} {% endblock %}
+    <script type="text/javascript" src="/style2/js/jquery.min.js"></script>
+
+    {% block js %} {% endblock %}
+<script type="text/javascript">
+    function request(paras){
+        var url = location.href;
+        var paraString = url.substring(url.indexOf("?")+1,url.length).split("&");
+        var paraObj = {}
+        for (i=0; j=paraString[i]; i++){
+            paraObj[j.substring(0,j.indexOf("=")).toLowerCase()] = j.substring(j.indexOf("=")+1,j.length);
+        }
+        var returnValue = paraObj[paras.toLowerCase()];
+        if(typeof(returnValue)=="undefined"){
+            return "/signup";
+        }else{
+            returnValue =  returnValue.replace("confirmation","show");
+            return "/signup?next=" + returnValue;
+        }
+    };
+</script>
+</head>
+<body>
+<div style="background: #F9F9F9;">
+    <div class="ic_toolbar">
+        <div class="grid_c1">
+            <div class="mod_entry">
+                <span  class="mod_entry_mix" onclick="location.href='/';"  style="cursor:pointer;"><b>车装甲&nbsp;</b>	  </span>
+
+            </div>
+            <div class="mod_sitemap" role="navigation">
+                <ul class="mod_sitemap_ul" id="j_sitemap">
+
+
+                    <li class="mod_sitemap_li">
+                        <a href="/"   rel="nofollow">首页&nbsp;</a>
+                    </li>
+
+                    <li class="mod_sitemap_gap">|</li>
+
+                    <li class="mod_sitemap_li">
+                        <a href="/signin"   rel="nofollow">登录&nbsp;</a>
+                    </li>
+
+                    <li class="mod_sitemap_gap">|</li>
+                    <li class="mod_sitemap_li">
+                        <a href="javascript:window.location=request('next')" rel="nofollow">注册&nbsp;</a>
+                    </li>
+                    <li class="mod_sitemap_gap">|</li>
+                    <li class="mod_sitemap_li">
+                        <a href="/mobileclient"   rel="nofollow">手机访问&nbsp;</a>
+                    </li>
+
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% block content %}{% endblock %}
+
+
+    <div class="clear"></div>
+    <div class="online-help">
+        <div class="container-20 ">
+            <div class="grid-5">
+                <i></i>
+                <dl>
+                    <dt><a target="_blank">相关服务</a> </dt>
+                    <dd><a href="/page/gwlc" target="_blank">购物流程</a> </dd>
+                    <dd><a href="/page/psazsm" target="_blank">配送安装说明</a> </dd>
+                    <dd><a href="/page/mffwxm" target="_blank">免费服务项目</a> </dd>
+                    <dd><a href="/page/xfjfsm" target="_blank">消费积分说明</a> </dd>
+                    <dd><a href="/page/cjwt" target="_blank">常见问题</a> </dd>
+                </dl>
+            </div>
+            <div class="grid-5">
+                <i></i>
+                <dl>
+                    <dt><a target="_blank">支付方式</a></dt>
+                    <dd><a href="/page/zffs" target="_blank">支付宝支付</a></dd>
+                    <dd><a href="/page/zffs" target="_blank">银联/转账</a></dd>
+                    <dd><a href="/page/zffs" target="_blank">货到付款</a></dd>
+                </dl>
+            </div>
+            <div class="grid-5">
+                <i></i>
+                <dl>
+                    <dt><a target="_blank">关于我们</a></dt>
+                    <dd><a href="/page/gywm" target="_blank">车装甲简介</a></dd>
+                    <dd><a href="/page/lxwm" target="_blank">联系我们</a></dd>
+                    <dd><a href="/page/rczp" target="_blank">人才招聘</a></dd>
+                    <dd><a href="/page/app" target="_blank">车装甲APP下载</a></dd>
+                </dl>
+            </div>
+            <div class="grid-5">
+                <i></i>
+                <dl>
+                    <dt><a target="_blank">售后服务</a></dt>
+                    <dd><a href="/page/shfw" target="_blank">申请退换货说明</a></dd>
+                    <dd><a href="/page/cpbx" target="_blank">产品保修</a></dd>
+                    <dd><a href="/page/tsjy" target="_blank">投诉建议</a></dd>
+                </dl>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="special-box">
+        <div class="container-20 ">
+            <dl class="special-1">
+                <dt>正品有保证 <i></i></dt>
+                <dd>正品行货 质量保证</dd>
+            </dl>
+            <dl class="special-2">
+                <dt>服务在身边 <i></i></dt>
+                <dd>专业咨询 便捷体验</dd>
+            </dl>
+            <dl class="special-3">
+                <dt>省钱更省心 <i></i></dt>
+                <dd>海量商品 无忧消费</dd>
+            </dl>
+        </div>
+    </div>
+    <div class="footer container-24">
+        <p class="rights">Copyright© 2002-2015 ，车装甲公司版权所有  京ICP备14101111号 </p>
+        <div class="authentication">
+            <a href='http://netadreg.gzaic.gov.cn/ntmm/WebSear/WebLogoPub.aspx?logo=440101101022014121100239' target="_blank">
+                <img src="/style2/images/b1.png" height="40" />
+            </a><a key="550fe5f1efbfb02b131db1e0" logo_size="124x47" logo_type="business" href="http://www.anquan.org/authenticate/cert/?site=www.91htw.com&at=business" target="_blank">
+                <img src="/style2/images/b2.png" height="40" />
+            </a><a href="https://ss.knet.cn/verifyseal.dll?sn=e15032544190058064wqr2000000&amp;ct=df&amp;a=1&amp;pa=0.13916513207368553" target="_blank" kx_type="图标式" style="display: inline-block;">
+                <img src="/style2/images/b3.png" height="40" />
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

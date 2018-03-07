@@ -1,0 +1,136 @@
+{% extends "layout/store.html" %}
+{% block css %}
+<link href="/style2/css/plugins/dataTables.bootstrap.css" rel="stylesheet">
+{% endblock %}
+{% block content %}
+
+<script language="javascript" type="text/javascript" src="/style2/js/jquery.min.js"></script>
+<script language="javascript" type="text/javascript" src="/style2/js/My97DatePicker/WdatePicker.js"></script>
+
+<SCRIPT LANGUAGE="javascript">
+    var xsrf='{{handler.xsrf_token}}';
+</SCRIPT>
+<div class="row">
+    <nav>
+        <div>
+            <a class="navbar-brand" href="#">采购申请管理</a>
+            <div class="pull-left navbar-form" style="height:30px; line-height:30px;">
+                 <a type="button" href="/store/product_sel" class="btn btn-outline btn-default btn-xs">申请易凡采购(按份)</a>
+                 <a type="button" href="/store/bulk_product_sel" class="btn btn-outline btn-default btn-xs">申请易凡采购(按斤)</a>
+            </div>
+        </div>
+        <div class="pull-right navbar-form">
+
+            <form class="navbar-form navbar-left" action="" method="get" role="search">
+                <input type="hidden" name="status" value="{{status}}">
+                <input type="hidden" name="page" value="{{page}}">
+                <input type="hidden" name="order_type" value="{{order_type}}">
+
+
+                <div class="btn-group btn-group-xs">
+                    <a type="button" class="btn btn-default {% if status==0 or status==1 or status==2 or status==3 %} active {% endif %}" href="/store/inventory/orders?status=1">未完成</a>
+                    <a type="button" class="btn btn-default {% if status==4 %} active {% endif %}" href="/store/inventory/orders?status=4">已完成</a>
+                    <a type="button" class="btn btn-default {% if status==5 %} active {% endif %}" href="/store/inventory/orders?status=5">已取消</a>
+                    <a type="button" class="btn btn-default {% if status<=-1 %} active {% endif %}" href="/store/inventory/orders?status=-1">全部</a>
+
+                </div>
+            </form>
+        </div>
+    </nav>
+</div>
+<div class="row">
+    <div class="panel panel-primary">
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-hover" id="tb_users">
+                    <thead>
+                    <tr>
+                        <th>采购用户</th>
+                        <th>采购时间</th>
+                        <th>采购详情</th>
+                        <th>商品金额</th>
+                        <th>采购状态</th>
+                        <th>留言</th>
+                        <!--<th>操作</th>-->
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for o in orders -%}
+                    <tr>
+                        <td>
+                            {{o.user.username}}<br>
+                        </td>
+                        <td>
+                            {{o.ordered|datetimeformat}}<br>
+                        </td>
+                        <td>
+                            {% for i in o.items %}
+                            <div>{{i.product.name}} X {{i.quantity}}
+                                {% if o.ordertype==2 %}
+                                <span style="color: green;">份</span>
+                                {% elif o.ordertype==3 %}
+                                <span style="color: red;">KG</span>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </td>
+                        <td>{{o.price}}</td>
+                        <td>
+                            <!--0待处理 2正在处理 3已发货 4交易完成 5已取消-->
+                            {% if o.status==0 or o.status==1 or o.status==2 or o.status==3 %}
+                            未完成
+                            {% elif o.status==4 %}
+                            已完成
+                            {% elif o.status==5 %}
+                            已取消
+                            {% endif %}
+                        </td>
+                        <td>{{o.message}}</td>
+                        <!--<td>-->
+                            <!--<a href="/store/offline_detail/{{o.id}}" class="btn btn-outline btn-primary btn-xs">详情</a>-->
+                        <!--</td>-->
+                    </tr>
+                    {%- endfor %}
+                    </tbody>
+                </table>
+                <div>
+                    <div class="col-sm-4">
+                        <div class="dataTables_info" role="alert" aria-live="polite" aria-relevant="all">
+                            当前：第{{page}}页 / {{totalpage}}页，合计{{total}}条
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="dataTables_paginate paging_simple_numbers">
+                            <ul class="pagination  pagination-sm" id="pageUl" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<script src="/style2/js/jquery.twbsPagination.min.js"></script>
+<script>
+    $(document).ready(function() {
+
+                $('#pageUl').twbsPagination({
+                    first:'首页',
+                    prev:'上一页',
+                    next:'下一页',
+                    last:'尾页',
+                    totalPages: {{totalpage}},
+            startPage: {{page}},
+    visiblePages: 8,
+            onPageClick: function (event, page) {
+        self.location="/store/inventory/orders?status={{status}}page="+page;
+    }
+    });
+
+    var xsrf='{{handler.xsrf_token}}';
+    });
+
+
+</script>
+{% endblock %}

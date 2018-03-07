@@ -1,0 +1,14 @@
+{% extends "layout/user.html" %}
+{% block css%}
+<link rel="stylesheet" href="/style2/css/EoFan.css" type="text/css" media="screen">
+<link rel="stylesheet" href="/style2/css/user.css" type="text/css" media="screen">
+<link href="/style2/css/plugins/dataTables.bootstrap.css" rel="stylesheet">
+{% endblock %}
+{% block subcontent %}
+<h1> 二维码 </h1>
+<div class="content">
+    <img src="{{path_dir}}" width="320px" height="320px" />
+    <br />
+    <span style="padding-left:65px; font-size:12pt;">消费码：{{code}}</span>
+</div>
+{% endblock %}

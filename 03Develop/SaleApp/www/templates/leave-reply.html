@@ -1,0 +1,16 @@
+<ion-view view-title="评论">
+ <ion-nav-buttons side="right">
+  <button class="button button-clear" ng-click="submit()">
+    提交
+  </button>
+</ion-nav-buttons>
+  <ion-content class="stable-bg">
+    <div class="list">
+      <div class="item">
+        <label class="login-item-input-wrapper">
+          <textarea placeholder="{{repliedUserName?'回复给'+repliedUserName:''}}" ng-model="$parent.content" rows="8"></textarea>
+        </label>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

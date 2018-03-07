@@ -1,0 +1,41 @@
+<ion-view view-title="商品管理">
+  <ion-content class="stable-bg">
+
+    <div class="button-bar">
+      <button class="button button-small button-light {{status === 1 ? 'activity': ''}}" ng-click="switchSHANGJIA()">
+        已上架
+      </button>
+      <button class="button button-small  button-light  {{status === 2? 'activity': ''}}" ng-click="switchWEISHANGJIA()">
+        未上架
+      </button>
+
+    </div>
+    <div >
+      <ion-list ng-repeat="item in products" ng-if="item.status === status">
+        <ion-item class="item-thumbnail-left" >
+          <img ng-src="{{item.cover}}">
+          <div class="item-text-wrap grey" style="font-size:14px">{{item.name}}</div>
+          <div class="row" ng-if="status === 1">
+            <div class="col">
+              <div class="balanced" style="line-height: 41px;">已上架</div>
+            </div>
+            <div class="col" style="text-align:right">
+              <button class="button button-stable" ng-click="updown(item.psid)">停售</button>
+            </div>
+          </div>
+
+          <div class="row" ng-if="status === 2">
+            <div class="col">
+              <div class="balanced" style="line-height: 41px;">未上架</div>
+            </div>
+            <div class="col" style="text-align:right">
+              <button class="button button-stable" ng-click="updown(item.psid)">上架</button>
+            </div>
+          </div>
+        </ion-item>
+        <div class="separate-big"></div>
+      </ion-list>
+      <ion-infinite-scroll ng-if="hasMore" on-infinite="load()" distance="1%">
+    </div>
+  </ion-content>
+</ion-view>

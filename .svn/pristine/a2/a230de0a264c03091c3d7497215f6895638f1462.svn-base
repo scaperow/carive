@@ -1,0 +1,14 @@
+{% extends "layout/user.html" %}
+{% block subcontent %}
+
+<h1> 充值结果 </h1>
+<div class="content">
+    <div class="content_head">
+        {% if result == 'success' %}
+            <span class="balance_p">账户充值成功，本次充值金额 <strong class="red">{{price}}</strong> 元。</span>
+        {% else %}
+            <span class="balance_p">抱歉，账户充值失败，请稍后重试。</span>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

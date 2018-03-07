@@ -1,0 +1,217 @@
+{% extends "layout/cart.html" %}
+{% block content %}
+<script src="/style2/js/bootstrap.js"></script>
+<script type="text/javascript" src="/style2/js/confirmation.js?v=1.0.20"></script>
+
+<div id="container" style="width: auto;">
+<link rel="stylesheet" href="/style2/css/jquery-ui-1.8.5.custom.css" type="text/css" media="screen" charset="utf-8" />
+<script type="text/javascript" charset="utf-8" src="/style2/js/jquery-ui-1.8.7.custom.min.js"></script>
+<link rel="stylesheet" href="/style2/css/confirmation.css" type="text/css" charset="utf-8" />
+
+<div id="cart">
+<form action="/user/score/product/{{pa.id}}" method="post" autocomplete="off">
+{{xsrf()}}
+<input type="hidden" name="formToken" value="Cart_cftk_73621428114010">
+<div class="cart_left" style="*overflow: hidden">
+    <input type="hidden" name="order_id" value="">
+    <input type="hidden" name="web_site" value="bj" id="J_WebSite">
+    <div class="option" id="address_selector">
+
+        <div class="title">1 地址选择</div>
+        <div id="first_add_address_wrap" style="display:none">
+            <div class="site_edit">
+                <div class="clearfix cow_box">
+                    <div class="fl">
+                        <div class="fl lab_box"><label>收件人：<span class="tips">*</span></label></div>
+                        <div class="fl"><input type="text" class="input" id="JS_receiver_name" value="{{user.nickname|null|escape}}" name="receiver_name" maxlength="20" style="width: 190px;"></div>
+                        <div class="fl error_box JS_error_box" style="display:none;"><i class="sp_icon"></i><span class="txt">请填写正确的收货人姓名</span></div>
+                    </div>
+                </div>
+                <div class="clearfix cow_box">
+                    <div class="fl lab_box"><label>收货地址：<span class="tips">*</span></label></div>
+                    <div class="fl clearfix">
+                        <div class="fl site_menu_box disabled JS_site_menu_box">
+                            <div>
+                                <select name="choose" id="ddlProvince" style="height:22px;">
+                                </select>
+                            </div>
+                            <div class="site_menu_cont clearfix JS_site_menu_cont" style="display: none;"></div>
+                        </div>
+                        <div class="fl site_menu_box disabled JS_site_menu_box">
+                            <div>
+                                <select name="choose" id="ddlCity" style="height:22px;">
+                                </select>
+                            </div>
+                            <div class="site_menu_cont clearfix JS_site_menu_cont" style="display: none;"></div>
+                        </div>
+                        <div class="fl site_menu_box disabled JS_site_menu_box">
+                            <div>
+                                <select name="choose" id="ddlCounty" style="height:22px;">
+                                </select>
+                            </div>
+                            <div class="site_menu_cont clearfix JS_site_menu_cont" style="display: none;"></div>
+                        </div>
+                        <div class="fl site_menu_box disabled JS_site_menu_box" style="margin-right:0;">
+                            <div>
+                                <select name="choose" id="ddlStreet" style="height:22px;">
+                                </select>
+                            </div>
+                            <div class="site_menu_cont clearfix JS_site_menu_cont" style="display: none; right: 0px; left: auto;"></div>
+                        </div>
+                    </div>
+                    <div class="fl error_box" id="JS_error_sele_site" style="display:none;"><i class="sp_icon"></i><span class="txt">请选择收货地址所在的区/县</span></div>
+                    <div class="fl error_box" id="JS_no_cod_tips" style="display:none;"><span class="txt" style="margin-left: 0;">（此地区不支持货到付款）</span></div>
+                </div>
+                <div class="clearfix cow_box">
+                    <div class="fl lab_box"><label>详细地址：<span class="tips">*</span></label></div>
+                    <div class="fl clearfix" style="width: 790px;">
+                        <div class="fl" id="JS_confirm_show_box"></div>
+                        <div class="fl clearfix" style="*width:660px;">
+                            <div class="fl"><input type="text" class="input" maxlength="100" name="address" id="JS_address" placeholder="请填写详细地址" style="width: 320px;"></div>
+                            <div class="fl error_box JS_error_box" style="display:none;"><i class="sp_icon"></i><span class="txt">请填写详细地址，不少于3个汉字，不能全部是数字/字母</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix cow_box">
+                    <div class="fl lab_box"><label>手机号码：<span class="tips">*</span></label></div>
+                    <div class="fl"><input type="text" class="input" id="JS_phone" maxlength="11" value="{{user.mobile|default('')}}" name="phone" style="width: 115px;"></div>
+                    <div class="fl lab_box"><label>或固定电话：</label></div>
+                    <div class="fl"><input type="text" placeholder="区号" class="input" id="JS_phone_area_new" maxlength="4" style="width: 50px;"></div>
+                    <div class="fl" style="margin: 0 5px;">-</div>
+                    <div class="fl"><input type="text" class="input" placeholder="电话号码" value="{{user.tel or ''}}" id="JS_phone_number_new" maxlength="8" style="width: 90px;"></div>
+                    <div class="fl" style="margin: 0 5px;">-</div>
+                    <div class="fl"><input type="text" class="input" placeholder="分机" id="JS_phone_ext_new" maxlength="8" style="width: 50px;"></div>
+                    <div class="fl JS_tips" style="color: #999999;margin-left: 10px;">手机和固定电话请至少填写一个</div>
+                    <div class="fl error_box JS_error_box" style="display:none;"><i class="sp_icon"></i><span class="txt">请填写正确的电话号码，手机号码为11位数字</span></div>
+                </div>
+                <div class="clearfix" style="margin-left: 95px;padding-top: 10px;"><a href="javascript:;" id="JS_new_address_submit_new" class="submit_btn">确定</a><a href="javascript:;" id="add_cancel" class="cancel_btn">取消</a></div>
+            </div>
+        </div>
+
+
+        <div id="default_address_wrap">
+            <div class="content" id="address_wrap">
+                {% for addritem in addritems %}
+                <div class="option_box {{ addritem.isdefault == 1 and 'selected' or '' }}" selector="old_address">
+                    <input type="radio" id="address_{{ addritem.id }}" value="{{ addritem.id }}" {{ addritem.isdefault == 1 and 'checked' or '' }} name="address_id" class="rdoAddress">
+                    <label for="address_{{ addritem.id }}" data_address="{{ addritem.province }}-{{ addritem.city }}-{{ addritem.region }}" class="address_lbl"><span class="btnEditAddress_new" title="修改地址" addressid="{{ addritem.id }}">修改</span><span class="btnEditAddress_del" title="删除地址" addressid="{{ addritem.id }}">删除</span>            <p>
+                        <span class="addr_name">{{ addritem.name |escape}}</span>
+                        <span class="addr_con">{{ addritem.province|escape }}-{{ addritem.city|escape }}-{{ addritem.region|escape }}-{{ addritem.street|escape }} {{ addritem.address|escape }}</span>
+                        <span class="addr_num">{{ addritem.mobile|escape }} {{ addritem.tel|escape }} </span>
+                    </p>        </label>
+                    <div class="clear"></div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="address_btns_wrap">
+                <div class="address_more" style="display:none"><a href="javascript:void(0)" class="stri_open"><span></span>展开收货地址</a></div>
+                <a class="add_address_btn" href="javascript:void(0)">使用新地址</a>
+            </div>
+
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="num_border"></div>
+<div class="cart_left">
+    <div class="option" id="prefer_delivery_day">
+        <div class="title">
+            2 送货时间
+            <span style="color:#666666;font-size:12px;font-weight:normal;font-family:'宋体';">送货时间仅作参考，快递公司会尽量满足您的要求</span>        </div>
+        <div class="content">
+            <div class="option_box">
+                <input id="delivery_day_weekday" name="prefer_delivery_day" type="radio" value="weekday">
+                <label class="delivery_checked" for="delivery_day_weekday">仅工作日送货</label>
+                <div class="clear"></div>
+            </div>
+            <div class="option_box">
+                <input id="delivery_day_weekend" name="prefer_delivery_day" type="radio" value="weekend">
+                <label class="delivery_checked" for="delivery_day_weekend">仅周末送货</label>
+                <div class="clear"></div>
+            </div>
+            <div class="option_box selected">
+                <input id="delivery_day_" name="prefer_delivery_day" type="radio" value="" checked>
+                <label class="delivery_checked" for="delivery_day_">工作日/周末/假日均可</label>
+                <div class="clear"></div>
+            </div>
+            <div class="clb"></div>
+        </div>
+    </div>
+</div>
+<div class="num_border"></div>
+<div class="cart_left" style="*z-index: 5">
+    <div class="option cart_products">
+        <div class="title">
+            换购商品
+        </div>
+        <div class="cart_products_v2" cart_key="promo_cards/0/">
+
+            <table border="0" cellpadding="1" cellspacing="0" id="cart_products" width="100%">
+                <colgroup>
+                    <col>
+                    <col>
+                    <col class="align_right">
+                    <col class="align_right">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th width="400" class="text_left padd_left">商品</th>
+                    <th width="110">数量</th>
+                    <th width="140">所需积分</th>
+                    <th width="140">小计</th>
+                </tr>
+                <tr>
+                    <td class="name text_left padd_left">
+                        <div style="width:320px;position: relative;line-height: 21px">
+                            <a href="#" target="_blank" class="name_hover">
+                                {{pa.product.name}}<span class="item_note"></span></a>
+                            <div class="pic_hover">
+                                <img src="/upload/{{pa.product.sku}}/{{pa.product.cover}}" alt="{{pa.product.name}}">
+                            </div>
+                        </div>
+                    </td>
+                    <td class="number_box">
+                        1   </td>
+                    <td class="price_box">
+                        <span >{{pa.price | int}}积分</span>
+                    </td>
+                    <td class="count_price_box bold">
+                        <span>{{pa.price | int}}积分</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="orders_total_amount">
+            积分总额：<span class="total_count"><span id="cart_total">{{pa.price | int}}</span></span>积分
+        </div>
+        <div class="orders_total_amount">
+            您当前拥有：<span class="total_count"><span>{{user.score | int}}</span></span>积分
+        </div>
+    </div>
+</div>
+<div class="num_border"></div>
+
+<div class="sure_payinfo_wrap">
+
+    <div class="confirm_pay_box">
+        <div class="confirm_pay">
+            {% if user.score < pa.price %}
+            <a href="#" style="background:#f8296d; text-align:center; width:260px; height:40px;border:1px solid #fc6e9d;float:right;color:#fff;cursor:pointer;font-size: 16px;overflow:hidden;">积分不足：重新选择换购商品</a>
+            {% else %}
+            <input type="submit" id="btn_confirm_pay" class="btn_pink_big" value="确认换购">
+            {% endif %}
+        </div>
+    </div>
+</div>
+</form>
+</div>
+</div>
+
+<script src="/style2/js/address.js" ></script>
+<script type="text/javascript">
+$(function(){
+    initLocation({sheng_val:"陕西",shi_val:"西安",xian_val:"",xiang_val:""});
+});
+</script>
+{% endblock %}

@@ -1,0 +1,70 @@
+<ion-view view-title="商品详情">
+    <!--<ion-nav-buttons side="right">-->
+    <!--<button ng-click="doFavorite(product.psid)" ng-class="favorite?'button-energized':'button-light'" class="button button-clear icon-right ion-ios-star"></button>-->
+    <!--</ion-nav-buttons>-->
+    <ion-content>
+        <ion-slide-box>
+            <ion-slide ng-repeat="cover in product.pics">
+                <img style="width:100%;" ng-src="{{cover.img}}">
+            </ion-slide>
+        </ion-slide-box>
+
+        <div class="item">
+            <label>{{product.name}}</label>
+
+            <div class="item-note">
+                <label class=" assertive italic">{{product.price}}</label>元/斤
+            </div>
+        </div>
+        <div class="item item-icon-right" ng-click="showDetail()">
+            <p style="white-space: normal">{{product.resume}}</p>
+
+            <i class="icon ion-chevron-right icon-accessory"></i>
+        </div>
+
+        <a class="item item-icon-right" ng-click="showComments()">
+            <p>查看评论</p>
+
+            <i class="icon ion-chevron-right icon-accessory"></i>
+        </a>
+        <div style="height: 40px;"></div>
+    </ion-content>
+
+    <ion-footer-bar class="bar-stable" style="height: auto;max-height:50%; ">
+        <ion-scroll style="  width: 100%;">
+            <div ng-if="status == 'DETAIL'" style="width:100%;" class="padding">
+                <!--<ion-scroll>-->
+                <p ng-if="chooseCopies === 0">您可以一次选择多份</p>
+
+                <p ng-if="chooseCopies > 0">
+                    您选择了<label class="assertive">{{chooseCopies}}</label>份,共计<label
+                        class="assertive">{{resumeForCopies}}</label>元</p>
+
+                <button class="button {{copie.checked?'active':''}} break-bar" ng-repeat="copie in copies"
+                        style="margin-right:5px; margin-bottom:5px"
+                        ng-click="chooseCopie(copie.poid)">
+                    <i>{{copie.unit}}</i>
+                    <label class="assertive italic">{{copie.price}}</label>元
+                    <div>{{copie.error}}</div>
+                </button>
+
+                <!--</ion-scroll>-->
+                <div class="button-bar no-margin">
+                    <button ng-show="chooseCopies && chooseCopies > 0" class="button  button-assertive break-bar"
+                            ng-click="buy()">购买
+                    </button>
+                    <button class="button  button-stable break-bar" ng-click="closeCopies()">放弃</button>
+                </div>
+            </div>
+            <div ng-if="status == 'SUMMARY'" style="width:100%;" class="padding">
+                <button ng-if="copies && copies.length > 0" class="button button-full button-assertive break-bar"
+                        style="margin:0" ng-click="showCopies()">加入购物车
+                </button>
+                <button ng-if="!copies || copies.length === 0" disabled
+                        class="button button-full button-stable break-bar"
+                        style="margin:0">暂无库存
+                </button>
+            </div>
+        </ion-scroll>
+    </ion-footer-bar>
+</ion-view>

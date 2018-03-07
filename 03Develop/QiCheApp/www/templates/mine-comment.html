@@ -1,0 +1,16 @@
+<ion-view view-title="我的评价">
+  <ion-content class="stable-bg">
+    <ion-list ng-repeat="order in orders">
+      <ion-item>
+        <label class="icon ion-ios-list-outline"></label>
+        订单编号 :  {{order.number}}
+        <label class="icon ion-ios-clock-outline"></label>
+        下单时间 :  {{order.created}}
+        <label class="icon ion-ios-pricetag-outline"></label>
+        商品名称 :  {{order.product_name}}
+      </ion-item>
+      <div class="separate-big"></div>
+    </ion-list>
+  </ion-content>
+
+</ion-view>

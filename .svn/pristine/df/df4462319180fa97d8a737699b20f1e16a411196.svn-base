@@ -1,0 +1,36 @@
+<ion-view view-title="昨日成交金额">
+    <!--<ion-header-bar class="bar bar-subheader">-->
+        <!--<div class="button-bar">-->
+            <!--<a class="button button-clear {{choose == 'all' ? 'button-balanced' :''}} "-->
+               <!--ng-click="switch('all')">全部订单-->
+            <!--</a>-->
+            <!--<a class="button button-clear {{choose == 'unpay' ? 'button-balanced' :''}}" ng-click="switch('unpay')">待付款-->
+            <!--</a>-->
+            <!--<a class="button button-clear {{choose == 'success'?'button-balanced' :''}}"-->
+               <!--ng-click="switch('success')">已完成-->
+            <!--</a>-->
+        <!--</div>-->
+    <!--</ion-header-bar>-->
+    <ion-content class="padding stable-bg">
+      <ion-list ng-repeat="item in orders">
+        <ion-item class="" ng-click="showDetail(item.id,'{{item.status}}')">
+          <p ng-switch="item.status">
+            <span ng-switch-when="交易完成" class="balanced">{{item.status}}</span>
+            <span ng-switch-when="正在处理" class="balanced">{{item.status}}</span>
+            <span ng-switch-when="待付款" class="assertive">{{item.status}}</span>
+            <span ng-switch-when="未使用" class="energized">{{item.status}}</span>
+            <span ng-switch-default class="grey">{{item.status}}</span>
+          </p>
+          <p>订单号：{{item.ordernum}}</p>
+          <p>下单时间：{{item.ordered}}</p>
+          <p>订单金额：￥{{item.currentprice}}元</p>
+        </ion-item>
+        <div class="separate-big"></div>
+      </ion-list>
+      <div class="text-center grey" ng-show="orders.length === 0">
+      <label>没有更多订单了 ~</label>
+      </div>
+      <ion-infinite-scroll ng-if="hasMore" on-infinite="load()" distance="1%">
+      </ion-infinite-scroll>
+    </ion-content>
+</ion-view>

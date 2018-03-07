@@ -1,0 +1,115 @@
+{% extends "layout/user.html" %}
+{% block subcontent %}
+<h1> 订单详情 - {{o.ordernum}} </h1>
+<div class="content">
+  <div class="m" id="orderinfo">
+    <div class="mt">
+        <strong>订单信息</strong>
+        <div style="float:right;margin-top: 7px;">
+            <!-- JiaThis Button BEGIN -->
+            <div class="jiathis_style">
+                <span class="jiathis_txt">分享到：</span>
+                <a class="jiathis_button_icons_1"></a>
+                <a class="jiathis_button_icons_2"></a>
+                <a class="jiathis_button_icons_3"></a>
+                <a class="jiathis_button_icons_4"></a>
+                <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+            </div>
+            <script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js?uid=1427269667521454" charset="utf-8"></script>
+            <!-- JiaThis Button END -->
+        </div>
+    </div>
+    <form action="/user/order_midify/{{o.id}}" method="post" >
+        {{xsrf()}}
+    <div class="mc">
+      <dl class="fore">
+        <dt>收货人信息</dt>
+        <dd>
+          <ul>
+            <li>收&nbsp;货&nbsp;人：{{o.take_name|escape}}</li>
+            <li>地　　址：{{o.take_address|escape}}</li>
+            <li>联系电话：{{o.take_tel|escape}}</li>
+          </ul>
+        </dd>
+      </dl>
+      <dl>
+        <dt>支付及配送方式</dt>
+        <dd>
+          <ul>
+            <li>支付方式：{% if o.payment==0%}货到付款{% elif o.payment==1 %}支付宝支付{% elif o.payment==2 %}账户余额{% elif o.payment==3 %}网银支付{% elif o.payment==4 %}合并支付{% elif o.payment==5 %}积分换购{% elif o.payment==9 %}系统补发{% endif %}</li>
+            <li>运　　费：￥{{o.shippingprice}}</li>
+          </ul>
+        </dd>
+      </dl>
+
+      <dl>
+        <dt> <span class="i-mt">商品清单</span>
+          <div class="fquan" id="fquan">
+            <div id="eventName" onmouseover="showCoupon()" onmouseout="hideCoupon()"> </div>
+          </div>
+          <div class="clr"></div>
+        </dt>
+        <dd class="p-list">
+          <table width="100%" cellspacing="0" cellpadding="0">
+            <tbody>
+              <tr>
+                <th width="12%"> 商品图片 </th>
+                <th width="42%"> 商品名称 </th>
+                <th width="7%"> 购买数量 </th>
+                <th width="7%"> 购买单价 </th>
+              </tr>
+              {% for item in o.items %}
+              <tr>
+                <td>
+                    <div class="img-list">
+                        <a class="img-box" href="/product/{{item.product_standard.id}}" target="_blank">
+                            <img width="50" height="50" title="{{item.product.name}}"
+                                 src="{{item.product.cover}}">
+                        </a>
+                    </div>
+                </td>
+                <td>
+                    <div class="al fl">
+                        <a class="flk13" href="/product/{{item.product_standard.id}}"
+                           target="_blank" clstag="click|keycount|orderinfo|product_name">
+                            {{item.product.name}}<span style="color:red;">{% if item.product.store %}({{item.product.store.name}}){% endif %}</span> / {{item.product_standard_name or item.product_standard.name}}
+                        </a>
+                     </div>
+                </td>
+                <td>{{item.quantity}}</td>
+                <td>
+                    {% if item.item_type==2 %}
+                    <span style="color: #cc0000;">积分换购</span>
+                    {% elif item.item_type==3 %}
+                    <span style="color: #cc0000;">实物券</span>
+                    {% elif item.item_type==4 %}
+                    <span style="color: #cc0000;">转盘抽奖</span>
+                    {% elif item.item_type==9 %}
+                    <span style="color: #cc0000;">赠品</span>
+                    {% else %}
+                    {{item.price}}
+                    {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </dd>
+      </dl>
+      <dl>
+        <dt>总价及备注</dt>
+        <dd>
+          <ul>
+            <li>订单金额：<input type="text" id="currentprice" name="currentprice" value="{{o.currentprice}}" /></li>
+            <li><span style="vertical-align: top;">备　　注：</span><textarea type="text" id="message" name="message" style="width:600px;height:50px; margin-top:10px;" />{{o.message}}</textarea></li>
+          </ul>
+        </dd>
+      </dl>
+    </div>
+    <div class="total">
+      <div class="extra"><button type="submit" class="btn btn-success btn-sm" id="btnOK">提交</button> </div>
+    </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

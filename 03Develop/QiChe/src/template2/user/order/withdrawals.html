@@ -1,0 +1,335 @@
+{% extends "layout/user.html" %}
+{% block subcss %}
+<style>
+    .red{color: red;}
+    .gray{color: #797979;}
+    .mth2{margin-top: 10px;margin-bottom: 10px;}
+    .profile th.thother{width:120px;cursor: pointer; border-right: none;}
+    .profile th.thcurrent{width:120px;cursor: pointer;background: #fff;border-bottom: none;border-right: none;}
+    #order-list {margin-bottom: 1px;}
+    .noalipay{line-height: 40px;width:400px;text-align: left; font-size: 14px; margin: 0 auto;color: #595959;
+        background: url(/style2/images/bub_bg.gif) no-repeat;padding-left: 30px;padding-top: 4px;
+    }
+    .noalipay a:link{color: #006228;font-weight: bold;text-decoration: none;}
+    .alipay_no_banding{width: 616px;padding-left: 70px;padding-top: 26px; margin: 0 auto;}
+    .alipay_no_banding ul{width: 616px; height: 34px;clear: both;color: #333333;}
+    .alipay_no_banding li{float: left;line-height: 34px;}
+    .alipay_no_banding li.txleft {width: 102px;text-align: right;padding-right: 4px;}
+    .ali_text {border: 1px solid #dbdbdb;height: 24px;width: 192px;margin-top: 5px;padding: 2px;}
+</style>
+{% endblock %}
+{% block subcontent %}
+<h1>我的提现</h1>
+  <div class="content sector">
+    <h2 class="mth2">我的提现</h2>
+	<table class="order-tablev2">
+        <tr>
+            <td><b>可提现金额：</b><span class="red">{{u.cashed_money}}</span><span class="gray">（元）</span></td>
+            <td><b>累计提现：</b><span class="red">{{ytx_money}}</span><span class="gray">（元）</span></td>
+        </tr>
+    </table>
+    <h2 class="mth2">我要提现</h2>
+        {{xsrf()}}
+    <input type="hidden" name="tx_type" value="1" id="tx_type">
+    <input type="hidden" name="cashed_money" value="{{u.cashed_money}}" id="cashed_money">
+    <input type="hidden" id="mobile" value="{{u.mobile}}">
+    <table class="order-tablev2" style="border-collapse:separate;border: none;" id="wytx">
+        <tr>
+            <th class="thcurrent" data-id="1">提现到支付宝</th>
+            <th class="thother" data-id="2">提现到银行卡</th>
+            <th class="thother" data-id="3">绑定支付宝</th>
+            <th class="thother" data-id="4">绑定银行卡</th>
+            <th></th>
+        </tr>
+        <tr>
+            <td colspan="5" style="border-top:none;">
+                <div id="wy1">
+                    {% if u.alipay_truename and u.alipay_account %}
+                    <div class="alipay_no_banding">
+                        <ul>
+                            <li class="txleft">支付宝账号：</li>
+                            <li>
+                                {{alipay_account_unall}}&nbsp;&nbsp;{{u.alipay_truename}}&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:tabclick(3);ChangAlipayBanding();">修改</a>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li class="txleft">提现金额：</li>
+                            <li>
+                                <input name="alipay_tx_money" type="text" id="alipay_tx_money" class="ali_text" onblur="check_alipay_tx_money()">
+                                &nbsp;<span id="alipay_tx_money_msg" style="color: #797979;">请输入要提现的金额</span>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li class="txleft">最大可提现金额：</li>
+                            <li>
+                                <span class="red">{{u.cashed_money}}</span><span class="gray">（元）</span>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li class="txleft">认证手机：</li>
+                            <li>
+                                {{u.mobile[:3]}}****{{u.mobile[7:]}}</li>
+                            <li class="txgzcon_nrev_tsan">
+                                <input type="button" class="btn-xs" id="getvcode1" onclick="javascript:sendMessage();return false;" value="获取验证码" />
+                                </li>
+                        </ul>
+                        <ul>
+                            <li class="txleft">验证码：</li>
+                            <li>
+                                <input style="width: 100px;" class="ali_text" maxlength="6" type="text" placeholder="请输入验证码" id="vcode1" value="" required=""  title="请输入6位数字验证码" pattern="^\d{6}$" >
+                                &nbsp;<span id="vcode_msg1" style="color: #797979;">请输入你的手机验证码</span>
+
+                            </li>
+                            <li class="txgzcon_nrev_ts" id="code_html1">30分钟内输入有效</li>
+                        </ul>
+                        <ul style="padding-top: 10px;">
+                            <li class="txleft">&nbsp;</li>
+                            <li>
+                                <input type="button" value="申请提现" onclick="alipay_tx_money();" class="btn btn-success" />
+                            </li>
+                        </ul>
+                    </div>
+                    {% else %}
+                    <div class="noalipay">
+                        还未绑定支付宝帐号，请先<a href="javascript:tabclick(3);">绑定</a><br>
+                        帐号绑定后，可以在<a href="javascript:tabclick(3);">绑定支付宝</a>进行更改绑定设置
+                    </div>
+                    {% endif %}
+                </div>
+                <div id="wy2" style="display: none;">
+                    {% if u.bank_truename and u.bank_name and u.bank_branchname and u.bank_account %}
+                    <div class="alipay_no_banding">
+                        <ul>
+                            <li class="txleft">银行卡：</li>
+                            <li>
+                                {{u.bank_name}}&nbsp;{{bank_account_unall}}&nbsp;{{u.bank_truename}}&nbsp;&nbsp;&nbsp;<a href="javascript:tabclick(4);ChangBankBanding();">修改</a>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li class="txleft">提现金额：</li>
+                            <li>
+                                <input name="bank_tx_money" type="text" id="bank_tx_money" class="ali_text" onblur="check_bank_tx_money()">
+                                &nbsp;<span id="bank_tx_money_msg" style="color: #797979;">请输入要提现的金额</span>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li class="txleft">最大可提现金额：</li>
+                            <li>
+                                <span class="red">{{u.cashed_money}}</span><span class="gray">（元）</span>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li class="txleft">认证手机：</li>
+                            <li>
+                                {{u.mobile[:3]}}****{{u.mobile[7:]}}</li>
+                            <li class="txgzcon_nrev_tsan">
+                                <input type="button" class="btn-xs" id="getvcode2" onclick="javascript:sendMessage();return false;" value="获取验证码" />
+                                </li>
+                        </ul>
+                        <ul>
+                            <li class="txleft">验证码：</li>
+                            <li>
+                                <input style="width: 100px;" class="ali_text" maxlength="6" type="text" placeholder="请输入验证码" id="vcode2" value="" required=""  title="请输入6位数字验证码" pattern="^\d{6}$" >
+                                &nbsp;<span id="vcode_msg2" style="color: #797979;">请输入你的手机验证码</span>
+
+                            </li>
+                            <li class="txgzcon_nrev_ts" id="code_html2">30分钟内输入有效</li>
+                        </ul>
+                        <ul style="padding-top: 10px;">
+                            <li class="txleft">&nbsp;</li>
+                            <li>
+                                <input type="button" value="申请提现" onclick="bank_tx_money();" class="btn btn-success" />
+                            </li>
+                        </ul>
+                    </div>
+                    {% else %}
+                    <div class="noalipay">
+                        还未绑定银行卡帐号，请先<a href="javascript:tabclick(4);">绑定</a><br>
+                        帐号绑定后，可以在<a href="javascript:tabclick(4);">绑定银行卡</a>进行更改绑定设置
+                    </div>
+                    {% endif %}
+                </div>
+                <div id="wy3" style="display: none;">
+                    <div class="alipay_no_banding" id="alipay_no_banding" style="{% if u.alipay_truename and u.alipay_account %}display:none;{% else %}display:block;{% endif %}">
+                        <ul>
+                            <li class="txleft">支付宝姓名：</li>
+                            <li>
+                                <input name="alipay_truename" type="text" id="alipay_truename" class="ali_text" value="{{u.alipay_truename}}" onblur="check_alipay_truename()">&nbsp;<span id="alipay_truename_msg" style="color: #797979;">必须和支付宝实名认证信息一致</span> </li>
+                        </ul>
+                        <ul>
+                            <li class="txleft">支付宝账号：</li>
+                            <li>
+                                <input name="alipay_account" type="text" id="alipay_account" class="ali_text" value="{{u.alipay_account}}" onblur="check_alipay_account()">&nbsp;<span id="alipay_account_msg" style="color: #797979;">请输入手机号码或电子邮箱</span> </li>
+                        </ul>
+                        <ul>
+                            <li class="txleft">确认支付宝账号：</li>
+                            <li>
+                                <input name="alipay_account_sure" type="text" id="alipay_account_sure" class="ali_text" value="{{u.alipay_account}}" onblur="check_alipay_account_sure()">&nbsp;<span id="alipay_account_sure_msg" style="color: #797979;">请再次确认账号</span> </li>
+                        </ul>
+                        <ul>
+                            <li class="txleft">认证手机：</li>
+                            <li>
+                                {{u.mobile[:3]}}****{{u.mobile[7:]}}</li>
+                            <li class="txgzcon_nrev_tsan">
+                                <input type="button" class="btn-xs" id="getvcode3" onclick="javascript:sendMessage();return false;" value="获取验证码" />
+                                </li>
+                        </ul>
+                        <ul>
+                            <li class="txleft">验证码：</li>
+                            <li>
+                                <input style="width: 100px;" class="ali_text" maxlength="6" type="text" placeholder="请输入验证码" id="vcode3" value="" required=""  title="请输入6位数字验证码" pattern="^\d{6}$" >
+                                &nbsp;<span id="vcode_msg3" style="color: #797979;">请输入你的手机验证码</span>
+
+                            </li>
+                            <li class="txgzcon_nrev_ts" id="code_html3">30分钟内输入有效</li>
+                        </ul>
+                        <ul style="padding-top: 10px;">
+                            <li class="txleft">&nbsp;</li>
+                            <li>
+                                <input type="button" value="确认绑定" onclick="bind_alipay();" class="btn btn-success" />
+                                <!--<a href="javascript:AlipayBang();">确认绑定</a>-->
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="noalipay" id="alipay_yes_banding" style="{% if u.alipay_truename and u.alipay_account %}display:block;{% else %}display:none;{% endif %}">
+                        已绑定的支付宝账号：{{alipay_account_unall}}&nbsp;&nbsp;{{u.alipay_truename}}&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:ChangAlipayBanding();">修改</a>
+                    </div>
+                </div>
+                <div id="wy4" style="display: none;">
+                    <div class="alipay_no_banding" id="bank_no_banding" style="{% if u.bank_truename and u.bank_name and u.bank_branchname and u.bank_account %}display:none;{% else %}display:block;{% endif %}">
+                        <ul>
+                            <li class="txleft">真实姓名：</li>
+                            <li>
+                                <input name="bank_truename" type="text" id="bank_truename" class="ali_text" value="{{u.bank_truename}}" onblur="check_bank_turename()">&nbsp;<span id="bank_truename_msg" style="color: #797979;">必须和银行卡姓名一致</span> </li>
+                        </ul>
+                        <ul>
+                            <li class="txleft">开户银行：</li>
+                            <li>
+                                <select name="bank_name" id="bank_name" size="1" class="txgzcon_nrinput_select2">
+                                    <option value="0">请选择</option>
+                                    <option value="招商银行" {% if u.bank_name=='招商银行'%}selected{%endif%}>招商银行</option>
+                                    <option value="中国建设银行" {% if u.bank_name=='中国建设银行'%}selected{%endif%}>中国建设银行</option>
+                                    <option value="中国工商银行" {% if u.bank_name=='中国工商银行'%}selected{%endif%}>中国工商银行</option>
+                                    <option value="中国农业银行" {% if u.bank_name=='中国农业银行'%}selected{%endif%}>中国农业银行</option>
+                                </select>
+                                &nbsp;<span id="bank_name_msg" style="color: #797979;">请选择你的开户行</span> </li>
+                        </ul>
+                        <ul>
+                            <li class="txleft">支行名称：</li>
+                            <li>
+                                <input name="bank_branchname" type="text" id="bank_branchname" class="ali_text" value="{{u.bank_branchname}}" onblur="check_bank_branchname()">&nbsp;<span id="bank_branchname_msg" style="color: #797979;">必须如实确切填写</span> </li>
+                        </ul>
+                        <ul>
+                            <li class="txleft">银行卡号：</li>
+                            <li>
+                                <input name="bank_account" type="text" id="bank_account" class="ali_text" value="{{u.bank_account}}" onblur="check_bank_account()">&nbsp;<span id="bank_account_msg" style="color: #797979;">请输入您的银行卡号</span> </li>
+                        </ul>
+                        <ul>
+                            <li class="txleft">确认卡号：</li>
+                            <li>
+                                <input name="bank_account_sure" type="text" id="bank_account_sure" class="ali_text" value="{{u.bank_account}}" onblur="check_bank_account_sure()">&nbsp;<span id="bank_account_sure_msg" style="color: #797979;">请再次确认银行卡号</span> </li>
+                        </ul>
+                        <ul>
+                            <li class="txleft">认证手机：</li>
+                            <li>
+                                {{u.mobile[:3]}}****{{u.mobile[7:]}}</li>
+                            <li class="txgzcon_nrev_tsan">
+                                <input type="button" class="btn-xs" id="getvcode4" onclick="javascript:sendMessage();return false;" value="获取验证码" />
+                                </li>
+                        </ul>
+                        <ul>
+                            <li class="txleft">验证码：</li>
+                            <li>
+                                <input style="width: 100px;" class="ali_text" maxlength="6" type="text" placeholder="请输入验证码" id="vcode4" value="" required=""  title="请输入6位数字验证码" pattern="^\d{6}$" >
+                                &nbsp;<span id="vcode_msg4" style="color: #797979;">请输入你的手机验证码</span>
+
+                            </li>
+                            <li class="txgzcon_nrev_ts" id="code_html4">30分钟内输入有效</li>
+                        </ul>
+                        <ul style="padding-top: 10px;">
+                            <li class="txleft">&nbsp;</li>
+                            <li>
+                                <input type="button" value="确认绑定" onclick="bind_bank();" class="btn btn-success" />
+                                <!--<a href="javascript:AlipayBang();">确认绑定</a>-->
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="noalipay" id="bank_yes_banding" style="{% if u.bank_truename and u.bank_name and u.bank_branchname and u.bank_account %}display:block;{% else %}display:none;{% endif %}">
+                        已绑定的银行卡：{{u.bank_name}}&nbsp;{{bank_account_unall}}&nbsp;{{u.bank_truename}}&nbsp;&nbsp;&nbsp;<a href="javascript:ChangBankBanding();">修改</a>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <h2 class="mth2">我的提现记录</h2>
+
+    <div id="shipping_address_list">
+
+	<table class="order-tablev2" id="order-list">
+        <tbody>
+        <tr class="order_list_title">
+            <th>收款帐号</th>
+            <th>收款人</th>
+            <th>提现金额</th>
+            <th>状态</th>
+            <th>申请时间</th>
+        </tr>
+        {% for a in items %}
+        <tr>
+            <td>
+                {% if a.account_type == 0 %}
+                {{a.account_name}}：{{a.account_account[:4]}}**** ****{{a.account_account[a.account_account.__len__()-4:]}}
+                {%elif a.account_type == 1 %}
+                支付宝：{{a.account_account[:2]}}***{{a.account_account[a.account_account.find("@"):]}}
+                {%endif%}
+            </td>
+            <td>{{a.account_truename}}</td>
+            <td>{{a.sum_money}}</td>
+            <td>
+                {% if a.status == 0 %}
+                <span style="color: red;">未处理</span>
+                {% elif a.status == 1%}
+                <span style="color: yellow;">处理中</span>
+                {% elif a.status == 2%}
+                <span style="color: green;">已处理</span>
+                {% endif %}
+            </td>
+            <td>{{a.apply_time | datetimeformat}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+  </div>
+
+</div>
+<div class="clear"></div>
+{% endblock %}
+
+{% block js%}
+<script type="text/javascript" src="/style2/js/jquery-1.8.3.min.js"></script>
+<script language="javascript" type="text/javascript" src="/style2/js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="/style2/js/user/withdrawals.js"></script>
+<script>
+    var xsrf = '{{handler.xsrf_token}}';
+$(function(){
+    $("#wytx th[data-id]").click(function (){
+        var tx_type=$(this).attr("data-id");
+        tabclick(tx_type);
+    });
+});
+
+//判断正整数
+function checkRate(obj)
+{
+     var re = /^[1-9]+[0-9]*]*$/;
+     if (!re.test(obj))
+     {
+        return false;
+     }
+    return true;
+}
+
+</script>
+{% endblock %}

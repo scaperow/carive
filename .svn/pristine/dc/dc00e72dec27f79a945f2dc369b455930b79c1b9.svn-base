@@ -1,0 +1,475 @@
+﻿pid,sku,名称,分类,简介,描述,来自,市场价,图片,库存,产地,浏览量,购买量,状态（1正常；2下架）,规格（名称|提取重量|现价|原价|折合每斤|顺序）,,,
+1,01020101,洛川红富士(1450-1550g),010201,苹果,"<img src=""/upload/01020101/d1.jpg"" />
+<br>
+<img src=""/upload/01020101/d2.jpg"" />
+<br>
+<img src=""/upload/01020101/d3.jpg"" />
+<br>
+<img src=""/upload/01020101/d4.jpg"" />
+<br>
+<img src=""/upload/01020101/d5.jpg"" />
+",批发市场,2.2,7.jpg|4.jpg|1.jpg|10.jpg,5000,洛川,128,88,1,1450克 ~ 1550克|1550|3.4|4.4|3.4|1
+2,01010401,芦柑(950-1050g),010104,芦柑,"<img src=""/upload/01010401/d1.jpg"" />
+<br>
+<img src=""/upload/01010401/d2.jpg"" />
+<br>
+<img src=""/upload/01010401/d3.jpg"" />
+<br>
+<img src=""/upload/01010401/d4.jpg"" />
+<br>
+<img src=""/upload/01010401/d5.jpg"" />
+",批发市场,2.2,10.jpg|4.jpg|7.jpg|1.jpg,5000,西安周边,128,88,1,950克 ~ 1050克|1050|1|1|1|1
+3,01010301,蜜柚(1400-1600g),010103,蜜柚,"<img src=""/upload/01010301/d1.jpg"" />
+<br>
+<img src=""/upload/01010301/d2.jpg"" />
+<br>
+<img src=""/upload/01010301/d3.jpg"" />
+<br>
+<img src=""/upload/01010301/d4.jpg"" />
+<br>
+<img src=""/upload/01010301/d5.jpg"" />
+<br>
+<img src=""/upload/01010301/d6.jpg"" />
+",批发市场,2.2,1.jpg|4.jpg,5000,西安周边,128,88,1,1400克 ~ 1600克|1600|1|1|1|1
+4,01010201,蜜桔(950-1050g),010102,蜜桔,"<img src=""/upload/01010201/d1.jpg"" />
+<br>
+<img src=""/upload/01010201/d2.jpg"" />
+<br>
+<img src=""/upload/01010201/d3.jpg"" />
+<br>
+<img src=""/upload/01010201/d4.jpg"" />
+<br>
+<img src=""/upload/01010201/d5.jpg"" />
+<br>
+<img src=""/upload/01010201/d6.jpg"" />",批发市场,2.2,1.jpg|4.jpg|7.jpg|10.jpg,5000,西安周边,128,88,1,950克 ~ 1050克|1050|1|1|1|1
+5,01010101,脐橙（1450-1550g）,010101,脐橙,"<img src=""/upload/01010101/d1.jpg"" />
+<br>
+<img src=""/upload/01010101/d2.jpg"" />
+<br>
+<img src=""/upload/01010101/d3.jpg"" />
+<br>
+<img src=""/upload/01010101/d4.jpg"" />
+<br>
+<img src=""/upload/01010101/d5.jpg"" />
+<br>
+<img src=""/upload/01010101/d6.jpg"" />
+<br>",批发市场,2.2,1.jpg|4.jpg|7.jpg|10.jpg|13.jpg,5000,西安周边,128,88,1,1450克 ~ 1550克|1550|1|1|1|1
+6,02010101,菠菜(500g),020101,菠菜,"<img src=""/upload/02010101/d1.jpg"" />
+<br>
+<img src=""/upload/02010101/d2.jpg"" />
+<br>
+<img src=""/upload/02010101/d3.jpg"" />
+<br>
+<img src=""/upload/02010101/d4.jpg"" />
+<br>
+<img src=""/upload/02010101/d5.jpg"" />
+<br>
+<img src=""/upload/02010101/d6.jpg"" />
+",批发市场,2.2,5.jpg|7.jpg|2.jpg|1.jpg|0.jpg,5000,西安周边,128,88,1,500克|500|1|1|1|1
+7,02010301,大白菜(2000-2600g),020103,大白菜,"<img src=""/upload/02010301/d1.jpg"" />
+<br>
+<img src=""/upload/02010301/d2.jpg"" />
+<br>
+<img src=""/upload/02010301/d3.jpg"" />
+<br>
+<img src=""/upload/02010301/d4.jpg"" />
+<br>
+<img src=""/upload/02010301/d5.jpg"" />
+",批发市场,2.2,10.jpg|7.jpg|4.jpg|1.jpg,5000,西安周边,128,88,1,2000克 ~ 2600克|2600|1|1|1|1
+8,02011001,包菜(1200-1500g),020110,包菜,"<img src=""/upload/02011001/d1.jpg"" />
+",批发市场,2.2,1.jpg|4.jpg|7.jpg|10.jpg,5000,西安周边,128,88,1,1200克 ~ 1500克|1500|1|1|1|2
+9,02020101,土豆(950-1050g),020201,小土豆,"<img src=""/upload/02020101/d1.jpg"" />
+<br>
+<img src=""/upload/02020101/d2.jpg"" />
+<br>
+<img src=""/upload/02020101/d3.jpg"" />
+<br>
+<img src=""/upload/02020101/d4.jpg"" />
+<br>
+<img src=""/upload/02020101/d5.jpg"" />
+<br>
+<img src=""/upload/02020101/d6.png"" />",批发市场,2.2,8.jpg|1.jpg|7.jpg|4.jpg,5000,西安周边,128,88,1,950克 ~ 1050克|1050|1|1|1|1
+10,02020102,土豆(2500g),020201,大土豆,"<img src=""/upload/02020102/d1.jpg"" />
+<br>
+<img src=""/upload/02020102/d2.jpg"" />
+<br>
+<img src=""/upload/02020102/d3.jpg"" />
+<br>
+<img src=""/upload/02020102/d4.jpg"" />
+<br>
+<img src=""/upload/02020102/d5.jpg"" />
+<br>
+<img src=""/upload/02020102/d6.png"" />",批发市场,2.2,8.jpg|1.jpg|7.jpg|4.jpg,5000,西安周边,128,88,1,2500克|2500|1|1|1|1
+11,02020501,胡萝卜(500-600g),020206,胡萝卜,"<img src=""/upload/02020501/d1.jpg"" />
+<br>
+<img src=""/upload/02020501/d2.jpg"" />
+<br>
+<img src=""/upload/02020501/d3.jpg"" />
+<br>
+<img src=""/upload/02020501/d4.jpg"" />",批发市场,2.2,1.jpg|4.jpg|7.jpg,5000,西安周边,128,88,1,500克 ~ 600克|600|1|1|1|1
+12,02020801,蒜薹(500g),020208,蒜薹,"<img src=""/upload/02020801/d1.jpg"" />
+<br>
+<img src=""/upload/02020801/d2.jpg"" />
+<br>
+<img src=""/upload/02020801/d3.jpg"" />
+<br>
+<img src=""/upload/02020801/d4.jpg"" />
+<br>
+<img src=""/upload/02020801/d5.jpg"" />
+<br>
+<img src=""/upload/02020801/d6.jpg"" />",批发市场,2.2,1.jpg|4.jpg,5000,西安周边,128,88,1,500克|500|1|1|1|1
+13,02020901,莴笋(1450-1550g),020209,莴笋,"<img src=""/upload/02020901/d1.jpg"" />
+<br>
+<img src=""/upload/02020901/d2.jpg"" />
+<br>
+<img src=""/upload/02020901/d3.jpg"" />
+<br>
+<img src=""/upload/02020901/d4.jpg"" />
+<br>
+<img src=""/upload/02020901/d5.jpg"" />
+<br>
+<img src=""/upload/02020901/d6.jpg"" />",批发市场,2.2,4.jpg|1.jpg|7.jpg,5000,西安周边,128,88,1,1450克 ~ 1550克|1550|1|1|1|1
+14,02030101,长茄子(900-1100g),020301,长茄子,"<img src=""/upload/02030101/d1.jpg"" />
+<br>
+<img src=""/upload/02030101/d2.jpg"" />
+<br>
+<img src=""/upload/02030101/d3.jpg"" />
+<br>
+<img src=""/upload/02030101/d4.jpg"" />
+<br>
+<img src=""/upload/02030101/d5.jpg"" />
+<br>
+<img src=""/upload/02030101/d6.jpg"" />",批发市场,2.2,1.jpg|4.jpg|7.jpg,5000,西安周边,128,88,1,900克 ~ 1100克|1100|1|1|1|1
+15,02030102,圆茄子(900-1100g),020301,圆茄子,"<img src=""/upload/02030102/d1.jpg"" />
+<br>
+<img src=""/upload/02030102/d2.jpg"" />
+<br>
+<img src=""/upload/02030102/d3.jpg"" />
+<br>
+<img src=""/upload/02030102/d4.jpg"" />
+<br>
+<img src=""/upload/02030102/d5.jpg"" />
+<br>
+<img src=""/upload/02030102/d6.jpg"" />
+<br>",批发市场,2.2,1.jpg|4.jpg|7.jpg,5000,西安周边,128,88,1,900克 ~ 1100克|1100|1|1|1|1
+16,02040101,大葱(500g),020401,大葱,"<img src=""/upload/02040101/d1.png"" />
+<br>
+<img src=""/upload/02040101/d2.png"" />
+<br>
+<img src=""/upload/02040101/d3.png"" />
+<br>
+<img src=""/upload/02040101/d4.png"" />
+<br>
+<img src=""/upload/02040101/d5.png"" />
+<br>
+<img src=""/upload/02040101/d6.png"" />",批发市场,2.2,7.jpg|1.jpg|10.jpg|4.jpg,5000,西安周边,128,88,1,500克|500|1|1|1|1
+17,02040103,大蒜(300g),020401,大蒜,"<img src=""/upload/02040103/d1.png"" />
+<br>
+<img src=""/upload/02040103/d2.png"" />
+<br>
+<img src=""/upload/02040103/d4.png"" />
+<br>
+<img src=""/upload/02040103/d5.png"" />
+<br>
+<img src=""/upload/02040103/d6.png"" />
+<br>
+<img src=""/upload/02040103/d7.png"" />",批发市场,2.2,1.jpg|4.jpg|7.jpg,5000,西安周边,128,88,1,300克|300|1|1|1|1
+18,02040201,韭菜(500g),020402,韭菜,"<img src=""/upload/02040201/d1.jpg"" />
+<br>
+<img src=""/upload/02040201/d2.jpg"" />
+<br>
+<img src=""/upload/02040201/d3.jpg"" />
+<br>
+<img src=""/upload/02040201/d4.jpg"" />
+<br>
+<img src=""/upload/02040201/d5.jpg"" />
+<br>
+<img src=""/upload/02040201/d6.jpg"" />",批发市场,2.2,1.jpg|7.jpg|4.jpg,5000,西安周边,128,88,1,500克|500|1|1|1|1
+19,02060301,四季豆(500g),020603,四季豆,"<img src=""/upload/02060301/d1.jpg"" />
+<br>
+<img src=""/upload/02060301/d2.jpg"" />
+<br>
+<img src=""/upload/02060301/d3.jpg"" />
+<br>
+<img src=""/upload/02060301/d4.jpg"" />
+<br>
+<img src=""/upload/02060301/d5.jpg"" />
+<br>
+<img src=""/upload/02060301/d6.jpg"" />
+<br>
+<img src=""/upload/02060301/d7.jpg"" />",批发市场,2.2,7.jpg|10.jpg|4.jpg|1.jpg,5000,西安周边,128,88,1,500克|500|1|1|1|1
+20,02070101,黄瓜(500-600g),020701,黄瓜,"<img src=""/upload/02070101/d1.jpg"" />
+<br>
+<img src=""/upload/02070101/d2.jpg"" />
+<br>
+<img src=""/upload/02070101/d3.jpg"" />
+<br>
+<img src=""/upload/02070101/d4.jpg"" />
+<br>
+<img src=""/upload/02070101/d5.jpg"" />
+<br>
+<img src=""/upload/02070101/d6.jpg"" />",批发市场,2.2,7.jpg|4.jpg|1.jpg,5000,西安周边,128,88,1,500克 ~ 600克|600|1|1|1|1
+21,02070401,西葫芦(900-1100g),020704,西葫芦,"<img src=""/upload/02070401/d1.jpg"" />
+<br>
+<img src=""/upload/02070401/d2.jpg"" />
+<br>
+<img src=""/upload/02070401/d3.jpg"" />
+<br>
+<img src=""/upload/02070401/d4.jpg"" />
+<br>
+<img src=""/upload/02070401/d5.jpg"" />
+<br>
+<img src=""/upload/02070401/d6.jpg"" />",批发市场,2.2,4.jpg|1.jpg|7.jpg|10.jpg,5000,西安周边,128,88,1,900克 ~ 1100克|1100|1|1|1|1
+22,02080101,菜花(900-1200g),020801,大菜花,"<img src=""/upload/02080102/d1.jpg"" />
+<br>
+<img src=""/upload/02080102/d2.jpg"" />
+<br>
+<img src=""/upload/02080102/d3.jpg"" />
+<br>
+<img src=""/upload/02080102/d4.jpg"" />
+<br>
+<img src=""/upload/02080102/d5.jpg"" />
+<br>
+<img src=""/upload/02080102/d6.jpg"" />",批发市场,2.2,7.jpg|1.jpg|4.jpg,5000,西安周边,128,88,1,1200克 ~ 1600克|1600|1|1|1|1
+1,02011601,上海青,020111,西安周边产上海青300克,"
+<img src=""/upload/02011601/d1.jpg"" />
+<br>
+<img src=""/upload/02011601/d2.jpg"" />
+<br>
+<img src=""/upload/02011601/d3.jpg"" />
+<br>
+<img src=""/upload/02011601/d4.jpg"" />
+<br>
+<img src=""/upload/02011601/d5.jpg"" />
+<br>
+<img src=""/upload/02011601/d6.jpg"" />
+<br>
+<img src=""/upload/02011601/d7.jpg"" />",批发市场,1,1.jpg|4.jpg,999,西安周边,100,88,1,300克|300|1|1|1|1
+2,02030201,西红柿,020302,陕西泾阳产西红柿500-600克,"
+<img src=""/upload/02030201/d1.jpg"" />
+<br>
+<img src=""/upload/02030201/d2.jpg"" />
+<br>
+<img src=""/upload/02030201/d3.jpg"" />
+<br>
+<img src=""/upload/02030201/d4.jpg"" />
+<br>
+<img src=""/upload/02030201/d5.jpg"" />
+<br>
+<img src=""/upload/02030201/d6.jpg"" />
+<br>
+<img src=""/upload/02030201/d7.jpg"" />",直采,1,1.jpg|4.jpg,999,陕西泾阳,100,88,1,500~600克|500|1|1|1|2
+3,01060601,石榴,010606,陕西临潼产石榴1450-1550克,"
+<img src=""/upload/01060601/d1.jpg"" />",批发市场,3,9.jpg|1.jpg|4.jpg,999,陕西临潼,100,88,1,1450~1550克|1500|3|3|1|3
+4,02020502,白萝卜,020205,西安周边产白萝卜900-1100克,"<img src=""/upload/02020502/d1.jpg"" />
+<br>
+<img src=""/upload/02020502/d2.jpg"" />
+<br>
+<img src=""/upload/02020502/d3.jpg"" />
+<br>
+<img src=""/upload/02020502/d4.jpg"" />
+<br>
+<img src=""/upload/02020502/d5.jpg"" />
+<br>
+<img src=""/upload/02020502/d6.jpg"" />",批发市场,2,7.jpg|1.jpg|4.jpg,999,西安周边,100,88,1,900~1100克|1000|2|2|1|4
+5,01060101,菠萝,010601,海南产菠萝900-1200克,"<img src=""/upload/01060101/d1.png"" />
+<br>
+<img src=""/upload/01060101/d2.png"" />
+<br>
+<img src=""/upload/01060101/d3.png"" />
+<br>
+<img src=""/upload/01060101/d4.png"" />
+<br>
+<img src=""/upload/01060101/d5.png"" />
+<br>
+<img src=""/upload/01060101/d6.png"" />",批发市场,2,4.jpg|10.jpg,999,海南,100,88,1,900~1200克|1000|2|2|1|5
+6,01060102,菠萝,010601,海南产菠萝1200-1600克,"<img src=""/upload/01060102/d1.png"" />
+<br>
+<img src=""/upload/01060102/d2.png"" />
+<br>
+<img src=""/upload/01060102/d3.png"" />
+<br>
+<img src=""/upload/01060102/d4.png"" />
+<br>
+<img src=""/upload/01060102/d5.png"" />
+<br>
+<img src=""/upload/01060102/d6.png"" />",批发市场,2,4.jpg|10.jpg,999,海南,100,88,1,1200~1600克|1500|2|2|1|6
+7,01050401,冬枣,010504,陕西大荔产冬枣500克,"<img src=""/upload/01050401/d1.jpg"" />
+<br>
+<img src=""/upload/01050401/d2.jpg"" />
+<br>
+<img src=""/upload/01050401/d3.jpg"" />
+<br>
+<img src=""/upload/01050401/d4.jpg"" />
+<br>
+<img src=""/upload/01050401/d5.jpg"" />
+<br>
+<img src=""/upload/01050401/d6.jpg"" />",批发市场,1,1.jpg|4.jpg|7.jpg,999,陕西大荔,100,88,1,500克|500|1|1|1|7
+8,02020201,红薯,020202,西安周边产白心红薯950-1050克,"<img src=""/upload/02020201/d1.jpg"" />
+<br>
+<img src=""/upload/02020201/d2.jpg"" />
+<br>
+<img src=""/upload/02020201/d3.jpg"" />
+<br>
+<img src=""/upload/02020201/d4.jpg"" />
+<br>
+<img src=""/upload/02020201/d5.jpg"" />
+<br>
+<img src=""/upload/02020201/d6.jpg"" />
+<br>
+<img src=""/upload/02020201/d7.jpg"" />",批发市场,1,4.jpg|1.jpg,999,西安周边,100,88,1,950-1050克|1000|2|2|1|8
+9,02020202,红薯,020202,西安周边产白心红薯2500克,"<img src=""/upload/02020202/d1.jpg"" />
+<br>
+<img src=""/upload/02020202/d2.jpg"" />
+<br>
+<img src=""/upload/02020202/d3.jpg"" />
+<br>
+<img src=""/upload/02020202/d4.jpg"" />
+<br>
+<img src=""/upload/02020202/d5.jpg"" />
+<br>
+<img src=""/upload/02020202/d6.jpg"" />
+<br>
+<img src=""/upload/02020202/d7.jpg"" />",批发市场,1,4.jpg|1.jpg,999,西安周边,100,88,1,2500克|2500|2|2|1|9
+10,01040201,徐香猕猴桃,010402,陕西周至产徐香猕猴桃475-525克,"<img src=""/upload/01040201/d1.jpg"" />
+<br>
+<img src=""/upload/01040201/d2.jpg"" />
+<br>
+<img src=""/upload/01040201/d3.jpg"" />
+<br>
+<img src=""/upload/01040201/d4.jpg"" />
+<br>
+<img src=""/upload/01040201/d5.jpg"" />
+<br>
+<img src=""/upload/01040201/d6.jpg"" />
+<br>
+<img src=""/upload/01040201/d7.jpg"" />",批发市场,1,7.jpg|1.jpg|4.jpg,999,陕西周至,100,88,1,475-525克|500|1|1|1|10
+11,02040401,尖椒,020404,西安周边产尖椒500克,"<img src=""/upload/02040401/d1.jpg"" />",批发市场,1,4.jpg|1.jpg,999,西安周边,100,88,1,500克|500|1|1|1|11
+12,02060201,豇豆,020602,西安周边产豇豆500克,"<img src=""/upload/02060201/d1.jpg"" />
+<br>
+<img src=""/upload/02060201/d2.jpg"" />
+<br>
+<img src=""/upload/02060201/d3.jpg"" />
+<br>
+<img src=""/upload/02060201/d4.jpg"" />
+<br>
+<img src=""/upload/02060201/d5.jpg"" />",批发市场,1,1.jpg|4.jpg,999,西安周边,100,88,1,500克|500|1|1|1|12
+13,02010501,空心菜,020105,西安周边产空心菜500克,"<img src=""/upload/02010501/d1.jpg"" />
+<br>
+<img src=""/upload/02010501/d2.jpg"" />
+<br>
+<img src=""/upload/02010501/d3.jpg"" />
+<br>
+<img src=""/upload/02010501/d4.jpg"" />
+<br>
+<img src=""/upload/02010501/d5.jpg"" />
+<br>
+<img src=""/upload/02010501/d6.jpg"" />
+<br>
+<img src=""/upload/02010501/d7.jpg"" />
+<br>
+<img src=""/upload/02010501/d8.jpg"" />",批发市场,1,4.jpg|1.jpg,999,西安周边,100,88,1,500克|500|1|1|1|13
+14,02020701,莲藕,020207,西安周边产莲藕450-550克,"<img src=""/upload/02020701/d1.png"" />
+<br>
+<img src=""/upload/02020701/d2.png"" />
+<br>
+<img src=""/upload/02020701/d3.png"" />
+<br>
+<img src=""/upload/02020701/d4.png"" />
+<br>
+<img src=""/upload/02020701/d5.png"" />
+<br>
+<img src=""/upload/02020701/d6.png"" />
+<br>
+<img src=""/upload/02020701/d7.png"" />",批发市场,1,7.jpg|1.jpg,999,西安周边,100,88,1,450-550克|500|1|1|1|14
+15,02020702,莲藕,020207,西安周边产莲藕900-1100克,"<img src=""/upload/02020702/d1.png"" />
+<br>
+<img src=""/upload/02020702/d2.png"" />
+<br>
+<img src=""/upload/02020702/d3.png"" />
+<br>
+<img src=""/upload/02020702/d4.png"" />
+<br>
+<img src=""/upload/02020702/d5.png"" />
+<br>
+<img src=""/upload/02020702/d6.png"" />
+<br>
+<img src=""/upload/02020702/d7.png"" />",批发市场,1,7.jpg|1.jpg,999,西安周边,100,88,1,900-1100克|1000|1|1|1|15
+16,02010401,芹菜,020104,西安周边产芹菜500克,"<img src=""/upload/02010401/d1.jpg"" />
+<br>
+<img src=""/upload/02010401/d2.jpg"" />
+<br>
+<img src=""/upload/02010401/d3.jpg"" />
+<br>
+<img src=""/upload/02010401/d4.jpg"" />
+<br>
+<img src=""/upload/02010401/d5.jpg"" />
+<br>
+<img src=""/upload/02010401/d6.jpg"" />
+<br>
+<img src=""/upload/02010401/d7.jpg"" />",批发市场,1,1.jpg|7.jpg,999,西安周边,100,88,1,500克|500|1|1|1|16
+17,02040102,生姜,020401,山东产生姜300克,"<img src=""/upload/02040102/d1.png"" />
+<br>
+<img src=""/upload/02040102/d2.png"" />
+<br>
+<img src=""/upload/02040102/d3.png"" />
+<br>
+<img src=""/upload/02040102/d4.png"" />
+<br>
+<img src=""/upload/02040102/d5.png"" />
+<br>
+<img src=""/upload/02040102/d6.png"" />",批发市场,1,10.jpg|4.jpg|1.jpg,999,山东,100,88,1,300克|300|1|1|1|17
+18,01020201,酥梨,010202,陕西蒲城产酥梨1450-1550克,"<img src=""/upload/01020201/d1.png"" />
+<br>
+<img src=""/upload/01020201/d2.png"" />
+<br>
+<img src=""/upload/01020201/d3.png"" />
+<br>
+<img src=""/upload/01020201/d4.png"" />
+<br>
+<img src=""/upload/01020201/d5.png"" />
+<br>
+<img src=""/upload/01020201/d6.png"" />",批发市场,1,4.jpg|1.jpg,999,陕西蒲城,100,88,1,1450~1550克|1500|3|3|1|18
+19,02010601,茼蒿,020106,西安周边产茼蒿500克,"<img src=""/upload/02010601/d1.jpg"" />
+<br>
+<img src=""/upload/02010601/d2.jpg"" />
+<br>
+<img src=""/upload/02010601/d3.jpg"" />
+<br>
+<img src=""/upload/02010601/d4.jpg"" />
+<br>
+<img src=""/upload/02010601/d5.jpg"" />
+<br>
+<img src=""/upload/02010601/d6.jpg"" />
+<br>
+<img src=""/upload/02010601/d7.jpg"" />",批发市场,1,1.jpg|4.jpg,999,西安周边,100,88,1,500克|500|1|1|1|19
+20,02040403,线椒,020404,西安周边产线椒500克,"<img src=""/upload/02040403/d1.jpg"" />
+<br>
+<img src=""/upload/02040403/d2.jpg"" />
+<br>
+<img src=""/upload/02040403/d3.jpg"" />
+<br>
+<img src=""/upload/02040403/d4.jpg"" />
+<br>
+<img src=""/upload/02040403/d5.jpg"" />
+<br>
+<img src=""/upload/02040403/d6.jpg"" />
+<br>
+<img src=""/upload/02040403/d7.jpg"" />",批发市场,1,1.jpg|4.jpg,999,西安周边,100,88,1,500克|500|1|1|1|20
+21,01060201,香蕉,010602,海南产香蕉900-1100克,"<img src=""/upload/01060201/d1.jpg"" />",批发市场,1,1.jpg|7.jpg|4.jpg,999,海南,100,88,1,900-1100克|1000|2|2|1|21
+22,02021001,洋葱,020210,西安周边产紫皮洋葱900-1100克,"<img src=""/upload/02021001/d1.jpg"" />
+<br>
+<img src=""/upload/02021001/d2.jpg"" />
+<br>
+<img src=""/upload/02021001/d3.jpg"" />
+<br>
+<img src=""/upload/02021001/d4.jpg"" />
+<br>
+<img src=""/upload/02021001/d5.jpg"" />
+<br>
+<img src=""/upload/02021001/d6.jpg"" />
+<br>
+<img src=""/upload/02021001/d7.jpg"" />
+<br>
+<img src=""/upload/02021001/d8.jpg"" />",批发市场,1,1.jpg|7.jpg|10.jpg,999,西安周边,100,88,1,900-1100克|1000|2|2|1|22
+23,02040402,圆椒,020404,西安周边产圆椒500克,"<img src=""/upload/02040402/d1.jpg"" />",批发市场,1,1.jpg|2.jpg,999,西安周边,100,88,1,500克|500|1|1|1|23

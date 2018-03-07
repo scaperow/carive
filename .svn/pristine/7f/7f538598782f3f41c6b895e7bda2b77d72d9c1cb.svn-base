@@ -1,0 +1,113 @@
+{% extends "layout/admin.html" %}
+{% block content %}
+<div class="row">
+   <nav>
+   <div class="navbar-header">
+      <a class="navbar-brand" href="#">添加广告</a>
+   </div>
+</nav>
+</div>
+<div class="row">
+    <div class="panel panel-primary">
+    <div class="panel-body">
+
+        {%set messages=handler.get_flashed_messages() %}
+        {%if messages%}
+            <div class="msg">
+                {% for type, msg in messages%}
+                    <span>{{msg}}</span>
+                {% endfor %}
+            </div>
+        {%endif%}
+
+        <form action="" method="post" enctype="multipart/form-data">
+            {{xsrf()}}
+            <div class="form-group has-success">
+            <label class="control-label">图片</label>
+            <input type="file" class="form-control"  name="file">
+            </div>
+            <div class="form-group has-success">
+            <label class="control-label">图片描述</label>
+            <input type="text" class="form-control"  name="imgalt" required placeholder="图片描述不能为空" />
+            </div>
+            <div class="form-group has-success">
+            <label class="control-label">访问地址</label>
+            <input type="text" class="form-control"  name="url" value="http://" >
+            </div>
+            <div class="form-group has-success">
+            <label class="control-label">广告位置</label>
+                <select class="form-control" name="type">
+                    <option value="">请选择</option>
+                    {% for at in adtypes %}
+                      <option value="{{at.id}}">{{at.name}}</option>
+                      {% endfor %}
+                </select>
+            </div>
+            <div class="form-group has-success">
+            <label class="control-label">城市</label>
+            <div class="control">
+                <div class=" col-md-6">
+                  <select name="province_code" id="province_code" class="form-control" onchange="province_change(this.value,'')" data-default="">
+                      <option value="">全国</option>
+                      {% for area in items %}
+                      <option value="{{area.code}}">{{area.name}}</option>
+                      {% endfor %}
+                  </select>
+                </div>
+                <div class=" col-md-6">
+                  <select name="city_code" id="city_code" class="form-control" data-default="">
+                      <option value="">--请选择城市--</option>
+                  </select>
+                </div>
+            </div>
+            </div>
+            <div class="form-group has-success">
+            <label class="control-label">排列顺序  数字越大越靠前</label>
+            <input type="text" class="form-control"  name="sort" />
+            </div>
+            <div class="form-group has-success">
+            <label class="control-label">备注</label>
+            <input type="text" class="form-control"  name="remark" value="" >
+            </div>
+            <div class="form-group has-success">
+            <input type="submit" name="sub" value="提交" class="btn btn-outline btn-primary btn-sm">
+            </div>
+        </form>
+    </div>
+    </div>
+</div>
+<script>
+
+    function province_change(id, default_id){
+        $("#city_code > option").remove();
+        $("#city_code").append("<option value=\"0\">--请选择城市--</option>");
+        if(id > 0){
+            GetSubAreas(id, "city_code", default_id);
+        }
+    }
+    function GetSubAreas(id,ddl_id,default_id) {
+    //    alert(default_id);
+        $.get("/ajax/GetSubAreas", { pcode: id, is_site:1,  t: Math.random() }, function (data) {
+            data = jQuery.parseJSON(data);
+            if(data.flag==1){
+                for(var i=0; i< data.data.length; i++){
+                    if(default_id.length>0){
+                        if(data.data[i]["code"]==default_id){
+                            $("#" + ddl_id).append("<option value=\"" + data.data[i]["id"] + "\" selected>" + data.data[i]["name"] + "</option>");
+                        }
+                        else{
+                            $("#" + ddl_id).append("<option value=\"" + data.data[i]["id"] + "\">" + data.data[i]["name"] + "</option>");
+                        }
+                    }
+                    else {
+                        $("#" + ddl_id).append("<option value=\"" + data.data[i]["id"] + "\">" + data.data[i]["name"] + "</option>");
+                    }
+                }
+            }
+            else{
+                alert(data.msg)
+            }
+        });
+    }
+</script>
+{% endblock %}

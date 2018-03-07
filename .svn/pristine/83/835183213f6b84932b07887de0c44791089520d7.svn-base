@@ -1,0 +1,45 @@
+<ion-view view-title="可结算订单">
+  <ion-content class="stable-bg">
+    <div ng-if="items.length === 0" class="message">
+      暂时没有可结算订单
+    </div>
+    <div class="list car">
+      <div ng-repeat="item in orders">
+        <div class="item small border-clear">
+          <div style="padding:0 5px; float:right;">
+            <label class="checkbox checkbox-balanced padding-clear" style="top: 16px;">
+              <input type="checkbox" ng-model="item.hasChecked">
+            </label>
+          </div>
+            <p>订单时间：{{item.ordered}}</p>
+            <p>订单编号：{{item.order-number}}</p>
+            <p>订单金额：{{item.price}}元</p>
+
+        </div>
+        <div class="separate-big stable-bg" style="clear:both"></div>
+      </div>
+    </div>
+    <div style="height: 40px;">
+    </div>
+    <ion-infinite-scroll ng-if="hasMore" on-infinite="load()" distance="1%">
+  </ion-content>
+  <ion-footer-bar class="bar-stable padding" style="height: auto; background:transparent">
+    <div class="row">
+      <!--<div class="col col-50">-->
+              <!--<span>-->
+                <!--请至少勾选一个订单-->
+              <!--</span>-->
+      <!--</div>-->
+      <div class="col col-50">
+        <button class="button  button-balanced" style="width: 99%;" ng-click="checkAll()">
+          全选
+        </button>
+      </div>
+      <div class="col col-50">
+        <button class="button  button-balanced" style="width: 99%;" ng-click="settlement()">
+          结算
+        </button>
+      </div>
+    </div>
+  </ion-footer-bar>
+</ion-view>

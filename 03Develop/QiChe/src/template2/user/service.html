@@ -1,0 +1,93 @@
+{% extends "layout/user.html" %}
+{% block subcontent %}
+
+<link rel="stylesheet" href="/style2/css/colorbox.css" />
+<link rel="stylesheet" href="/style2/css/Cart.css" />
+<link rel="stylesheet" href="/style2/css/usercenter.css" type="text/css" media="screen">
+<style>
+        .service_detail_wrap{}
+        .received{margin-left: 20px;}
+        .consult_type{padding-left: 25px;}
+        .input_container{margin: 10px 0; float: left; width:100%;}
+        .act{text-align: center}
+        #q_type{height:25px;}
+    </style>
+<h1> 我的售后咨询 </h1>
+<div class="content">
+    <div class="notice_content rmapre_notice">
+        <a href="javascript:void(0)" class="btn btnMid btn-success fr">我要售后咨询</a>
+        如果您对我们有任何的疑问或者不满，我们欢迎您提交售后咨询。客服会尽力帮您解决一切问题
+    </div>
+    <div class="clear"></div>
+    <div>
+        <div class="">
+            <!--<h2>您还没有任何售后咨询记录</h2>-->
+            <table class="order-tablev2" id="order-list">
+        <colgroup>
+            <col class="name"><col class="address"><col class="code"><col class="hp"><col class="phone"><col class="action"></colgroup>
+        <tbody>
+        <tr class="order_list_title">
+            <th>订单编号</th>
+            <th>联系人</th>
+            <th>联系电话</th>
+            <th>问题类型</th>
+            <th>问题描述</th>
+            <th>提交时间</th>
+            <th width="80">操作</th>
+        </tr>
+        {% for a in consults %}
+        <tr>
+            <td>{{a.order|escape }}</td>
+            <td>{{a.contact|escape}}</td>
+            <td style="padding: 0px;">{{ a.mobile |escape}}</td>
+            <td>{{ a.type|escape }}</td>
+            <td>{{a.content|escape}}</td>
+            <td>{{(a.created|datetimeformat)}}</td>
+            <td><a class="sp_address_edit" style="display: inline-block;" href="javascript:void(0)" data_id="{{a.id}}">查看</a> </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="/style2/js/jquery.colorbox-min.js"></script>
+<script>
+    $(function(){
+        $('.btnMid').click(function(){
+            $.colorbox({
+                href: "/user/service-add",
+                width: 1000,
+                title:'<span style="font-family: microsoft yahei; font-weight: bold;">咨询售后</span>',
+                opacity:0.5,
+                close:'',
+                onClosed: function(){
+                    location.href='/user/service';
+                },
+                onComplete: function(){
+                    $(".cart_pop_tlt").html("售后咨询");
+                }
+            });
+        });
+        $('.sp_address_edit').click(function(){
+            debugger;
+            var cid = $(this).attr("data_id");
+            $.colorbox({
+                href: "/user/service_show/"+cid,
+                width: 700,
+                title:'<span style="font-family: microsoft yahei; font-weight: bold;">咨询售后查看</span>',
+                opacity:0.5,
+                close:'',
+                onClosed: function(){
+                    //location.href='/user/service';
+                },
+                onComplete: function(){
+                    $(".cart_pop_tlt").html("售后咨询查看");
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

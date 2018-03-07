@@ -1,0 +1,29 @@
+<ion-view view-title="门店商品">
+  <ion-content scroll="false">
+    <ion-scroll direction="x"
+                class="text-center"
+                style="overflow: scroll;white-space: nowrap;">
+      <a style="display:inline-block; font-size:12px;  margin-right: -4px;"
+         class="item item-x {{( 'all' == choose)?'calm':''}}"
+         ng-click="switch('', 'all')">全部</a>
+      <a style="display:inline-block; font-size:12px"
+         class="item item-x {{( category.code == choose)?'calm':''}}"
+         ng-repeat="category in categories"
+         ng-click="switch(category.code)">{{category.name}}</a>
+    </ion-scroll>
+    <ion-scroll zooming="false" direction="y" delegate-handle="categoriesProductScroll" style="height:100%">
+      <div class="list ">
+        <ion-item bindonce="item" ng-repeat="item in products"
+                  class=" item item-thumbnail-left " ng-click="showProductDetail(item.id)">
+          <!--<img image-lazy-src="{{item.img}}">-->
+          <img ng-src="{{item.cover}}">
+          <div>{{item.name}}</div>
+          <p>{{item.description}}</p>
+          <span class="italic assertive">{{item.price}}</span>元
+        </ion-item>
+      </div>
+      <div style="height:40px"></div>
+    </ion-scroll>
+
+  </ion-content>
+</ion-view>

@@ -1,0 +1,20 @@
+<ion-view view-title="服务">
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="service in services"
+                class="item  item-thumbnail-left" ng-click="showDetail(service.id)">
+        <img ng-src="{{service.cover}}">
+
+        <h2>{{service.name}}</h2>
+
+        <p>
+          {{service.description}}
+        </p>
+
+        <p>
+          <i>{{service.distance}}千米</i>
+        </p>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

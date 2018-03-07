@@ -1,0 +1,88 @@
+<ion-view view-title="订单详情">
+  <!-- <ion-nav-buttons side="right">
+    <button ng-if="order.statusValue == '0' || order.statusValue=='1' " class="button button-balanced" ng-click="cancelOrder()">取消订单</button>
+  </ion-nav-buttons> -->
+  <ion-content class="stable-bg">
+
+    <ion-item class="border-clear">
+      <p>
+        订单号编号：{{order.ordernum}}
+      </p>
+      <p>订单状态：
+        <span class="{{order.scolor}}">{{order.status}}</span>
+      </p>
+      <p>下单日期：{{order.ordered}}</p>
+      <p>支付方式：{{order.payment}}</p>
+    </ion-item>
+    <div class="separate-big"></div>
+    <ion-item class="border-clear item-text-wrap">
+      <div class="row" ng-repeat="item in order.items" style="padding:0">
+        <div class="col">
+          <p>{{item.name}}</p>
+        </div>
+        <div class="col text-right">
+          <p>数量 {{item.quantity}}</p>
+          <p>价格 ￥{{item.price}}</p>
+          <p>
+            <a class="button button-small button-balanced" ng-if="order.status=='交易完成' && item.hascomment == 0" ng-click="comment(item.id, item.psid)">去评价</a>
+          </p>
+        </div>
+      </div>
+    </ion-item>
+    <div class="separate-big"></div>
+    <ion-item class="border-clear">
+      <div class="header">
+        物流跟踪
+      </div>
+      <p>{{expressProgress}}</p>
+      <ion-item  class="border-clear" ng-show="expresses" ng-repeat="express in expresses">
+        <p>{{express.context}}</p>
+        <label class="item-note">{{express.time}}</label>
+      </ion-item>
+    </ion-item>
+    <div class="separate-big"></div>
+    <ion-item class="border-clear">
+      <div class="header">
+        收货信息
+      </div>
+      <div class="title-border"></div>
+      <p>收货人：{{order.take_name}}</p>
+      <p>手机号码：{{order.take_tel}}</p>
+      <p>收货地址：{{order.take_address}}</p>
+    </ion-item>
+
+    <!-- <ion-item>
+      <div class="balanced item item-divider">
+        价格信息
+      </div>
+      <div class="item item-text-wrap">
+        <p>商品金额：{{order.price}}元</p>
+
+        <p>运费：{{order.shippingprice}}元</p>
+
+        <p>优惠：{{(order.price + order.shippingprice - order.currentprice) | number:2}}元</p>
+
+        <p>总价：{{order.currentprice}}元</p>
+      </div>
+    </ion-item> -->
+    <div style="height: 40px;"></div>
+  </ion-content>
+
+  <ion-footer-bar class="padding" style="height: auto; background:transparent" ng-if="order.status == '待付款' " >
+    <div class="row" style="padding:0">
+      <!-- <div class="col col-50" style="margin:0; padding:0;margin-left:5px; text-align:center;line-height: 48px">
+        需支付 {{ order.currentprice - order.balance }} 元
+      </div> -->
+      <div class="col col-50" style="width:100%; padding:0; margin:0; ">
+        <button ng-if="order.statusValue == '0' || order.statusValue=='1' "  class="button  button-energized button-full" style="margin: 0; height: 48px" ng-click="cancelOrder()" style="margin-top: 0">
+          取消订单
+        </button>
+      </div>
+      <div class="col col-50" style="width:100%; padding:0; margin:0; ">
+        <button class="button  button-balanced button-full" style="margin: 0; height: 48px" ng-click="continuePay()" style="margin-top: 0">
+          继续支付
+        </button>
+      </div>
+    </div>
+  </ion-footer-bar>
+</ion-view>

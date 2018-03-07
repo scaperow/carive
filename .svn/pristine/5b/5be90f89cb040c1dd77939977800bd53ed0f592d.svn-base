@@ -1,0 +1,67 @@
+<ion-view view-title="晒单">
+ <ion-nav-buttons side="right">
+  <button class="button button-clear" ng-click="postNewTopic()">
+    提交
+  </button>
+</ion-nav-buttons>
+  <ion-content class="stable-bg circle">
+    <div class="list">
+      <div class="item">
+        <label class="login-item-input-wrapper">
+          <textarea placeholder="{{repliedUserName?'回复给'+repliedUserName:''}}" ng-model="$parent.content" rows="8"></textarea>
+        </label>
+      </div>
+    </div>
+    <div class="row " ng-if="imgs.length >= 1">
+      <div  ng-if="imgs.length >= 1">
+        <img ng-src="{{'data:image/jpeg;base64,' + imgs[0]}}" ng-click="removePicture(0)" style="width:100px;height:100px;margin-right:6px;">
+      </div>
+      <div  ng-if="imgs.length >= 2">
+        <img ng-src="{{'data:image/jpeg;base64,' + imgs[1]}}" ng-click="removePicture(1)" style="width:100px;height:100px;margin-right:6px;">
+      </div>
+      <div ng-if="imgs.length >= 3">
+        <img ng-src="{{'data:image/jpeg;base64,' + imgs[2]}}" ng-click="removePicture(2)" style="width:100px;height:100px;margin-right:6px;">
+      </div>
+    </div>
+    <div class="row" ng-if="imgs.length >= 4">
+      <div  ng-if="imgs.length >= 4">
+        <img ng-src="{{'data:image/jpeg;base64,' + imgs[3]}}" ng-click="removePicture(3)" style="width:100px;height:100px;margin-right:6px;">
+      </div>
+      <div ng-if="imgs.length >= 5">
+        <img ng-src="{{'data:image/jpeg;base64,' + imgs[4]}}" ng-click="removePicture(4)" style="width:100px;height:100px;margin-right:6px;">
+      </div>
+      <div  ng-if="imgs.length >= 6">
+        <img ng-src="{{'data:image/jpeg;base64,' + imgs[5]}}" ng-click="removePicture(5)" style="width:100px;height:100px;margin-right:6px;">
+      </div>
+    </div>
+    <div class="row" ng-if="imgs.length >= 7">
+      <div ng-if="imgs.length >= 7">
+        <img ng-src="{{'data:image/jpeg;base64,' + imgs[6]}}" ng-click="removePicture(6)" style="width:100px;height:100px;margin-right:6px;">
+      </div>
+      <div  ng-if="imgs.length >= 8">
+        <img ng-src="{{'data:image/jpeg;base64,' + imgs[7]}}" ng-click="removePicture(7)" style="width:100px;height:100px;margin-right:6px;">
+      </div>
+      <div  ng-if="imgs.length >= 9">
+        <img ng-src="{{'data:image/jpeg;base64,' + imgs[8]}}" ng-click="removePicture(8)" style="width:100px;height:100px;margin-right:6px;">
+      </div>
+    </div>
+    <div class="padding" if="!imgs || imgs.length < 9">
+      <button id="playButton" class="button button-clear button-icon ion-ios-plus-empty" style="max-width: none;
+    max-height: none;
+    line-height: normal;
+    font-size: 80px;
+    border: solid 1px #ccc;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;" ng-click="setPicture()">
+      </button>
+    </div>
+    <!-- {{imgs}} -->
+    <!-- <img ng-src="{{'data:image/jpeg;base64,' + img}}" ng-repeat="img in imgs" style="width:100px;" ></img> -->
+    <!-- <div class="padding">
+      <button class="button button-block button-balanced" ng-click="postNewTopic()">
+        提交
+      </button>
+    </div> -->
+  </ion-content>
+</ion-view>

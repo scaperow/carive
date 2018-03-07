@@ -1,0 +1,48 @@
+<ion-view view-title="帮助中心">
+    <ion-content class="stable-bg">
+      <div class="row light-bg">
+        <ion-item class="col menu-item mg5" ng-click="showHelp(0)">
+          <img src='img/help-yz.png' style="width:99%">
+        </ion-item>
+        <ion-item class="col menu-item mg5" ng-click="showHelp(1)">
+          <img src='img/help-js.png' style="width:99%">
+        </ion-item>
+        <ion-item class="col menu-item mg5" ng-click="showHelp(2)">
+          <img src='img/help-tx.png' style="width:99%">
+        </ion-item>
+        <ion-item class="col menu-item mg5" ng-click="showHelp(3)">
+          <img src='img/help-yhk.png' style="width:99%">
+        </ion-item>
+      </div>
+      <div ng-if="htype==0" class="item" style="border: none;margin-top: 10px;">
+        <h2><b>如何验证订单？</b></h2>
+        <p style="white-space:normal">
+          如何验证订单如何验证订单如何验证订单如何验证订单如何验证订单如何验证订单如何验证订单如何验证订单如何验证订单如何验证订单
+        </p>
+      </div>
+      <div ng-if="htype==1" class="item" style="border: none;margin-top: 10px;">
+        <h2><b>如何结算？</b></h2>
+        <p style="white-space:normal">
+          如何结算如何结算如何结算如何结算如何结算如何结算如何结算如何结算如何结算如何结算如何结算如何结算
+        </p>
+      </div>
+      <div ng-if="htype==2" class="item" style="border: none;margin-top: 10px;">
+        <h2><b>如何提现？</b></h2>
+        <p style="white-space:normal">
+          如何提现如何提现如何提现如何提现如何提现如何提现如何提现如何提现如何提现如何提现如何提现如何提现如何提现
+        </p>
+      </div>
+      <div ng-if="htype==3" class="item" style="border: none;margin-top: 10px;">
+        <h2><b>如何绑定银行卡？</b></h2>
+        <p style="white-space:normal">
+          如何绑定银行卡如何绑定银行卡如何绑定银行卡如何绑定银行卡如何绑定银行卡如何绑定银行卡如何绑定银行卡如何绑定银行卡
+        </p>
+      </div>
+
+    </ion-content>
+    <div class="bar bar-footer bar-balanced" style="margin-top: 20px;">
+      <a class="title " href="tel:4008009999" style="text-decoration: none;">
+        联系客服
+       </a>
+    </div>
+</ion-view>

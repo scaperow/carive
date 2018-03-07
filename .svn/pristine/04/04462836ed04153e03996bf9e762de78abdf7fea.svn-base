@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="/style2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>获奖用户</th>
+        <th>获奖时间</th>
+        <th>奖品内容</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for s in urs %}
+    <tr>
+        <td>{{s.user.username}}</td>
+        <td>{{s.created | datetimeformat}}</td>
+        <td>{{s.draw_name}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</body>
+</html>

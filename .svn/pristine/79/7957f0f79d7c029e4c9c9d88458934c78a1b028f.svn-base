@@ -1,0 +1,58 @@
+<ion-view view-title="我的收藏">
+  <ion-content class="stable-bg">
+
+    <div class="button-bar">
+      <button class="button button-small button-light {{switchItem === 'STORE' ? 'activity': ''}}" ng-click="switchStore()">
+        商家
+      </button>
+      <button class="button button-small  button-light  {{switchItem === 'PRODUCT'? 'activity': ''}}" ng-click="switchProduct()">
+        商品
+      </button>
+
+    </div>
+    <!-- <div class="text-center padding grey">
+      <label>向左滑动删除</label>
+    </div> -->
+    <div ng-if="switchItem === 'PRODUCT'">
+      <ion-list ng-repeat="item in items">
+        <ion-item class="item-thumbnail-left" href="#/product/{{item.id}}">
+          <img ng-src="{{item.cover}}">
+          <div class="item-text-wrap grey" style="font-size:14px">{{item.name}}</div>
+          <div class="row padding-clear">
+            <div class="col">
+              <label class="balanced">￥{{item.price}}</label>
+            </div>
+            <div class="col text-right">
+              <button class="button button-small button-energized height-clear">立即下单</button>
+            </div>
+          </div>
+          <ion-option-button class="button-assertive" ng-click="removeProduct(item.id)">删除</ion-option-button>
+        </ion-item>
+        <div class="separate-big"></div>
+      </ion-list>
+    </div>
+    <div ng-if="switchItem === 'STORE'">
+      <ion-list ng-repeat="store in stores">
+        <ion-item class=" item-thumbnail-left item-text-wrap" href="#/store/{{store.store_id}}">
+          <img ng-src="{{store.cover}}">
+          <p>{{store.name}}
+          </p>
+          <ng-stars counter="store.star_score"></ng-stars>
+          <label class="energized">{{store.credit_score}}</label>
+            <ion-option-button class="button-assertive" ng-click="removeStore(store.store_id)">删除</ion-option-button>
+        </ion-item>
+        <a class="item small item-icon-right item-icon-left" ng-href="#/navigate/{{store.x}}/{{store.y}}">
+          <i class="icon ion-ios-location"></i>
+          <p>{{store.address}}</p>
+          <i class="icon ion-chevron-right button-calm"></i>
+        </a>
+        <ion-item class="small item-icon-left item-icon-right" ng-click="$root.call(store.mobile)" >
+          <i class="icon ion-ios-telephone"></i>
+          <p>{{store.mobile}}</p>
+          <i class="icon ion-chevron-right button-calm" ></i>
+        </ion-item>
+        <div class="separate-big"></div>
+      </ion-list>
+    </div>
+  </ion-content>
+</ion-view>

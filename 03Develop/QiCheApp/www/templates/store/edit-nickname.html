@@ -1,0 +1,14 @@
+<ion-view view-title="修改昵称">
+  <ion-content class="stable-bg">
+   <ion-nav-buttons side="right">
+     <button ng-click="save()" class="button button-clear">确定</button>
+   </ion-nav-buttons>
+    <ion-list>
+      <a class="item item-icon-right" href="#/profile-edit">
+        <p>昵称</p>
+        <i class="item-sub item-icon-right">{{$root.user.nickname}}</i>
+        <i class="icon light ion-ios-arrow-right"></i>
+      </a>
+     </ion-list>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/style2/css/activity/topup.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>充值活动</title>
+    <style>
+        .txt { text-align:left; padding:40px; line-height:35px; font-family:"微软雅黑"; color:#1f1f1f; font-size:17px; }
+        .txt b { color:#F63; font-size:24px; line-height:50px;}
+        .txt a { color:#F00; font-weight:bold; font-size:20px;}
+        .txt span  { color:#F00; font-weight:bold; font-size:20px;}
+    </style>
+</head>
+<body>
+<div class="box">
+    <!--top-->
+    <DIV class="top">
+        <DIV class="banner01 ft_lt"></DIV>
+        <a href="/user/top_up" class="banner02 ft_lt"></a>
+    </DIV>
+    <!--MAIN-->
+    <DIV class="MAIN">
+        <div class="hdgz">
+            <!--<img src="/style2/images/activity/topup/01.jpg" width="940" height="242" />-->
+            <!--<img src="/style2/images/activity/topup/02.jpg" width="940" height="294" />-->
+            <!--<img src="/style2/images/activity/topup/03.jpg" width="940" height="247" />-->
+            <!--<img src="/style2/images/activity/topup/04.jpg" width="940" height="163" />-->
+            <div  class="txt">
+                <b> 活动时间：</b><br/>
+                2015年<span> 4 月 14 日00:00:00–4 月 20 日23:59:59</span><br/>
+                 <b>活动对象： </b><br/>
+                车装甲新、老会员<br/>
+                 <b>活动内容： </b><br/>
+                活动期间，新老会员在车装甲账户充值即送50%充值额度，每参加一次充值活动，会员实际获得：充值额度+<span>赠送50%</span>充值额度，赠送金额24小时内到达车装甲会员中心并以短信提醒方式通知用户，用户可在账户余额处查询。同一个车装甲用户ID活动期间累计充值赠送额度最高为100元；<br/>
+                 <b>举例说明: </b><br/>
+                1)、用户A一次性充值200元，实际获得金额为200元+200元*50%=300元；<br/>
+                2)、用户B在活动期间，第一次充值20元，除去充值额度，获得赠送金额为20元*50%=10元，由于活动累计获赠额度最高为<br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;100元，则以后充值实际获赠金额为90元；<br/>
+                3)、用户C一次性充值300元，实际获得金额为300元+100元=400元；<br/>
+
+                 <b>充值方式： </b><br/>
+                登陆车装甲手机端或电脑端会员中心<a href="/signup">注册</a>、<a href="/user/top_up">充值</a>即可。<br/>
+                 <b>使用范围： </b><br/>
+                充值额度以及返还额度可购买车装甲的全部商品（含特价、秒杀）。<br/>
+                 <b>备注部分： </b><br/>
+                1)、充值以及返还额度无消费期限限制，不可提现。<br/>
+                2)、使用账户余额的过程中如发生退货情况，退款至车装甲账户。<br/>
+                3)、活动期间，如发现恶意注册账号、套取奖金等行为，车装甲保留追究其法律责任的权利。<br/>
+                4)、在法律规定范围之内，活动最终解释权归车装甲所有。
+            </div>
+
+        </div>
+        <!--惊喜-->
+        <div class="jx">
+            <div  class="jx_title">   </div>
+            <div>
+                <A href="/lucky_draw" class="JX01 ft_lt"></A>
+                <A href="/invite_friends" class="JX02 ft_lt"></A>
+                <A href="/#xsms" class="JX03 ft_lt"></A>
+            </div>
+        </div>
+    </DIV>
+    <!--BT-->
+    <DIV class="BT">Copyright © 2014-2015 易凡版权所有   陕ICP备14007874号-1  客服热线：400-967-6558</DIV>
+
+</div>
+</body>
+</html>

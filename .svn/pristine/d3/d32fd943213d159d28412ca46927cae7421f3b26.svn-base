@@ -1,0 +1,567 @@
+{% extends "layout/site.html" %}
+{% block title %}{{flag == 1 and pa[0].product.name or p.name}}【优惠 导购 图片 评论 价格】-车装甲{% endblock %}
+{% block keyword %}{{flag == 1 and pa[0].product.name or p.name}}{{flag == 1 and pa[0].product.metakeywords or p.metakeywords}}{% endblock %}
+{% block description %}车装甲网上购物商城在线销售{{flag==1 and pa[0].product.name or p.name}},优惠、导购、图片、评论、价格样样齐全！{{flag==1 and pa[0].product.metadescription or p.metadescription}}{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="/style2/css/EoFan.css" type="text/css" media="screen">
+<style>
+    .comment_item{ border-bottom: 1px solid #f0f0f0;height:auto; width:100%; padding:5px; float:left;}
+    .comment_content{float:left; width:68%; line-height: 25px;}
+    .comment_jg{float:left; width:15%;}
+    .comment_user{float:right;width:15%; line-height: 50px;}
+    .comment_reply{width:68%; float:left; padding-top: 5px; color: #AF874D; line-height: 23px; word-wrap: break-word;}
+
+    .daojishi .timer_title{
+        font-family:Helvetica, Microsoft YaHei, Arial, sans-serif;
+        font-size:14px;
+        color:#151515;
+        width:auto;
+        padding:4px 3px;
+    }
+    .daojishi .timer{
+        font-family:Helvetica, Microsoft YaHei, Arial, sans-serif;
+        font-size:16px;
+        color:orangered;
+        font-weight:bold;
+        padding: 5px 0 0 10px;
+        margin-top: 5px;
+    }
+    .parameter span{color:green; font-size:12pt;padding-left:20px;}
+    .parameter p{color:#333; font-size:11pt; padding-left:40px; line-height:30px;}
+</style>
+{% endblock %}
+{% block js %}
+<script src="/style2/js/jquery-1.8.3.min.js" type="text/javascript"></script>
+<script src="/style2/js/layer-v1.9/layer.js" type="text/javascript"></script>
+<script type="text/javascript" src="/style2/js/json2.js"></script>
+<script type="text/javascript">
+    var maxsum = {{p.xgperusernum}};//{{p.quantity}};
+    var pid = {{flag == 1 and pa[0].product.id or p.id}};
+    var psid = {{flag == 1 and pa[0].product_standard.id or ps.id}};
+    $(function ($) {
+        $(".guige").each(function(){
+            var guige_psid = $(this).attr("data-id");
+            if(guige_psid == psid){
+                $(this).addClass("selected");
+            }
+        });
+
+        $('#bt_fav').bind('click',function(){
+            $.get("/ajax/addfav/"+pid.toString(), {}, function (msg) {
+                data =jQuery.parseJSON(msg);
+                if(data.status){
+                    $("#bt_fav").html("已收藏");
+                }
+            });
+        });
+        $('#img_small > a').click(function(){
+            $(this).addClass('on').siblings('a').removeClass('on');
+            $('#bigimg').attr('src',$(this).find('img').attr('src'));
+        });
+
+        //数量增加
+        $("#increase_num").click(function () {
+            var t = $(this).parent().find('input[class*=quantity-text]');
+            t.val(parseInt(t.val()) + 1);
+            if(parseInt(t.val()) > maxsum){
+                t.val(maxsum);
+            }
+        });
+        //数量减少
+        $("#decrease_num").click(function () {
+            var t = $(this).parent().find('input[class*=quantity-text]');
+            t.val(parseInt(t.val()) - 1)
+            if (parseInt(t.val()) < 1) {
+                t.val(1);
+            }
+        });
+        $("#buy_number").change(function(){
+            var t = $(this);
+            if(parseInt(t.val()) > maxsum){
+                t.val(maxsum);
+            }
+        });
+        $("#tcShow").hide();
+        //var PId = $("#hfPId").val();    // 商品的ID
+        var PName = $("#PName").text();    // 商品名称
+        var PPrice = $(".price_num").text();// 商品价格
+        var OPrice = {{ps.orginalprice}};
+    var userObj = {{user.id or 0}};
+    var imgUrl = "{{p.cover}}";
+    //将商品放入购物车
+    $(".btn-success").click(function(){
+        var PAmount = $("#buy_number").val();
+        $.get("/ajax/addCart", { pid: pid, quantity: PAmount,psid:psid, type:0, t: Math.random()}, function (data) {
+            $("#cart_body").load("/cartcontrol?t=" + Math.random());
+            if(data == '-1')
+            {
+                alert("商品数量错误，请重新选择！");
+            }else if(data == '-2'){
+                layer.alert("您已超出该商品当日最大购买数量！");
+            }
+            else{
+                layer.confirm('加入购物车成功,是否继续！',{icon: 9, title:'提示', btn: ['去结算','继续购物']},
+                        function(){
+                            location.href = "/cart/show";
+                        });
+
+            }
+        });
+    });
+
+
+    //当鼠标放上去时显示购物车，当鼠标移出时，购物车隐藏
+    $("#cartBT").hover(function(){
+        $("#tcShow").show(function(){
+            var cookie = decodeURIComponent(document.cookie).split(";");
+            if(cookie == "" || cookie == null){
+                $("#tcShow").html("您的购物车中暂无商品，赶快选择心爱的商品吧！");
+            }else{
+                var CarHtml = "";
+                for(var i = 2; i < cookie.length; i++){
+                    var name = cookie[i].substring(0, cookie[i].indexOf("="));
+                    var jsonObj = eval('(' + getCookieByName(name) + ')'); //如果有，把json字符串转换成对象
+                    for(var obj in jsonObj){
+                        CarHtml += "<span>"+jsonObj[obj].PName+"</span><span>"+"￥" + jsonObj[obj].PPrice + "×" + jsonObj[obj].PAmount+"</span><br/>";
+                    }
+                }
+                $("#tcShow").html(CarHtml);
+            }
+        });
+    },function(){
+        $("#tcShow").hide();
+    });
+
+    timer();
+    });
+    var count = 0;
+    function timer(){
+        count ++;
+//      var end_datetime = $(".timer").attr("data-time");
+        var end_count = $(".timer").attr("data-count");
+        end_count -= count;
+        var ts = parseInt(end_count * 1000);//计算剩余的毫秒数
+        var dd = parseInt(ts / 1000 / 60 / 60 / 24, 10);//计算剩余的天数
+        var hh = parseInt(ts / 1000 / 60 / 60 % 24, 10);//计算剩余的小时数
+        var mm = parseInt(ts / 1000 / 60 % 60, 10);//计算剩余的分钟数
+        var ss = parseInt(ts / 1000 % 60, 10);//计算剩余的秒数
+        dd = checkTime(dd);
+        hh = checkTime(hh);
+        mm = checkTime(mm);
+        ss = checkTime(ss);
+        var str = '';
+        if(dd > 0)
+            str += dd + "天"
+        if(hh > 0)
+            str += hh + "时"
+        else
+            str += "00时"
+        if(mm > 0)
+            str += mm + "分"
+        else
+            str += "00分"
+        if(ss > 0)
+            str += ss + "秒"
+        else
+            str += "00秒"
+        $(".timer").html(str);
+        setTimeout("timer()",1000);
+    }
+    function checkTime(i){
+        if (i < 10) {
+            i = "0" + i;
+        }
+        return i;
+    }
+
+    function goConfirmation(){
+        $('<form id="tf" method="post"  action="/cart/confirmation" style="display: none;">{{xsrf()}}' +
+        '<input type="hidden" name="items" value="'+ pid +'"></form>')
+                .appendTo('body').submit();
+    }
+</script>
+{% endblock %}
+{% block content %}
+<style>
+    #preview{ float:none;  padding-left:10px; padding-top:10px; }
+    .jqzoom{ width:350px; height:350px; position:relative;}
+
+    .zoomdiv{ left:859px; height:400px; width:400px;}
+    .list-h li{ float:left;}
+    #spec-n5{width:350px; height:56px; padding-top:6px; overflow:hidden;}
+    #spec-left{ background:url(/style2/images/left.gif) no-repeat; width:10px; height:45px; float:left; cursor:pointer; margin-top:5px;}
+    #spec-right{background:url(/style2/images/right.gif) no-repeat; width:10px; height:45px; float:left;cursor:pointer; margin-top:5px;}
+    #spec-list{ width:325px; float:left; overflow:hidden; margin-left:2px; display:inline;}
+    #spec-list ul li{ float:left; margin-right:0px; display:inline; width:62px;}
+    #spec-list ul li img{ padding:2px ; border:1px solid #ccc; width:50px; height:50px;}
+    .red{color:red;}
+    /*jqzoom*/
+    .jqzoom{position:relative;padding:0;}
+    .zoomdiv{z-index:100;position:absolute;top:1px;left:0px;width:400px;height:400px;background:url(/style2/images/loading.gif) #fff no-repeat center center;border:1px solid #e4e4e4;display:none;text-align:center;overflow: hidden;}
+    .bigimg{width:800px;height:800px;}
+    .jqZoomPup{z-index:10;visibility:hidden;position:absolute;top:0px;left:0px;width:50px;height:50px;border:1px solid #aaa;background:#FEDE4F 50% top no-repeat;opacity:0.5;-moz-opacity:0.5;-khtml-opacity:0.5;filter:alpha(Opacity=50);cursor:move;}
+    #spec-list{ position:relative; width:322px; margin-right:6px;}
+    #spec-list div{ margin-top:0;margin-left:-30px; *margin-left:0;}
+</style>
+<div class="bar">
+    <ul>
+        <li class="home"><a href="/"></a></li>
+        <li class="step_arrow"></li>
+        <li><a href="/category">全部分类</a></li>
+        <li class="step_arrow"></li>
+        <li><a href="/category?cid={{flag ==1 and pa[0].product.categoryfront.code or p.categoryfront.code}}">{{flag ==1 and pa[0].product.categoryfront.name or p.categoryfront.name}}</a></li>
+    </ul>
+</div>
+<div class="detail_top">
+    <div class="left_image">
+        <div id="preview">
+            <div class="jqzoom" id="spec-n1" > <img height="350" src="{{pics[0].path}}" jqimg="{{pics[0].path}}" width="350"> </div>
+            <div id="spec-n5">
+                <div class="control" id="spec-left"> <img src="/style2/images/left.gif" /> </div>
+                <div id="spec-list">
+                    <ul class="list-h">
+                        {% for pic in pics -%}
+                        <li> <img src="{{pic.path}}"> </li>
+                        {%- endfor %}
+                    </ul>
+                </div>
+                <div class="control" id="spec-right"> <img src="/style2/images/right.gif" /> </div>
+            </div>
+        </div>
+    </div>
+    <div class="info"  style="font-size:14px;">
+        <div class="p_name">
+            <span style="line-height:40px; padding-top:20px; display:block;color: #666;font: 700 22px/1.5em Arial, Verdana, 'microsoft yahei';" title="{{flag ==1 and pa[0].product.name or p.name}}"> {{flag ==1 and pa[0].product.name or p.name}} </span>
+            <strong>
+                <div id="sku_adwords" style="color:#666; font-size:14px;">{{flag ==1 and pa[0].product.resume or p.resume}}</div>
+            </strong> </div>
+        <span class="price_back">
+            {% if pr %}
+            预订价
+            {% else %}
+            {{flag == 1 and '秒杀价' or '特惠价'}}
+            {% endif %}
+        </span> <em class="rmb" style="color:#e4393c;">¥</em>
+        <strong class="price_num" style="color:#e4393c; font-size:22px;">
+            {% if user%}
+            {% if user.grade == 0 %}
+            {{ps.price}}
+            {% elif user.grade == 1 %}
+            {{ps.ourprice}}
+            {% elif user.grade == 2 or user.grade == 3 %}
+            {{ps.pf_price}}
+            {% endif %}
+            {% else %}
+            {{ps.price}}
+            {% endif %}
+        </strong>元
+        {% if flag == 1%}
+        　特惠价 <del>{{pa[0].product_standard.price}}元</del>
+        {% endif %}
+
+        {% if p.is_score == 1 and p.score_num > 0 %}
+        <span class="price_back">换购</span>所需 <span class="price" style="color:#e4393c;">{{ p.score_num }}</span> 积分
+        　　{% if user %}您的可用积分 <span class="price score" style="color:#e4393c;">{{ user.score }}</span>分{% endif %}
+        {% endif %}
+        　　　　<!--折合<span class="price" style="color:#e4393c;">¥{{ ps.ourprice }}</span>元/斤-->
+        <div class="actnotic">
+            <!--<div class="actwrap">
+                <div class="acttit zeng" style="width:auto;padding:2px 3px;">市 场 价</div>
+                <div class="actword"><span style="font-size:14px;">¥{{ '%.2f' % (ps.weight * (ps.orginalprice/500))}}元/份　　　　　 折合¥{{ps.orginalprice}}元/斤</span>
+        <span class="sale_countdown" style="font-size:14px;">帮您节省：<strong style="color:#e4393c;">
+            ¥{{(ps.weight * (ps.orginalprice/500)) - ps.price}}</strong>元/份</span>
+                </div>
+            </div>-->
+            <div class="actwrap">
+                <div class="acttit zeng" style="width:auto;padding:4px 3px;">规　格</div>
+                <div class="actword">
+
+                    {% for standard in standards %}
+                    <span class="guige " data-id="{{standard.id}}"><a href="/product/{{standard.id}}">{{standard.name}}</a></span>
+                    {% endfor %}
+                </div>
+                <div class="daojishi">
+                    {% if flag == 0 %}
+                    <span class="timer_title">距离开抢</span>
+                    <span class="timer" data-count="{{flag == 0 and pa[0].begin_count}}">
+                    </span>
+                    秒杀价：{{pa[0].price}}元/份
+                    {% elif flag == 1 %}
+                    <span class="timer_title">剩余时间</span>
+                    <span class="timer" data-count="{{flag == 1 and pa[0].end_count}}">
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="koubei">
+            <div class="number_box" style="display:inline-block; vertical-align:middle; margin:0px;">
+                <label class="caption" style="font-size:14px;padding-top:3px;">购买数量</label>
+                <div class="buy_number_input"> <span id="decrease_num" title="减少"></span>
+                    <input id="buy_number" readonly value="1" class="quantity-text" maxlength="2">
+                    <span id="{{flag == 1 and 'dis_num' or 'increase_num'}}" {% if flag == 1%}onclick="javascript:alert('秒杀商品，每人限购 1 份！');"{%endif%}  title="增加"></span> </div>
+            </div>
+            {% if pr %}
+            <button id="btn_reserve" class="btn btn-warning" style="height: 38px; width: 105px; ">预订</button>
+            {% else %}
+            {% if p.status==1 %}
+            <button id="addcart" class="btn btn-success" style="height: 38px; width: 105px; ">加入购物车</button>
+            {% else %}
+            <button class="btn" disabled style="height: 28px; width: 105px; ">补货中</button>
+            {% endif %}
+            {% endif%}
+            {% if p.is_score == 1 and p.score_num > 0 %}
+            <button id="btn_score" class="btn btn-warning" data-score="{{p.score_num}}" style="height: 28px; width: 105px; ">积分换购</button>
+            {% endif %}
+            {% if user %}
+            <button id="bt_fav" class="btn btn-warning" style="height: 38px; width: 105px;" > {% if fav %}
+                已收藏
+                {% else %}
+                收藏
+                {% endif %} </button>
+            {% endif %}
+            <div class="clear"></div>
+        </div>
+        {% if flag == 1%}
+        <div class="actnotic red">
+            商品剩余： {{flag == 1 and quantity}} 份　　秒杀商品，每人每天限购 1 份！
+            <div class="clear"></div>
+        </div>
+        {% elif p.xgperusernum>0 %}
+        <div class="actnotic red">
+            限购商品，每人每天限购 {{p.xgperusernum}} 份！
+            <div class="clear"></div>
+        </div>
+        {% endif %}
+        {% if p.is_reserve == 1%}
+        <div class="actnotic red">
+            订购此商品将会于 {{p.reserve_time|dateformat}} 统一为您配送！
+            <div class="clear"></div>
+        </div>
+        {% endif %}
+        <div class="actnotic">
+            <div class="actwrap">
+                <div class="acttit zeng" style="width:auto; padding:1px 3px;">积　分</div>
+                <div class="actword"><span>此产品您可以获得<strong style="color:#e4393c;">
+                    {% if user%}
+                    {% if user.grade == 0 %}
+                    {{ps.price|int}}
+                    {% elif user.grade == 1 %}
+                    {{ps.ourprice|int}}
+                    {% elif user.grade == 2 or user.grade == 3 %}
+                    {{ps.pf_price|int}}
+                    {% endif %}
+                    {% else %}
+                    {{ps.price|int}}
+                    {% endif %}</strong>积分.</span></div>
+            </div>
+            <div class="actwrap">
+                <div class="acttit zeng" style="width:auto; padding:1px 3px;">支　持</div>
+                <span class="actword"><span> ☑满29元<strong style="color:#e4393c; font-size:18px;">免</strong>运费 ☑货到付款 ☑送货上门 ☑当面验货</span> </div>
+        </div>
+        <div style=" padding-top:15px;">
+            <!-- JiaThis Button BEGIN -->
+            <div class="jiathis_style_32x32"> <a class="jiathis_button_qzone"></a> <a class="jiathis_button_tsina"></a> <a class="jiathis_button_tqq"></a> <a class="jiathis_button_weixin"></a> <a class="jiathis_button_renren"></a> <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a> <a class="jiathis_counter_style"></a> </div>
+            <script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js?uid=1408433221964280" charset="utf-8"></script>
+            <!-- JiaThis Button END -->
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div  class="clearfix wrap container product_read">
+    <div id="product" class="content">
+        <div class="read_order_wrap">
+            <div id="read_order" class="read_order has_fixed">
+                <ul>
+                    <li><a id="link_proinfo" href="javascript:void(0);" title="商品信息" class=""><span>商品信息</span></a></li>
+                    <li><a id="link_proclient_report" href="javascript:void(0);" title="商品评价" class=""><span>商品评价</span></a></li>
+                    <!--                            <li><a href="#proclient_report" title="客户评价" class=""><span>客户评价</span></a></li>-->
+                    <li class="btns">
+                        {% if pr %}
+                        {% else %}
+                        {% if p.status==1 %}
+                        <button class="btn btn-success">购买</button>
+                        {% endif %}
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- 商品信息导航 end -->
+        <!-- 商品信息正文 start -->
+        {% if p.prompt %}
+        <div id="parameter" class="pro_box pro_info_box">
+            <div class="pro_box_title">
+                <h3>购买须知<span>Information</span></h3>
+            </div>
+            <div class="pro_box_main pro_info" >
+                <div style="margin: 25px 60px;" class="pro-content parameter"> {{p.prompt}} </div>
+            </div>
+        </div>
+        {% endif %}
+        <div id="proinfo" class="pro_box pro_info_box">
+            <div class="pro_box_title">
+                <h3>商品信息<span>Information</span></h3>
+            </div>
+            <div class="pro_box_main pro_info" >
+                <div style="margin: 25px 60px;" class="pro-content"> {{flag ==1 and pa[0].product.intro or p.intro}} </div>
+            </div>
+        </div>
+        <div id="proclient_report" class="pro_box comment_wrap" style="min-height: 200px;">
+            <div class="pro_box_title">
+                <h3>客户评价<span>Evaluation</span></h3>
+            </div>
+            <div style="margin: 25px 60px;">
+                {% if total > 0 %}
+                {% for c in comments %}
+                <div class="comment_item">
+                    <div class="comment_content">{{c.comment|escape}}<br>{{c.created | datetimeformat}}</div>
+                    <div class="comment_jg"></div>
+                    <div class="comment_user">{{c.user.nickname or c.user.username[:3]+'****'+c.user.username[-4:] }}</div>
+                    <div class="comment_reply" >{{c.reply_content and '回复：'+ c.reply_content or ''}}</div>
+                </div>
+                {% endfor %}
+                {% else %}
+                暂无客户评价
+                {% endif %}
+            </div>
+            <div style="clear: both"></div>
+            <div class="pager prepaid_mt25">
+                <div class="page_list" id="pageUl"></div>
+            </div>
+            <div style="clear: both"></div>
+        </div>
+    </div>
+    <!-- Sliderbar -->
+    <div class="sliderbar">
+        <!-- 分类 -->
+        <!-- 畅销排行 -->
+        <div id="rank_slider" class="slider rank_slider">
+            <div class="title">
+                <h2>畅销排行 top {{populars.count()}}</h2>
+            </div>
+            <hr>
+            <ul>
+                {% for pro in populars %}
+                <li class="current">
+                    <div class="detail"> <a href="/product/{{pro.defaultstandard}}" target="_blank" class="pic"> <img src="{{pro.cover}}" width="140" height="140" alt=""> </a> </div>
+                    <div class="tit"> <a href="/product/{{pro.defaultstandard}}" target="_blank" title="" class="tit">{{pro.name}}</a> </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+<div style="clear: both"></div>
+<script type="text/javascript">
+    $(function () {
+        var xsrf='{{handler.xsrf_token}}';
+        $(".jqzoom").jqueryzoom({
+            xzoom: 400,
+            yzoom: 400,
+            offset: 10,
+            position: "right",
+            preload: 1,
+            lens: 1
+        });
+        $("#spec-list").jdMarquee({
+            deriction: "left",
+            width: 350,
+            height: 56,
+            step: 2,
+            speed: 4,
+            delay: 10,
+            control: true,
+            _front: "#spec-right",
+            _back: "#spec-left"
+        });
+        $("#spec-list img").bind("mouseover", function () {
+            var src = $(this).attr("src");
+            $("#spec-n1 img").eq(0).attr({
+                src: src.replace("\/n5\/", "\/n1\/"),
+                jqimg: src.replace("\/n5\/", "\/n0\/")
+            });
+            $(this).css({
+                "border": "2px solid #ff6600",
+                "padding": "1px"
+            });
+        }).bind("mouseout", function () {
+            $(this).css({
+                "border": "1px solid #ccc",
+                "padding": "2px"
+            });
+        });
+
+        $("#btn_reserve").click(function(){
+            location.href = "/yuding";
+//            var PAmount = $("#buy_number").val();
+//            {% if user %}
+//            $.get("/ajax/addCart", { pid: pid, quantity: PAmount,psid:psid, t: Math.random(), type:2}, function (data) {
+//                goConfirmation();
+//            });
+//            {% else %}
+//                layer.confirm("您尚未登陆，请先登录！", {
+//                    btn: ['去登录', '放弃登陆'],
+//                    shade: 0.2
+//                },function () {
+//                    location.href = "/signin?next=/yuding";
+//                },function () {
+//                    //parent.$.fn.colorbox.close();
+//                });
+//            {% endif %}
+        });
+        $("#link_proinfo").click(function(){
+            $("#proinfo").show();
+            $("#proclient_report").hide();
+        });
+        $("#link_proclient_report").click(function(){
+            $("#proclient_report").show();
+            $("#proinfo").hide();
+        });
+        $("#btn_score").click(function(){
+            var PAmount = $("#buy_number").val();
+            var score = $(this).attr("data-score");
+            layer.confirm('您确定要使用'+ (score*PAmount) + '积分兑换'+PAmount+'份该商品吗？兑换后不能取消。',{icon: 3, title:'提示', btn: ['确认','取消']},
+                    function(){
+                        $.post("/ajax/score_buy", {pid:pid, quantity:PAmount, psid:psid, score:score, t:Math.random(), _xsrf : xsrf}, function(data){
+                            var obj = jQuery.parseJSON(data);
+                            if (obj.err != 0){
+                                layer.alert(obj.msg);
+                            }else{
+                                $(".score").text(obj.score);
+                                layer.confirm('换购成功,是否继续！',{icon: 9, title:'提示', btn: ['去结算','继续购物']},
+                                        function(){
+                                            location.href = "/cart/show";
+                                        });
+                            }
+                            $("#cart_body").load("/cartcontrol?t=" + Math.random());
+                        });
+                    }
+            );
+        });
+    });
+</script>
+<script src="/style2/js/lib.js" type="text/javascript"></script>
+<script src="/style2/js/jquery.twbsPagination.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+                $('#pageUl').twbsPagination({
+                    first:'«',
+                    prev:'‹',
+                    next:'›',
+                    last:'»',
+                    totalPages: {{totalpage}},
+            startPage: {{page}},
+    visiblePages: 8,
+            onPageClick: function (event, page) {
+        self.location="/product/{{ps.id}}?page="+page + "#proclient_report";
+    }
+    });
+
+    });
+
+
+</script>
+
+{% endblock %}

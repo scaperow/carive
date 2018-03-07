@@ -1,0 +1,204 @@
+{% extends "layout/site.html" %}
+{% block js %}
+<!--<link rel="stylesheet" href="/style2/css/list.css" type="text/css" media="screen">-->
+<link rel="stylesheet" href="/style2/css/help.css" type="text/css" media="screen">
+{% endblock %}
+{% block content %}
+
+<style>
+
+    .pro_base {
+        background-color: #71a33b;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div  class="clearfix wrap container">
+    <!-- Main -->
+    <div id="product_list_content" class="content">
+        <!-- Crumb -->
+        <div class="crumb">
+            <ul>
+                <li class="home"><a href="/"></a></li>
+                <li class="step_arrow"></li>
+                <li><a href="#">关于我们</a></li>
+            </ul>
+        </div>
+        <div style="clear: both"></div>
+
+
+        <div id="product_list" class="clearfix product_list">
+            <div class="help_contain">
+                <div class="title">
+                    <h1>配送范围</h1>
+                </div>
+                <div class="title_line"></div>
+                <a name="ptpsfw"></a><h3>一、平台配送范围</h3>
+
+                <p> 易凡平台目前支持的配送范围：</p>
+
+                <p>碑林区：<br>
+                    南院门街道、柏树林街道、长乐坊街道、东关南街街道、太乙路街道、文艺路街道、长安路街道、张家村街道</p>
+                <p>灞桥区：<br>
+                    纺织城街道、十里铺街道、红旗街道、席王街道、洪庆街道、狄寨街道、灞桥街道、新筑街道、新合街道</p>
+                <p>长安区：<br>
+                    韦曲街道、郭杜街道、引镇街道、王寺街道、滦镇街道、马王街道、太乙宫街道、东大街道、子午街道、斗门街道、细柳街道、杜曲街道、大兆街道、兴隆街道、黄良街道</p>
+                <p>莲湖区：<br>
+                    青年路街道、北院门街道、北关街道、红庙坡街道、环城西路街道、西关街道、土门街道、桃园路街道、枣园街道</p>
+                <p>未央区：<br>
+                    张家堡街道、三桥街道、辛家庙街道、徐家湾街道、大明宫街道、谭家街道、草滩街道、未央宫街道、汉城街道、六村堡街道</p>
+                <p>新城区：<br>
+                    西一路街道、长乐中路街道、中山门街道、韩森寨街道、解放门街道、自强路街道、太华路街道、长乐西路街道、胡家庙街道</p>
+                <p>雁塔区：<br>
+                    小寨路街道、大雁塔街道、长延堡街道、电子城街道、等驾坡街道、鱼化寨街道、丈八沟街道、曲江街道</p>
+                <p>高新区：<br>全部地区</p>
+
+                <a name="pssj"></a><h3>
+                二、平台配送时间</h3>
+
+                <p>易凡平台提供全天配送（包含周末和节假日，如有特殊情况另行通知）。</p>
+
+                <a name="psfsjfy"></a><h3>三、配送方式及费用</h3>
+
+                <p>易凡平台采用的是送货上门的配送方式，全场满29元包邮，不足29元则收取5元运费。</p>
+
+
+            </div>
+        </div>
+        <div style="clear: both"></div>
+
+
+    </div>
+
+    <div class="sliderbar">
+
+        <!-- 分类 -->
+        <div id="help_slider" class="slider help_slider">
+            <div class="title active">
+                <h2><a href="#"><i class="help_ico"></i>用户帮助中心</a></h2>
+                <i class="line"></i>
+            </div>
+            <div class="inner">
+                <ul>
+                    <li>
+                        <div class="pro_base"><a href="/help/shopping#jytk" class="tit">购物指南</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                        <dl class="pro_sublist">
+                            <dd><a href="/help/shopping#jytk" rel="nofollow"><i></i>交易条款</a></dd>
+                            <dd><a href="/help/shopping#gwxz" rel="nofollow"><i></i>购物须知</a></dd>
+                            <dd><a href="/help/shopping#gwlc" rel="nofollow"><i></i>购物流程</a></dd>
+                            <dd><a href="/help/shopping#sppj" rel="nofollow"><i></i>商品评价</a></dd>
+
+                        </dl>
+                    </li>
+
+
+                    <li>
+                        <div class="pro_base"><a href="/help/delivery#ptpsfw" class="tit">配送服务</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                        <dl class="pro_sublist">
+                            <dd><a href="/help/delivery#ptpsfw" rel="nofollow">配送范围</a>            <i></i></dd>
+                            <dd><a href="/help/delivery#pssj" rel="nofollow">配送时间</a>              <i></i></dd>
+                            <dd><a href="/help/delivery#psfsjfy" rel="nofollow">配送方式及费用</a>     <i></i></dd>
+
+                        </dl>
+                    </li>
+
+
+                    <li>
+                        <div class="pro_base"><a href="/help/pay#dsfwszf" class="tit">支付方式</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                        <dl class="pro_sublist">
+                            <dd><a href="/help/pay#dsfwszf" rel="nofollow">第三方网上支付 </a> <i></i></dd>
+                            <dd><a href="/help/pay#hdfk" rel="nofollow">货到付款 </a> <i></i></dd>
+                            <dd><a href="/help/pay#syjfzf" rel="nofollow">积分支付 </a> <i></i></dd>
+                            <dd><a href="/help/pay#ptzhyezf" rel="nofollow">平台账户支付</a> <i></i></dd>
+
+                        </dl>
+                    </li>
+
+
+
+                    <li>
+                        <div class="pro_base"><a href="/help/service#fwcl" class="tit">售后服务</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                        <dl class="pro_sublist">
+                            <dd><a href="/help/service#fwcl" rel="nofollow">服务承诺</a>   <i></i></dd>
+                            <dd><a href="/help/service#yhyjs" rel="nofollow">验货与拒收</a><i></i></dd>
+                            <dd><a href="/help/service#thhyz" rel="nofollow">退换货原则</a><i></i></dd>
+                            <dd><a href="/help/service#thhlc" rel="nofollow">退换货流程</a><i></i></dd>
+
+                        </dl>
+                    </li>
+
+
+
+                    <li>
+                        <div class="pro_base"><a href="/help/member#hyqyhyw" class="tit">会员相关</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                        <dl class="pro_sublist">
+                            <dd><a href="/help/member#hyqyhyw" rel="nofollow">会员权利和义务</a>  <i></i></dd>
+                            <dd><a href="/help/member#jfsm" rel="nofollow">积分说明</a> <i></i></dd>
+                            <dd><a href="/help/member#hydjsm" rel="nofollow">会员等级说明</a> <i></i></dd>
+                        </dl>
+                    </li>
+
+                    <li>
+                        <div class="pro_base"><a href="/help/media" class="tit">媒体报道</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                    </li>
+                    <li>
+                        <div class="pro_base"><a href="/help/about#gsjj" class="tit">关于我们</a><a href="javascript:;" class="trigger "><span>展开/收起</span></a></div>
+                        <dl class="pro_sublist">
+                            <dd><a href="/help/about#gsjj" rel="nofollow">公司简介</a><i></i></dd>
+                            <dd><a href="/help/about#ptln" rel="nofollow">平台理念</a><i></i></dd>
+                            <dd><a href="/help/about#jyly" rel="nofollow">经营领域</a><i></i></dd>
+                            <dd><a href="/help/about#lxwm" rel="nofollow">联系我们</a><i></i></dd>
+                        </dl>
+                    </li>
+
+
+
+
+                </ul>
+            </div>
+
+
+
+        </div>
+
+
+
+    </div>
+
+    <div style="clear: both"></div>
+</div>
+
+
+<script>
+
+    jQuery(function ($) {
+        var shell = $('#help_slider');
+        if (!shell.length) { return; }
+        shell.find('.pro_sublist').each(function (i) {
+            var self = $(this);
+            self.data('maxHeight', self.height()).css('overflow', 'hidden');
+            if (this.parentNode.className.indexOf('current') < 0) {
+                self.css('height', 0);
+            }
+        });
+        shell.delegate('a.trigger', 'click', function (e) {
+            e.preventDefault();
+
+
+            var
+                    isExtended = this.className.indexOf('open') > -1,
+                    panel = $('.pro_sublist', this.parentNode.parentNode);
+            panel.stop().show().animate({
+                height: isExtended ? 0 : panel.data('maxHeight'),
+                opacity: isExtended ? 0 : 1
+            }, 200, function () {
+                if (isExtended) {
+                    panel.hide();
+                }
+            });
+            this.className = isExtended ? 'trigger' : 'trigger open';
+        });
+    });
+
+</script>
+{% endblock %}

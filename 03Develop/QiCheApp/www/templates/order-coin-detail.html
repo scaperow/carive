@@ -1,0 +1,30 @@
+<ion-view view-title="订单卷">
+  <ion-content class="stable-bg padding">
+    <div class="item item-text-wrap border-clear" ng-href="#/order-coin-detail/{{item.id}}" style="padding: 8px 16px;
+      background-image:url('img/coin.png');
+       background-size: contain;
+    background-repeat: no-repeat;
+    background-position-x: 100%;
+    background-position-y: 100%;">
+      <h2 class="balanced margin-clear" style="font-size:14px;">
+        {{item.product_name}}
+      </h2>
+      <p class="grey" style="margin-top:12px">
+        {{item.product_resume}}
+      </p>
+      <div style="margin:6px 0; border-bottom:dashed 1px #ccc">
+      </div>
+      <p class="grey">
+        预约时间 {{item.reserve_time}}
+      </p>
+    </div>
+    <div style="border-bottom:solid 1px #00A83B;margin-top: 1px;"></div>
+    <div class="separate-big"></div>
+    <div class="item border-clear text-center">
+      <p class="grey">激活码 {{item.service_code}}</p>
+      <img ng-src="{{item.qrcode}}" style="display:block;margin:auto">
+    </div>
+<br/>
+  <button class="button button-full button-balanced" ng-click="shareOrderCoin()">送给朋友</button>
+  </ion-content>
+</ion-view>

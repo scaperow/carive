@@ -1,0 +1,42 @@
+<ion-view view-title="预售商品">
+    <ion-content>
+        <div class="list " style="margin-bottom:5px">
+            <div class="item ">
+                <h2>{{item.name}}</h2>
+                <div class="grey">{{item.standard}}/份</div>
+                <div class="grey"><span>预售价</span><span class="assertive italic">{{item.price}}</span>元</div>
+                <div ng-bind-html="item.times">
+
+                </div>
+                <div class="grey">
+                   预计收货时间 {{item.delivery_time}}
+                </div>
+
+            </div>
+            <div class="item item-image">
+                <img ng-src="{{item.img}}">
+            </div>
+        </div>
+
+    </ion-content>
+
+    <ion-footer-bar class="bar-stable padding" style="height:auto">
+        <div class="row ">
+            <div class="col">
+                <button class="button button-clear ion-ios-minus-outline" ng-click="addQuantity(-1)"></button>
+            </div>
+            <div class="col">
+                <span ng-model="quantity">{{quantity}} 份</span>
+            </div>
+            <div class="col">
+                <button class="button button-clear ion-ios-plus-outline" ng-click="addQuantity(1)"></button>
+            </div>
+            <div class="col col-50">
+                <button class="button button-full button-assertive" style="margin: 0; height: 48px"
+                        ng-click="buyPresale()">
+                    立即购买
+                </button>
+            </div>
+        </div>
+    </ion-footer-bar>
+</ion-view>

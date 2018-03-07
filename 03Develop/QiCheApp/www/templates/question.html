@@ -1,0 +1,57 @@
+<ion-view view-title="问答">
+  <ion-nav-buttons side="right">
+    <!-- <button ng-href="#/search-question" class="button button-clear icon-right ion-ios-search"></button> -->
+    <a ng-href="#/new-question" class="button button-clear icon-right ion-ios-plus-empty"></a>
+  </ion-nav-buttons>
+  <ion-content class="stable-bg">
+    <!-- <ion-list ng-repeat="question in questions ">
+      <a class="item" ng-href="#/answer/{{question.id}}">
+        <div style="font-size:14px" class="balanced">{{question.user_name | mobilemask}}</div>
+        <div style="font-size:14px; white-space:normal">{{question.content}}</div>
+        <div style="font-size:14px; text-align:right" class="balanced">{{question.best.user_name | mobilemask}}</div>
+        <p style="font-size:14px;white-space:normal">{{question.best.content}}</p>
+        </ion-item>
+      </a>
+      <div class="separate-big"></div>
+    </ion-list> -->
+
+    <ion-list ng-repeat="question in  questions ">
+      <a class="item" ng-href="#/answer/{{question.id}}" >
+        <div class="row">
+          <div>
+            <img ng-src="{{question.user_photo}}" ng-if="question.user_photo" style="width: 32px;height: 32px;border-radius:50%"></img>
+            <img src="img/default-photo.jpg" ng-if="!question.user_photo" style="width: 32px;height: 32px;border-radius:50%"></img>
+            <br/>
+            <div class="level">
+              <img src="img/lv1.png"></img>
+              <label>
+                {{"LV"+question.user_level}}
+              </label>
+            </div>
+          </div>
+         <div style="padding-left:12px;">
+           <label class="balanced">{{question.user_name}}</label>
+            <div style="font-size:14px; white-space:normal" >{{question.content}}</div>
+          </div>
+        </div>
+        <div class="row" ng-if="question.best">
+          <div style="text-align:right; padding-right:12px;">
+           <label class="balanced">{{question.best.user_name}}</label>
+            <div style="font-size:14px;white-space:normal; color:#666" >{{question.best.content}}</div>
+          </div>
+          <div>
+            <img ng-src="{{question.best.user_photo}}" ng-if="question.best.user_photo" style="width: 32px;height: 32px;border-radius:50%"></img>
+            <img src="img/default-photo.jpg" ng-if="!question.best.user_photo" style="width: 32px;height: 32px;border-radius:50%"></img>
+            <br/>
+            <div class="level">
+              <img src="img/lv1.png"></img>
+              <label>
+                {{"LV"+question.best.user_level}}
+              </label>
+            </div>
+          </div>
+        </div>
+      </a>
+     </ion-list>
+</ion-content>
+</ion-view>

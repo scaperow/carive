@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width,user-scalable=no" name="viewport" />
+    <title>下载-车装甲</title>
+    <style type="text/css">
+        .none{
+            float: left;
+            width: 100%;}
+        img{border:none;}
+        .img_max{max-width: 100%;}
+    </style>
+</head>
+<body>
+<div class="none">
+    <a href="http://www.520czj.com" target="_blank"><img src="/style2/images/logo.png" class="img_max" alt=""/></a>
+</div>
+<div class="none">
+    <a href="http://www.520czj.com/style2/czj.apk" target="_blank"><img class="img_max" src="/style2/images/d13_02.jpg" alt=""/></a>
+</div>
+<div class="none">
+    <a href="http://itunes.apple.com/cn/app/id123" target="_blank"><img class="img_max" src="/style2/images/d13_03.jpg" alt=""/></a>
+</div>
+</body>
+</html>

@@ -1,0 +1,237 @@
+{% extends "layout/user.html" %}
+{% block css %}
+<link rel="stylesheet" href="/style2/css/EoFan.css" type="text/css" media="screen">
+<link rel="stylesheet" href="/style2/css/user.css" type="text/css" media="screen">
+<link href="/style2/css/Cart.css" type="text/css">
+<style>
+    .Alipay {
+        background-position: 0px 0px;
+    }
+    .bg {
+        background: url(/style2/images/gateway_bg_v5.jpg);
+        height: 38px;
+        width: 130px;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .gateway_list li .Alipay_ICBCB2C{
+        background-position: 0px -240px;
+    }
+    .gateway_list li .Alipay_CCB{
+        background-position: 0px -280px;
+    }
+    .gateway_list li .Alipay_BOCB2C{
+        background-position: 0px -320px;
+    }
+    .gateway_list li .Alipay_CMB{
+        background-position: 0px -360px;
+    }
+    .gateway_list li .Alipay_COMM{
+        background-position: 0px -400px;
+    }
+    .gateway_list li .Alipay_ABC{
+        background-position: 0px -440px;
+    }
+    .gateway_list li .Alipay_PSBC-DEBIT{
+        background-position: 0px -480px;
+    }
+    .gateway_list li .Alipay_CITIC{
+        background-position: 0px -520px;
+    }
+    .gateway_list li .Alipay_CIB{
+        background-position: 0px -560px;
+    }
+    .gateway_list li .Alipay_SPDB{
+        background-position: 0px -600px;
+    }
+    .gateway_list li .Alipay_CMBC{
+        background-position: 0px -640px;
+    }
+    .gateway_list li .Alipay_CEBBANK{
+        background-position: 0px -680px;
+    }
+    .gateway_list li .Alipay_NBBANK{
+        background-position: 0px -720px;
+    }
+    .gateway_list li .Alipay_SDB{
+        background-position: 0px -760px;
+    }
+    .gateway_list li .Alipay_BJRCB{
+        background-position: 0px -800px;
+    }
+    .gateway_list li .Alipay_SPABANK{
+        background-position: 0px -840px;
+    }
+    .gateway_list li .Alipay_GDB{
+        background-position: 0px -880px;
+    }
+    .gateway_list li .Alipay_SHBANK{
+        background-position: 0px -958px;
+    }
+    .gateway_list li .Alipay_HZCBB2C{
+        background-position: 0px -996px;
+    }
+    .gateway_list li .Alipay_BJBANK{
+        background-position:0px -1034px;
+    }
+    li {
+        display: list-item;
+        text-align: -webkit-match-parent;
+    }
+    ul li {
+        list-style: none;
+    }
+    .g_ul li, .recharge-gateway .g-ul li {
+        background: #fff;
+        border: 1px solid #ccc;
+        float: left;
+        margin: 27px 15px 0 15px;
+        width: 188px;
+        padding: 0;
+    }
+    .g_ul .selected .bd_wrap, .recharge-gateway .g-ul .selected .bd_wrap {
+        border-color: #ed145b;
+    }
+    .g_ul .bd_wrap, .recharge-gateway .g-ul .bd_wrap {
+        border: 1px solid #fff;
+        padding: 0 9px;
+    }
+</style>
+{% endblock %}
+{% block subcontent %}
+
+<h1> 我的余额 </h1>
+<div class="content">
+    <form id="topupform" action="" method="post" target="_blank">
+        {{xsrf()}}
+        <div class="content_head">
+            <div class="input_container">
+                <label for="txtprice">充值金额</label>
+                <input required="" type="text" size="30" name="price" id="txtprice" class="t_input" value="{{price}}"> 元<!-- onBlur="value=value.replace(/[^\d]/g,'')" onkeyup="value=value.replace(/[^\d]/g,'')"-->
+            </div>
+            <div class="input_container">
+                <label for="check-Alipay">支付方式</label>
+                <input type="radio" value="Alipay" name="gateway" checked style="float:left; margin-top:13px;border: 1px solid #ccc;" id="check-Alipay">
+                <label class="bg Alipay" for="check-Alipay"></label>
+            </div>
+            <!--<div class="input_container"><label>网上银行</label></div>-->
+            <!--<div class="input_container">-->
+                <!--<ul class="gateway_list clearfix g_ul">-->
+                    <!--<li>-->
+                        <!--<div class="bd_wrap">-->
+                            <!--<input type="radio" value="CCB" name="gateway" id="check-Alipay_CCB">-->
+                            <!--<label class="bg Alipay_CCB" for="check-Alipay_CCB"></label>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<div class="bd_wrap">-->
+                            <!--<input type="radio" value="ICBCB2C" name="gateway" id="check-Alipay_ICBCB2C">-->
+                            <!--<label class="bg Alipay_ICBCB2C" for="check-Alipay_ICBCB2C"></label>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<div class="bd_wrap">-->
+                            <!--<input type="radio" value="BOCB2C" name="gateway" id="check-Alipay_BOCB2C">-->
+                            <!--<label class="bg Alipay_BOCB2C" for="check-Alipay_BOCB2C"></label>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<div class="bd_wrap">-->
+                            <!--<input type="radio" value="ABC" name="gateway" id="check-Alipay_ABC">-->
+                            <!--<label class="bg Alipay_ABC" for="check-Alipay_ABC"></label>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<div class="bd_wrap">-->
+                            <!--<input type="radio" value="CMB" name="gateway" id="check-Alipay_CMB">-->
+                            <!--<label class="bg Alipay_CMB" for="check-Alipay_CMB"></label>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<div class="bd_wrap">-->
+                            <!--<input type="radio" value="COMM" name="gateway" id="check-Alipay_COMM">-->
+                            <!--<label class="bg Alipay_COMM" for="check-Alipay_COMM"></label>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<div class="bd_wrap">-->
+                            <!--<input type="radio" value="CEB-DEBIT" name="gateway" id="check-Bfb_CEBBANK">-->
+                            <!--<label class="bg Alipay_CEBBANK" for="check-Bfb_CEBBANK"></label>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<div class="bd_wrap">-->
+                            <!--<input type="radio" value="PSBC-DEBIT" name="gateway" id="check-Alipay_PSBC-DEBIT">-->
+                            <!--<label class="bg Alipay_PSBC-DEBIT" for="check-Alipay_PSBC-DEBIT"></label>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<div class="bd_wrap">-->
+                            <!--<input type="radio" value="CIB" name="gateway" id="check-Alipay_CIB">-->
+                            <!--<label class="bg Alipay_CIB" for="check-Alipay_CIB"></label>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<div class="bd_wrap">-->
+                            <!--<input type="radio" value="GDB" name="gateway" id="check-Bfb_GDB">-->
+                            <!--<label class="bg Alipay_GDB" for="check-Bfb_GDB"></label>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<div class="bd_wrap">-->
+                            <!--<input type="radio" value="SPDB" name="gateway" id="check-Alipay_SPDB">-->
+                            <!--<label class="bg Alipay_SPDB" for="check-Alipay_SPDB"></label>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<div class="bd_wrap">-->
+                            <!--<input type="radio" value="CITIC" name="gateway" id="check-Alipay_CITIC">-->
+                            <!--<label class="bg Alipay_CITIC" for="check-Alipay_CITIC"></label>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<div class="bd_wrap">-->
+                            <!--<input type="radio" value="CMBC" name="gateway" id="check-Bfb_CMBC">-->
+                            <!--<label class="bg Alipay_CMBC" for="check-Bfb_CMBC"></label>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<div class="bd_wrap">-->
+                            <!--<input type="radio" value="SPABANK" name="gateway" id="check-Bfb_SPABANK">-->
+                            <!--<label class="bg Alipay_SPABANK" for="check-Bfb_SPABANK"></label>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<div class="bd_wrap">-->
+                            <!--<input type="radio" value="BJBANK" name="gateway" id="check-Alipay_BJBANK">-->
+                            <!--<label class="bg Alipay_BJBANK" for="check-Alipay_BJBANK"></label>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            <!--</div>-->
+            <div class="act">
+                <input type="button" value="确定，去充值" name="commit" id="settings-submit" class="btn btn-success">
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+    $(function(){
+        $("#settings-submit").click(function(){
+            var price = $("#txtprice").val();
+            if(price != ""){
+                if (parseFloat(price) > 0){
+                    $("#topupform").submit();
+                }else {
+                    alert("充值金额必须大于0！");
+                }
+            }else{
+                alert("请输入充值金额！");
+            }
+        });
+    });
+</script>
+{% endblock %}

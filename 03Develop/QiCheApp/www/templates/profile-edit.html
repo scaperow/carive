@@ -1,0 +1,42 @@
+<ion-view view-title="个人信息">
+  <ion-content class="stable-bg">
+    <ion-list>
+      <ion-item class="item item-avatar light item-icon-right">
+        <img src='img/spengler.jpg'></img>
+        <p>更换头像</p>
+        <i class="icon light ion-ios-arrow-right"></i>
+      </ion-item>
+    </ion-list>
+
+    <div class="list light-bg">
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">昵称</span>
+        <input type="text"  ng-model="user.nickname">
+      </label>
+      <label class="item item-input item-stacked-label ">
+        <span class="input-label">出生日期</span>
+        <input type="date"  ng-model="user.birthday">
+      </label>
+      <label class="item item-input item-stacked-label ">
+        <span class="input-label">购买车型</span>
+        <input type="text" ng-model="user.cartype">
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">车牌号</span>
+        <input type="text" ng-model="user.carnumber">
+      </label>
+      <label class="item item-input item-stacked-label ">
+        <span class="input-label">车架号</span>
+        <input type="text" ng-model="user.carframenumber">
+      </label>
+      <label class="item item-input item-stacked-label ">
+        <span class="input-label">购买日期</span>
+        <input type="date" ng-model="user.buytime">
+      </label>
+    </div>
+
+    <div class="padding">
+     <button class="button button-block button-balanced" ng-click="save()">保存</button>
+    </div>
+  </ion-content>
+</ion-view>

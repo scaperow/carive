@@ -1,0 +1,413 @@
+{% extends "layout/cart.html" %}
+{% block title %}购物车 - 车装甲{% endblock %}
+{% block content %}
+<style>
+    .cart_item_num a.decrement {margin-right: 5px;}
+    .cart_item_num a.increment {	float: right;}
+    .cart_item_num .quantity-text {
+        width: 34px;
+        height: 18px;
+        border: 1px solid #ddd;
+        border-top-color: #aaa;
+        border-left-color: #aaa;
+        padding-top: 2px;
+        overflow: hidden;
+        text-align: center;
+        background-color: #fff;
+    }
+    .noneid{display: none;}
+
+    input[type="checkbox"]{cursor: pointer;}
+</style>
+<div id="container" style="width: auto;{{itemCount==0 and 'display: none' or 'display:block'}} ">
+
+    <link rel="stylesheet" href="/style2/css/show.css">
+    <script type="text/javascript" src="/style2/js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="/style2/js/jquery-1.11.1.min.js"></script>
+    <script src="/style2/js/layer/layer.min.js" type="text/javascript"></script>
+
+    <div id="group_show">
+        <div class="content_header clearfix">
+            <div class="cart_timer_wrapper"><i class="icon_small png"></i>
+                <span class="cart_timer_counting">
+                    {% if is_activity == 1%}
+                    秒杀商品请于30分钟内支付, 否则会被系统收回
+                    {% else %}
+                        {% if is_reserve == 1 %}
+                        <span style="color:orangered; font-family: 'Microsoft YaHei'">购物车中包含预订商品，订单将按照预订商品时间送达。</span>
+                        {% else %}
+                        商品库存有限，请您尽快去结算。
+                        {% endif %}
+                    {% endif %}
+                </span><span class="cart_timer_out">已超过购物车商品保留时间，请尽快结算。 </span>[<a class="cart_timer_tip float_box" href="javascript:void(0)"> ?
+                    <div class="pop_box"><span class="arrow_t_1"><span class="arrow_t_2"></span></span>
+                        <div class="timer_tip_text">由于商品库存有限，请尽快结算订单。 </div>
+                    </div>
+                </a>] </div>
+            <div class="top_banner">
+                <ul class="header_icons">
+                    <li><span><i class="icon_zhenpin header_icon png"></i>质量有保证 </span></li>
+                    <li><span><i class="icon_tuihuo header_icon png"></i>24小时内送达 </span></li>
+                    <li><span><i class="icon_baoyou header_icon png"></i>活动期间满{{free_shipping}}元包邮 </span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="groups_wrapper">
+            <table class="cart_group_item  cart_group_item_product">
+                <thead>
+                <tr>
+                    <th class="cart_option" style="border-left: 5px solid #519500; width: 10px;">
+                        <input type="checkbox" id="checkall" style="display: none;" checked /></th>
+                    <th class="cart_overview">
+                        <div class="cart_group_header"><label for="checkall" style="cursor:pointer; display: none;">全选</label>
+                            <h2> 车装甲 </h2>
+                            <span class="cart_group_shop" title=""></span>
+                                    <span class="cart_group_ship ship_status_1">
+                                        <span class="ship_status_desc"></span>
+                                        <i class="icon_ship_free">享受{{free_shipping}}元包邮  </i>
+                                        {% if is_start == 1%}<i class="icon_ship_free">活动期间全场满{{full_price}}减{{reduce_price}}</i>{% endif %}</span></div>
+                    </th>
+                    <th class="cart_price">单价（元）</th>
+                    <th class="cart_num">库存</th>
+                    <th class="cart_num">数量</th>
+                    <th class="cart_total">小计（元）</th>
+                    <th class="cart_option">操作</th>
+                </tr>
+                </thead>
+                <tbody id="CartItem">
+                {% for cartitem in cartitems %}
+                <tr class="cart_item" id="SS_{{cartitem['psid']}}" product_id="{{cartitem['pid']}}" item_price="{{cartitem['price']}}">
+                    <td>
+                        <div class="cart_item_option" style="width:10px; ">
+                            <input {{cartitem['status']==1 and 'checked'}} {{ cartitem['status']!=1 and 'disabled' or '' }} type="checkbox" name="items" value="{{cartitem['pid']}}" data-price="{{cartitem['price']}}" data-count="{{cartitem['quantity']}}"/>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="cart_item_desc clearfix"><a class="cart_item_pic" href="/product/{{cartitem['psid']}}" target="_blank">
+                            <img src="{{cartitem['imgurl']}}" alt="{{cartitem['name']}}">
+                            <span class="sold_out_pic"></span></a><a class="cart_item_link" title="{{cartitem['name']}}" href="/product/{{cartitem['psid']}}" target="_blank">{{cartitem['name']}} <span style="color:red;">{% if cartitem['store_name'] %}({{cartitem['store_name']}}){% endif %}</span></a>
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="cart_item_price">
+                            <p class="eofan_price">{{cartitem['price']}}</p>
+                            <p class="market_price" style="display: none;">{{cartitem['oprice']}}</p>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="cart_item_num ">
+                            {{ cartitem['status']==1 and '有货' or '<span style="color:red;">无货</span>' }}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="cart_item_num ">
+                            {% if cartitem['poid'] == '' %}
+                            <div class="item_quantity_editer clearfix">
+                                <span class="noneid">{{cartitem['pid']}}</span>
+                                {% if cartitem['status']!=1 %}
+                                <span class="decrement disabled" disabled>-</span>
+                                <input class="item_quantity disabled" disabled type="text" value="0" data="{{cartitem['price']}}" data-orginal="{{cartitem['oprice']}}">
+
+                                <span class="increment disabled" disabled>+</span>
+                                {% else %}
+                                <span class="decrement ">-</span>
+                                <input class="item_quantity" type="text" readonly value="{{cartitem['quantity']}}" data="{{cartitem['price']}}" data-orginal="{{cartitem['oprice']}}">
+                                {% if cartitem['is_activity'] == 1%}
+                                <span class="increment_dis disabled" disabled>+</span>
+                                {% else %}
+                                <span class="increment ">+</span>
+                                {% endif %}
+                                {% endif %}
+                            </div>
+                            {% else %}
+                            {{cartitem['weight']}}
+                            {% endif %}
+                        <div class="item_shortage_tip"></div>
+                        {% if cartitem['is_activity'] == 1%}
+                        <span style="color:orangered;">活动商品限购一份</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="cart_item_total">
+                            <p class="item_total_price">{{cartitem['price'] * cartitem['quantity']}}</p>
+                            <p style="display: none;">省 <span class="item_saved_price">{{cartitem['oprice'] * cartitem['quantity'] - cartitem['price'] * cartitem['quantity']}}</span></p>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="cart_item_option"><a class="icon_small delete_item png" data-item-key="{{cartitem['psid']}}" data-poid="{{cartitem['poid']}}" href="javascript:void(0)" title="删除"></a></div>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% for gift in gifts %}
+                <tr class="cart_item">
+                    <td>
+                        <div class="cart_item_option" style="width:10px; ">
+                            <input checked {{ gift['status']!=1 and 'disabled' or '' }} type="checkbox" name="giftitems" value="{{gift['gid']}}" data-price="{{gift['price']}}" data-count="{{gift['quantity']}}"/>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="cart_item_desc clearfix"><a class="cart_item_pic" href="/product/{{gift['psid']}}" target="_blank">
+                            <img src="{{gift['imgurl']}}" alt="{{gift['name']}}">
+                            <span class="sold_out_pic"></span></a><a class="cart_item_link" title="{{gift['name']}}" href="/product/{{gift['psid']}}" target="_blank">{{gift['name']}}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="cart_item_price">
+                            <p class="eofan_price">{{gift['price']}}</p>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="cart_item_num ">
+                            {{ gift['status']==1 and '有货' or '<span style="color:red;">无货</span>' }}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="cart_item_num ">
+                            <div class="item_quantity_editer clearfix">
+                                <span class="noneid">{{gift['pid']}}</span>
+                                {% if gift['status']!=1 %}
+                                <span class="decrement disabled" disabled>-</span>
+                                <input class="item_quantity disabled" disabled type="text" value="0" data="{{gift['price']}}" data-orginal="{{gift['oprice']}}">
+                                <span class="increment disabled" disabled>+</span>
+                                {% else %}
+                                <span class="increment_dis disabled" disabled>-</span>
+                                <input class="item_quantity" type="text" readonly value="{{gift['quantity']}}" data="{{gift['price']}}" data-orginal="{{gift['oprice']}}">
+                                <span class="increment_dis disabled" disabled>+</span>
+                                {% endif %}
+                            </div>
+                        <div class="item_shortage_tip"></div>
+                        {% if gift['is_activity'] == 1%}
+                        <span style="color:orangered;">换购 / 赠送 / 抽奖</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="cart_item_total">
+                            <p class="item_total_price">0.0</p>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="cart_item_option"></div>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th class="cart_option" style="border-left: 5px solid #519500;width:10px;"><input type="checkbox" id="checkalldown" style="display: none;" checked /></th>
+                    <th class="cart_overview"><div class="cart_group_header"><label for="checkalldown" style="display: none;margin-top: 10px;cursor:pointer;">全选</label></div></th>
+                    <th colspan="5">商品金额： <span class="group_total_price">￥0</span> </th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="common_handler_anchor"></div>
+        <div class="common_handler">
+            <div class="right_handler">共 <span class="total_amount">0 </span>&nbsp;件商品 &nbsp;&nbsp; 邮费：<span class="ship_price">￥0</span> &nbsp;&nbsp; 商品应付总额：<span class="total_price">￥0.00</span> <a id="go_to_order"  style=" width:100px;font-size: 20px;" class="btn btn-warning" href="javascript:void(0);" onclick="goConfirmation()">去结算</a> </div>
+            <a class="go_back_shopping" href="/">继续购物</a> <span class="seperate_line">|</span> <a class="clear_cart_all" href="">清空购物车</a> </div>
+        <div class="content_footer clearfix">
+            <div class="cart_timer_wrapper"><i class="icon_small png"></i><span class="cart_timer_counting">
+            {% if is_activity == 1%}
+            秒杀商品请于30分钟内支付, 否则会被系统收回
+            {% else %}
+                {% if is_reserve == 1 %}
+                <span style="color:orangered; font-family: 'Microsoft YaHei'">购物车中包含预订商品，订单将按照预订商品时间送达。</span>
+                {% else %}
+                商品库存有限，请您尽快去结算。
+                {% endif %}
+            {% endif %}
+        </span>
+                [<a class="cart_timer_tip float_box" href="javascript:void(0)"> ?
+                    <div class="pop_box"><span class="arrow_t_1"><span class="arrow_t_2"></span></span>
+                        <div class="timer_tip_text">由于商品库存有限，请尽快结算订单。 </div>
+                    </div>
+                </a>] </div>
+        </div>
+    </div>
+</div>
+<div class="cart_empty clearfix" style="{{itemCount==0 and 'display: block' or 'display:none'}}">
+    <img class="cart_empty_logo" src="/style2/images/empty_icon.jpg" alt="">
+    <div class="cart_empty_right">
+        <h2>您的购物车中没有商品，请先去挑选心爱的商品吧！</h2>
+        <p class="cart_empty_backtip"> 您可以 <a href="/">  返回首页  </a> 挑选喜欢的商品,或者 </p>
+        <div class="search_cart_wrap" style="   float:left;">
+            <div class="mod_search">
+                <form name="search" action="/category" method="get" target="_top">
+                    {{xsrf()}}
+                    <input style="padding: 7px 10px;
+width: 340px;overflow: hidden;
+display: inline;
+float: left;" name="keyword" type="text" value="{{keyword|null}}">
+                    <button type="submit" class="btn btn-warning" style="height: 32px; width: 70px;">搜索</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var currentPageDefaultValue = "";
+    function goConfirmation(){
+        var item = $('[name=items]:checkbox:checked');
+        var giftitem = $('[name=giftitems]:checkbox:checked');
+        var pid='';
+        var gid = '';
+        item.each(function(){
+            pid+= pid == ''? $(this).val(): ','+$(this).val();
+        });
+        giftitem.each(function(){
+            gid+= gid == ''? $(this).val(): ','+$(this).val();
+        });
+        if(pid != '' || gid != ''){
+            $('<form id="tf" method="post"  action="/cart/confirmation" style="display: none;">{{xsrf()}}' +
+            '<input type="hidden" name="gids" value="'+ gid +'"></form>')
+                    .append(item).appendTo('body').submit();
+        }else{
+            alert("请选择要购买的商品！");
+        }
+    }
+    $(function(){
+        var xsrf='{{handler.xsrf_token}}';
+
+        function settotalprice(obj){
+            var totalPrice = 0;
+            var price = 0;
+            var productCount = 0;
+            var flag = true;
+            $('[name=items]:checkbox').each(function(){
+                if(!this.checked){
+                    flag = false;
+                }else{
+                    price += parseFloat($(this).attr('data-price')) * parseInt($(this).attr('data-count'));
+                    productCount += parseFloat($(this).attr('data-count'));
+                }
+            });
+            $('.group_total_price').html('￥' + price.toFixed(2));
+            $('.total_price').html('￥' + price.toFixed(2));
+            if (price < 29) {
+                $('.ship_price').html('￥5');
+            }else{
+                $('.ship_price').html('￥0');
+            }
+            $('.total_amount').html(productCount);
+            $('#checkall').attr('checked', flag);
+            $('#checkalldown').attr('checked', flag);
+        }
+        settotalprice(this);
+
+        $('#checkall').click(function(){
+            $('[name=items]:checkbox').not(':disabled').attr("checked", this.checked);
+            $("#checkalldown").not(':disabled').attr("checked", this.checked);
+            if(!this.checked){
+                $('.group_total_price').html('￥' + 0.0);
+                $('.total_price').html('￥' + 0.0);
+                $('.total_amount').html(0);
+            }else{
+                settotalprice(this);
+            }
+        });
+        $('#checkalldown').click(function(){
+            $('[name=items]:checkbox').not(':disabled').attr("checked", this.checked);
+            $("#checkall").not(':disabled').attr("checked", this.checked);
+            if(!this.checked){
+                $('.group_total_price').html('￥' + 0.0);
+                $('.total_price').html('￥' + 0.0);
+                $('.total_amount').html(0);
+            }else{
+                settotalprice(this);
+            }
+        });
+        $('[name=items]:checkbox').click(function(){
+            settotalprice(this);
+        });
+        $(".increment").click(function () {
+            var t = $(this).parent().find('input[class*=item_quantity]');
+            var count = $(this).parent().parent().parent().parent().find('[name=items]:checkbox');
+
+            if($(t).is(':disabled')){
+                return;
+            }
+            t.val(parseInt(t.val()) + 1)
+            count.attr('data-count',parseInt(t.val()));
+            settotalprice(this);
+
+            var price = t.attr('data');
+            var orginalprice = t.attr('data-orginal');
+            var ptotal = $(this).parent().parent().parent().parent().find('p[class*=item_total_price]');
+            var ototal = $(this).parent().parent().parent().parent().find('span[class*=item_saved_price]');
+            ptotal.html((parseFloat(price) * parseInt(t.val())).toFixed(1));
+            ototal.html(parseFloat((orginalprice) * parseInt(t.val()) - (parseFloat(price) * parseInt(t.val()))).toFixed(1));
+
+            var c = $(this).parent().find('input[class*=item_quantity]').val();
+            var noneid = $(this).parent().find('span[class*=noneid]').text();
+            $.get("/ajax/CartChange", { count: c, cid: noneid, _xsrf : xsrf, type:1 }, function (data) {
+                var obj = jQuery.parseJSON(data);
+                if(obj.err==0) {
+                    alert('操作失败：'+obj.msg);
+                    location.reload();
+                }
+            });
+        })
+        $(".decrement").click(function () {
+            var t = $(this).parent().find('input[class*=item_quantity]');
+            var count = $(this).parent().parent().parent().parent().find('[name=items]:checkbox');
+            if($(t).is(':disabled')){
+                return;
+            }
+            t.val(parseInt(t.val()) - 1)
+            if (parseInt(t.val()) < 1) {
+                t.val(1);
+            }
+            count.attr('data-count',parseInt(t.val()));
+            settotalprice(this);
+
+            var price = t.attr('data');
+            var orginalprice = t.attr('data-orginal');
+            var ptotal = $(this).parent().parent().parent().parent().find('p[class*=item_total_price]');
+            var ototal = $(this).parent().parent().parent().parent().find('span[class*=item_saved_price]');
+            ptotal.html((parseFloat(price) * parseInt(t.val())).toFixed(1));
+            ototal.html(parseFloat((orginalprice) * parseInt(t.val()) - (parseFloat(price) * parseInt(t.val()))).toFixed(1));
+
+            var c = $(this).parent().find('input[class*=item_quantity]').val();
+            var noneid = $(this).parent().find('span[class*=noneid]').text();
+            $.get("/ajax/CartChange", { count: c, cid: noneid, _xsrf : xsrf, type:0 }, function (data) {});
+        });
+        //清空购物车
+        $(".clear_cart_all").click(function () {
+            $.get("/ajax/ClearCartAll", { _xsrf : xsrf }, function (data) {
+                location.reload();
+            });
+        });
+        $('go_to_order').click(function() {
+            $.get("/ajax/subOrder", { count: c, cid: noneid, _xsrf : xsrf }, function (data) {});
+        });
+
+
+        $('.delete_item').click(function () {
+            var psid = $(this).attr('data-item-key');
+            var poid = $(this).attr('data-poid');
+            $.layer({
+                shade: [0],
+                area: ['auto', 'auto'],
+                dialog: {
+                    msg: '您正要删除此项 <br />删除后将不会进行还原，请确定继续?',
+                    btns: 2,
+                    type: 4,//8难过，9开心，10正确,4问号
+                    btn: ['确定', '取消'],
+                    yes: function () {
+                        $.post("/ajax/removeCar", { psid: psid, poid:poid, _xsrf: xsrf }, function (data) {
+                            if (data == 1) {
+                                var trItem = $("#SS_" + psid);
+                                //trItem.hide();
+                                location.reload();
+                                //layer.closeAll();
+                            }
+                        });
+                    }, no: function () {
+                        return false;
+                    }
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

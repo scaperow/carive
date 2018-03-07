@@ -1,0 +1,12 @@
+<ion-view view-title="消息">
+  <ion-content class="stable-bg ">
+    <ion-item>
+      <h2>{{message.title}}</h2>
+      <div class="item-note">
+        {{message.send_time}}
+      </div>
+    </ion-item>
+    <p class="padding light-bg" ng-bind-html="message.content">
+    </p>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,383 @@
+<ion-view ng-controller="IndexCtrl">
+  <ion-nav-bar class="bar-dark" style="display: none !important;"></ion-nav-bar>
+  <ion-tabs class="tabs-icon-top tabs-color-active-balanced">
+    <ion-tab title="工作台" icon-off="ion-home" ng-click="switch(0)" icon-on="ion-home" ng-controller="HomeCtrl">
+      <ion-view>
+
+        <ion-header-bar class="bar-balanced bar bar-header disable-user-behavior" align-title="center">
+          <!--<div class="buttons buttons-left">-->
+          <!--<span class="left-buttons">-->
+          <!--<button class="button icon-left button-clear ion-qr-scanner" ng-click="scan()" style="color:#fff;">-->
+          <!--扫一扫-->
+          <!--</button>-->
+          <!--</span>-->
+          <!--</div>-->
+          <div class="title title-center">工作台</div>
+          <div class="buttons buttons-right">
+            <span class="right-buttons">
+              <button class="button button-clear ion-eye" ng-click="goState('check-service')" style="color:#fff;">
+                验证
+              </button>
+            </span>
+          </div>
+        </ion-header-bar>
+        <ion-content delegate-handle="content" class="stable-bg ">
+          <div class="row">
+            <div class="item col padding" ng-click="clickBlock(1)">
+              <div style="font-size: 14px;">今日订单数</div>
+              <h1 style="text-align: center;margin-top: 0px;">{{$parent.totalOrders || 0}}</h1>
+            </div>
+            <div class="item col padding" ng-click="clickBlock(2)">
+              <div style="font-size: 14px;">待付款订单</div>
+              <h1 style="text-align: center;margin-top: 0px;">{{$parent.unpayOrders || 0}}</h1>
+            </div>
+          </div>
+          <div class="row">
+            <div class="item col padding" ng-click="clickBlock(3)">
+              <div style="font-size: 14px;">待处理</div>
+              <h1 style="text-align: center;margin-top: 0px;">{{$parent.processOrders || 0}}</h1>
+            </div>
+            <div class="item col padding"  ng-click="clickBlock(4)">
+              <div style="font-size: 14px;">待发货</div>
+              <h1 style="text-align: center;margin-top: 0px;">{{$parent.nowayOrders || 0}}</h1>
+            </div>
+          </div>
+          <div class="row">
+            <div class="item col padding" ng-click="goState('settlement')">
+              <div style="font-size: 14px;">待结算金额</div>
+              <h1 style="text-align: center;margin-top: 0px;">{{$parent.unsumeOrders || 0}}</h1>
+            </div>
+            <div class="item col padding" ng-click="goState('store-order-yestoday')">
+              <div style="font-size: 14px;">昨日成交金额</div>
+              <h1 style="text-align: center;margin-top: 0px;">{{$parent.totalPriceYesterday || 0}}</h1>
+            </div>
+          </div>
+          <div class="row" style="margin-top: 20px;">
+            <ion-item class="col menu-item padding" style="background: transparent;" ng-click="goState('check-service')">
+              <!-- <div class="icon assertive ion-waterdrop"></div> -->
+              <img src='img/menu-yanzheng.png' style="width:60%">
+              <br/>
+              <label class='description balanced'>验证</label>
+            </ion-item>
+            <ion-item class="col menu-item padding" style="background: transparent;" ng-click="switch(1)">
+              <!--<div class="icon balanced iconfont">&#xe606;</div>-->
+              <img src='img/menu-wenda.png' style="width:60%">
+              <br/>
+              <label class='description balanced'>问答</label>
+            </ion-item>
+            <ion-item class="col menu-item padding" style="background: transparent;" ng-click="switch(2)">
+              <!--<div class="icon energized iconfont">&#xe618;</div>-->
+              <img src='img/menu-caigou.png' style="width:60%">
+              <br/>
+              <label class='description balanced'>采购</label>
+            </ion-item>
+            <ion-item class="col menu-item padding" style="background: transparent;" ng-click="switch(3)">
+              <!--<div class="icon balanced iconfont"> &#xe621;</div>-->
+              <img src='img/menu-dingdan.png' style="width:60%">
+              <br/>
+              <label class='description balanced'>订单</label>
+            </ion-item>
+          </div>
+          <div class="row">
+            <ion-item class="col menu-item" style="background: transparent;" ng-click="goState('search-result')">
+              <img src='img/menu-chanpin.png' style="width:60%">
+              <br/>
+              <label class='description balanced'>产品</label>
+            </ion-item>
+            <ion-item class="col menu-item" style="background: transparent;" ng-click="goState('settlement')">
+              <!--<div class="icon balanced iconfont">&#xe606;</div>-->
+              <img src='img/menu-jiesuan.png' style="width:60%">
+              <br/>
+              <label class='description balanced'>结算</label>
+            </ion-item>
+            <ion-item class="col menu-item" style="background: transparent;" ng-click="goState('withdraw-apply')">
+              <!--<div class="icon energized iconfont">&#xe618;</div>-->
+              <img src='img/menu-tixian.png' style="width:60%">
+              <br/>
+              <label class='description balanced'>提现</label>
+            </ion-item>
+            <ion-item class="col menu-item" style="background: transparent;" ng-click="goState('statistics')">
+              <!--<div class="icon balanced iconfont"> &#xe621;</div>-->
+              <img src='img/menu-tongji.png' style="width:60%">
+              <br/>
+              <label class='description balanced'>统计</label>
+            </ion-item>
+          </div>
+          <div class="row">
+            <ion-item class="col menu-item" style="background: transparent;" ng-click="goState('mine-show-order')">
+              <!--<div class="icon balanced iconfont">&#xe606;</div>-->
+              <img src='img/menu-shaidan.png' style="width:60%">
+              <br/>
+              <label class='description balanced'>晒单</label>
+            </ion-item>
+            <ion-item class="col menu-item" style="background: transparent;" ng-click="goState('help')">
+              <!--<div class="icon energized iconfont">&#xe618;</div>-->
+              <img src='img/menu-bangzhu.png' style="width:60%">
+              <br/>
+              <label class='description balanced'>帮助</label>
+            </ion-item>
+            <ion-item class="col menu-item" style="background: transparent;" ng-click="goState('feedback')">
+              <!--<div class="icon balanced iconfont"> &#xe621;</div>-->
+              <img src='img/menu-fankui.png' style="width:60%">
+              <br/>
+              <label class='description balanced'>反馈</label>
+            </ion-item>
+            <ion-item class="col menu-item" style="background: transparent;">
+
+            </ion-item>
+          </div>
+
+        </ion-content>
+      </ion-view>
+    </ion-tab>
+
+    <ion-tab title="问题答疑" icon-off="ion-compose" ng-click="switch(1)" icon-on="ion-compose" ng-controller="QuestionCtrl">
+      <ion-view view-title="问题答疑">
+
+        <ion-header-bar class="bar-balanced bar bar-header disable-user-behavior" align-title="center">
+          <div class="title title-center">问题答疑</div>
+        </ion-header-bar>
+        <!--<ion-nav-buttons side="right">-->
+        <!--<a ng-href="#/new-question" class="button button-clear icon-right ion-ios-plus-empty"></a>-->
+        <!--</ion-nav-buttons>-->
+        <ion-content class="stable-bg">
+          <ion-list ng-repeat="question in questions " ng-if="questions.length>0">
+            <a class="item item-avatar" ng-href="#/answer/{{question.id}}">
+              <img ng-src="{{question.user_photo}}">
+              <div class="avatar_level">LV{{question.user_level}}</div>
+              <div style="font-size:14px" class="balanced">{{question.user_name}} <i style="font-size:12px" class="ng-binding grey">{{question.created}}</i></div>
+              <div style="font-size:14px; white-space:normal">{{question.content}}</div>
+              <div style="font-size:14px; text-align:right" class="balanced">解答</div>
+              </ion-item>
+            </a>
+            <div class="separate-big"></div>
+          </ion-list>
+          <ion-list ng-if="questions.length==0">
+            <label>暂时没有需要解答的问题！</label>
+          </ion-list>
+          <ion-infinite-scroll ng-if="hasMore" on-infinite="load()" distance="1%">
+          </ion-infinite-scroll>
+      </ion-view>
+    </ion-tab>
+
+    <ion-tab title="采购" icon-off="ion-ios-cart-outline" ng-click="switch(2)" icon-on="ion-ios-cart" ng-controller="StoreBuyCtrl">
+      <ion-view>
+        <ion-header-bar class="bar-balanced bar bar-header disable-user-behavior" align-title="center">
+          <div class="title title-center">
+            <label class="item item-input" style="border-radius: 20px;padding: 0 10px; background-color: #008544;margin-top: 12px;border:none;">
+              <i class="icon ion-ios-search-strong placeholder-icon"></i>
+              <input type="text" placeholder="输入商户名、商品名称" ng-click="search()" style="height: 20px;color: #00A06C;">
+            </label>
+          </div>
+          <div class="buttons buttons-right">
+            <span class="right-buttons">
+              <button class="button icon-left button-clear ion-ios-cart-outline tab-item" ng-click="showCart()" style="color:#fff;padding-right: 10px;">
+                <span class="user_badge">{{$root.carNumber}}</span>
+              </button>
+            </span>
+          </div>
+        </ion-header-bar>
+        <ion-content class="stable-bg">
+          <div class="row">
+            <ion-item class="col menu-item mg10" ng-click="showCategory('润滑油')">
+              <img src='img/menu-runhuayou.png' style="width:60%">
+              <br/>
+              <label class='description balanced'>润滑油</label>
+            </ion-item>
+            <ion-item class="col menu-item mg10" ng-click="showCategory('车胎')">
+              <img src='img/menu-chetai.png' style="width:60%">
+              <br/>
+              <label class='description balanced'>车胎</label>
+            </ion-item>
+            <ion-item class="col menu-item mg10" ng-click="showCategory('防冻液')">
+              <img src='img/menu-fangdongye.png' style="width:60%">
+              <br/>
+              <label class='description balanced'>防冻液</label>
+            </ion-item>
+          </div>
+          <div class="row ">
+            <ion-item class="col menu-item mg10" ng-click="showCategory('导航')">
+              <img src='img/menu-daohang.png' style="width:60%">
+              <br/>
+              <label class='description balanced'>导航</label>
+            </ion-item>
+            <ion-item class="col menu-item mg10" ng-click="showCategory('车膜')">
+              <img src='img/menu-chemo.png' style="width:60%">
+              <br/>
+              <label class='description balanced'>车膜</label>
+            </ion-item>
+            <ion-item class="col menu-item mg10" ng-click="showCategory('脚垫')">
+              <img src='img/menu-jiaodian.png' style="width:60%">
+              <br/>
+              <label class='description balanced'>脚垫</label>
+            </ion-item>
+          </div>
+          <div class="row">
+            <ion-item class="col menu-item mg10" ng-click="showCategory('空滤')">
+              <img src='img/menu-konglv.png' style="width:60%">
+              <br/>
+              <label class='description balanced'>空滤</label>
+            </ion-item>
+            <ion-item class="col menu-item mg10" ng-click="showCategory('空调滤')">
+              <img src='img/menu-kongtiaolv.png' style="width:60%">
+              <br/>
+              <label class='description balanced'>空调滤</label>
+            </ion-item>
+            <ion-item class="col menu-item mg10" ng-click="showCategory('更多')">
+              <img src='img/menu-more.png' style="width:60%">
+              <br/>
+              <label class='description balanced'></label>
+            </ion-item>
+          </div>
+        </ion-content>
+      </ion-view>
+    </ion-tab>
+
+    <ion-tab title="订单" icon-off="ion-document-text" ng-click="switch(3)" icon-on="ion-document-text" ng-controller="StoreOrderCtrl">
+      <ion-view view-title="全部订单">
+        <ion-header-bar class="bar-balanced bar bar-header disable-user-behavior" align-title="center">
+          <div class="title title-center">全部订单</div>
+        </ion-header-bar>
+        <ion-header-bar class="bar bar-subheader">
+          <div class="button-bar">
+            <a class="button button-clear {{choose == 'unpay' ? 'button-balanced' :''}}" ng-click="switchOrderTab('unpay')">待付款
+            </a>
+            <a class="button button-clear {{choose == 'undelivery' ? 'button-balanced' :''}}" ng-click="switchOrderTab('undelivery')">待发货
+            </a>
+            <a class="button button-clear {{choose == 'success'?'button-balanced' :''}}" ng-click="switchOrderTab('success')">已完成
+            </a>
+            <a class="button button-clear {{choose == 'all' ? 'button-balanced' :''}} " ng-click="switchOrderTab('all')">全部订单
+            </a>
+          </div>
+        </ion-header-bar>
+        <ion-content class="padding stable-bg">
+          <div class="text-center grey" ng-show="total > 0">
+            <label>共 {{total}} 个订单</label>
+            <br/>
+            <label ng-if="choose === 'unpay'">未支付的订单将于48小时后删除，请尽快付款哦 ~</label>
+          </div>
+          <div class="text-center grey" ng-show="total == 0">
+            <label>还没数据 ~</label>
+          </div>
+          <div class="card " ng-repeat="item in orders" ng-click="showDetail(item.id,'{{item.status}}')">
+            <div class="item item-text-wrap">
+              <div class="item-icon-right">
+                <p>订单号：{{item.ordernum}}</p>
+                <i class="icon ion-chevron-right icon-accessory"></i>
+              </div>
+
+              <!--<hr class="{{item.scolor ? item.scolor + '-border':'stable-border'}}" style="opacity: 0.5">-->
+              <div ng-switch="item.status">
+                <hr ng-switch-when="交易完成" class="balanced-border" style="opacity: 0.5">
+                <hr ng-switch-when="正在处理" class="balanced-border" style="opacity: 0.5">
+                <hr ng-switch-when="待付款" class="assertive-border" style="opacity: 0.5">
+                <hr ng-switch-when="待处理" class="assertive-border" style="opacity: 0.5">
+                <hr ng-switch-default class="stable-border" style="opacity: 0.5">
+              </div>
+              <p>下单时间：{{item.ordered}}</p>
+
+              <p ng-switch="item.status">
+                订单状态：
+                <span ng-switch-when="交易完成" class="balanced">{{item.status}}</span>
+                <span ng-switch-when="正在处理" class="balanced">{{item.status}}</span>
+                <span ng-switch-when="待付款" class="assertive">{{item.status}}</span>
+                <span ng-switch-when="待处理" class="assertive">{{item.status}}</span>
+                <span ng-switch-default class="grey">{{item.status}}</span>
+              </p>
+
+              <p>订单金额：￥{{item.currentprice}}元</p>
+            </div>
+          </div>
+          <!--<div class="text-center grey" ng-show="count === 0">-->
+          <!--<label>没有更多订单了 ~</label>-->
+          <!--</div>-->
+          <ion-infinite-scroll ng-if="hasMore" on-infinite="load()" distance="1%">
+          </ion-infinite-scroll>
+        </ion-content>
+      </ion-view>
+
+    </ion-tab>
+
+    <ion-tab title="我的" icon-off="ion-ios-person-outline" ng-click="switch(4)" icon-on="ion-ios-person" ng-controller="AccountCtrl">
+      <ion-view>
+        <ion-content style="top:0" class="stable-bg">
+          <div class="row" style="position: absolute;top: 0;background: transparent;z-index: 10;">
+            <div style="text-align:center;width:100%;color:#fff;font-size: 14px;font-weight: bold;">
+              门店管理
+            </div>
+          </div>
+          <img ng-if="!cover" ng-src="{{$root.user.store.image}}" style="width:100%; " ng-click="clickStoreCover()">
+          <img ng-if="cover" ng-src="{{'data:image/gif;base64,'+cover}}" style="width:100%; " ng-click="clickStoreCover()">
+          <div class="button-bar light-bg border-top border-bottom" style="padding:5px 0px 5px 0px;
+                                                                  ">
+            <a class="button button-clear  rich" ng-click="managerProduct()" style="padding:0px 0px 5px 0px;border-right: solid 1px #ccc;">
+              <div class="icon ion-pricetag" style="color: #7BDC50;height:35px;"></div>
+              <label class="dark">商品</label>
+            </a>
+            <a class="button button-clear  rich" href="#/settlement" style="padding:0px 0px 5px 0px;border-right: solid 1px #ccc;">
+              <div class="icon ion-calculator" style="color: #FF8D21;height:35px;"></div>
+              <label class="dark">结算</label>
+            </a>
+            <a class="button button-clear  rich" href="#/statistics" style="padding:0px 0px 5px 0px;border-right: solid 1px #ccc;">
+              <div class="icon  ion-stats-bars" style="color: #00A7EF;height:35px;"></div>
+              <label class="dark">数据统计</label>
+            </a>
+          </div>
+          <div class="separate-big"></div>
+          <ion-list>
+            <a class="item item-icon-right item-icon-left" href="#/profile-store">
+              <i class="icon ion-ios-location-outline" style="color:#00A8EF;"></i> 门店资料
+              <i class="icon ion-chevron-right icon-accessory"></i>
+            </a>
+            <!--<a class="item item-icon-right item-icon-left" href="#/address">-->
+            <!--<i class="icon ion-ios-location-outline"></i> 管理地址-->
+            <!--<i class="icon ion-chevron-right icon-accessory"></i>-->
+            <!--</a>-->
+            <a class="item item-icon-right item-icon-left" ng-click="resetPassword()">
+              <i class="icon ion-ios-locked-outline" style="color:#7BDC50;"></i> 修改密码
+              <i class="icon ion-chevron-right icon-accessory"></i>
+            </a>
+            <div class="separate-big"></div>
+            <a class="item item-icon-right item-icon-left" href="#/order">
+              <i class="icon ion-ios-cart-outline" style="color:#FFC432;"></i> 采购记录
+              <i class="icon ion-chevron-right icon-accessory"></i>
+            </a>
+            <a class="item item-icon-right item-icon-left" href="#/mine-show-order">
+              <i class="icon ion-image" style="color:#00A8EF;"></i> 工作晒单
+              <i class="icon ion-chevron-right icon-accessory"></i>
+            </a>
+            <div class="separate-big"></div>
+            <a class="item item-icon-right item-icon-left" href="#/withdraw">
+              <i class="icon ion-cash" style="color:#7BDC50;"></i> 提现记录
+              <i class="icon ion-chevron-right icon-accessory"></i>
+            </a>
+            <a class="item item-icon-right item-icon-left" href="#/bank">
+              <i class="icon ion-card" style="color:#00A8EF;"></i> 银行卡管理
+              <i class="icon ion-chevron-right icon-accessory"></i>
+            </a>
+            <div class="separate-big"></div>
+            <a class="item item-icon-right item-icon-left" href="#/about">
+              <i class="icon ion-ios-flag-outline" style="color:#00A8EF;"></i>关于我们
+              <i class="icon ion-chevron-right icon-accessory"></i>
+            </a>
+            <a class="item item-icon-right item-icon-left" href="#/feedback">
+              <i class="icon ion-ios-chatbubble-outline" style="color:#7BDC50;"></i>意见反馈
+              <i class="icon ion-chevron-right icon-accessory"></i>
+            </a>
+            <a class="item item-icon-right item-icon-left" href="#/help">
+              <i class="icon ion-help" style="color:#7BDC50;"></i>帮助中心
+              <i class="icon ion-chevron-right icon-accessory"></i>
+            </a>
+          </ion-list>
+          <div class="padding">
+            <button class="button button-block button-assertive " ng-click="logout()" >
+              退出登录
+            </button>
+          </div>
+        </ion-content>
+      </ion-view>
+
+    </ion-tab>
+  </ion-tabs>
+
+</ion-view>

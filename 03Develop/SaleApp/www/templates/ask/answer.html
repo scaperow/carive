@@ -1,0 +1,43 @@
+<ion-view view-title="问题解答">
+  <ion-content class="stable-bg">
+    <div class="padding">
+      <div class="item item-avatar" style="min-height:90px">
+        <img src="{{question.user_photo}}">
+        <div class="avatar_level">LV{{question.user_level}}</div>
+        <label class="balanced">{{question.user_name}}</label>&nbsp;<i style="font-size:14px"> {{question.created}}</i>
+        <div style="font-size:14px; white-space:normal">{{question.content}}</div>
+      </div>
+      <!--<div class="card">-->
+        <!--<label class="login-item-input-wrapper">-->
+          <!--<input type="text" placeholder="请填写您的预估金额" ng-model="$parent.need_money"></input>-->
+        <!--</label>-->
+      <!--</div>-->
+      <div class="card">
+        <label class="login-item-input-wrapper">
+          <textarea placeholder="请填写您的答案" ng-model="$parent.content" rows="8"></textarea>
+        </label>
+      </div>
+      <button ng-if="has_best==false" class="button button-block button-balanced" ng-click="questionAnswer(question.id)">
+        解答
+      </button>
+      <div ng-if="has_best==false" class="balanced ion-alert-circled" style="font-size: 14px;">
+        温馨提示
+      </div>
+      <div ng-if="has_best==false" class="button-clear" style="font-size: 14px;">
+        最好在您解答问题的时候，给出解决这个问题的预估金额！
+      </div>
+      <!--<ion-list ng-repeat="answer in answers" ng-if="answers">-->
+        <!--<div style="padding:6px; font-size:14px; background:#ccc" class="dark">-->
+          <!--其他答案-->
+        <!--</div>-->
+        <!--<ion-item>-->
+          <!--<div style="font-size:14px;white-space:normal">{{answer.content}}</div>-->
+          <!--<label>{{answer.user_name}}</label>&nbsp;<i style="font-size:14px"> {{answer.created}}</i>-->
+          <!--<div style="text-align:right">-->
+            <!--<button class="button button-stable" ng-click="supportAnswer(answer.id)"><i class="iconfont">&#xe608;</i>&nbsp;{{answer.supports}}</button>-->
+          <!--</div>-->
+        <!--</ion-item>-->
+        <!--<div class="separate-big"></div>-->
+      </ion-list>
+    </div>
+</ion-view>

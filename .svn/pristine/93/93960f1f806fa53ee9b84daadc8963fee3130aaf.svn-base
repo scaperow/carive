@@ -1,0 +1,64 @@
+{% extends "layout/user.html" %}
+{% block subcontent %}
+<script language="javascript" type="text/javascript" src="/style2/js/My97DatePicker/WdatePicker.js"></script>
+<h1> 服务预约 - {{o and o[0].order_item.product.name or ''}} </h1>
+<div class="content">
+  <div class="m" id="orderinfo">
+    <div class="mt">
+        <strong>订单信息</strong>
+        <div style="float:right;margin-top: 7px;">
+            <!-- JiaThis Button BEGIN -->
+            <div class="jiathis_style">
+                <span class="jiathis_txt">分享到：</span>
+                <a class="jiathis_button_icons_1"></a>
+                <a class="jiathis_button_icons_2"></a>
+                <a class="jiathis_button_icons_3"></a>
+                <a class="jiathis_button_icons_4"></a>
+                <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+            </div>
+            <script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js?uid=1427269667521454" charset="utf-8"></script>
+            <!-- JiaThis Button END -->
+        </div>
+    </div>
+    {%set messages=handler.get_flashed_messages() %}
+    {%-if messages-%}
+    <div style="color: red; font-size: 1.0em;">
+        <div id="err_div">
+            {% for type, msg in messages%}
+            {{msg}}
+            {% endfor %}
+        </div>
+    </div>
+    {%-endif-%}
+    <form action="" method="post">
+        {{xsrf()}}
+    <div class="mc" style="line-height:30px; font-size:13px;">
+      <dl class="fore">
+        <dt>收货人信息</dt>
+        <dd>
+          <ul>
+            <li>收货　人：{{o and o[0].order_item.order.take_name or ''}}</li>
+            <li>地　　址：{{o and o[0].order_item.order.take_address or ''}}</li>
+            <li>联系电话：{{o and o[0].order_item.order.take_tel or ''}}</li>
+          </ul>
+        </dd>
+      </dl>
+      <dl>
+        <dt>商品信息及预约</dt>
+        <dd>
+          <ul>
+            <li>商品名称：{{o and o[0].order_item.product.name or ''}}</li>
+            <li>服 务 码：<span style="color:green;">{% if o %}{% for i in range(o.count()) %}<label><input type="radio" name="code" {{i==0 and 'checked="true"' or ''}} value="{{o[i].service_code}}" />{{o[i].service_code}}</label>　{{ o[i].reserve_time and '已预约：'+o[i].reserve_time|dateformat or ''}}　{% endfor %}{% endif %}</span></li>
+            <li>预约时间：<input type="text" name="reserve_time" value="{{user.birthday |null|escape}}" class="Wdate t_input"  onClick="WdatePicker({minDate:'%y-%M-{ %d+1}'})" placeholder="预约日期" size="30" /></li>
+          </ul>
+        </dd>
+      </dl>
+
+    </div>
+    <div class="total">
+      <div class="extra"> <input type="submit" class="btn btn-success" value="提交"> </div>
+    </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

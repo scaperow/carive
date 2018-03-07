@@ -1,0 +1,437 @@
+{% extends "layout/user.html" %}
+{% block css%}
+<link rel="stylesheet" href="/style2/css/EoFan.css" type="text/css" media="screen">
+<link rel="stylesheet" href="/style2/css/user.css" type="text/css" media="screen">
+<link href="/style2/css/plugins/dataTables.bootstrap.css" rel="stylesheet">
+{% endblock %}
+{% block subcontent %}
+<script language="javascript" type="text/javascript" src="/style2/js/jquery.min.js"></script>
+<script language="javascript" type="text/javascript" src="/style2/js/My97DatePicker/WdatePicker.js"></script>
+
+<SCRIPT LANGUAGE="javascript">
+
+</SCRIPT>
+<style>
+    .navbar-brand {
+    float: left;
+    height: 50px;
+    padding: 15px 15px;
+    font-size: 18px;
+    line-height: 20px;
+}
+label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+    .pull-right {
+    float: right!important;
+}
+    .navbar-left {
+    float: left!important;
+}
+    .navbar-form {
+    width: auto;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-right: 0;
+    margin-left: 0;
+    border: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+    .navbar-form {
+    padding: 0px 15px;
+    margin-right: -15px;
+    margin-left: -15px;
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.1),0 1px 0 rgba(255,255,255,.1);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.1),0 1px 0 rgba(255,255,255,.1);
+}
+    .btn-group, .btn-group-vertical {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+    .btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+    .btn-group>.btn:first-child:not(:last-child):not(.dropdown-toggle) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.btn-group>.btn:first-child {
+    margin-left: 0;
+}
+    .btn-default:active, .btn-default.active, .open>.dropdown-toggle.btn-default {
+    background-image: none;
+}
+    .btn-info {
+    color: #fff;
+    background-color: #5bc0de;
+    border-color: #46b8da;
+}
+    .navbar-form .form-control {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+}
+    .navbar-form .form-control {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+}
+.form-control {
+    margin-left: 1px;
+    float:none;
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+    .btn-primary {
+    color: #fff;
+    background-color: #428bca;
+    border-color: #357ebd;
+}
+    .btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+.btn-xs, .btn-group-xs > .btn {
+    padding: 1px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+    .profile table a {
+    color: #666;
+    text-decoration: inherit;
+}
+    .profile .filter {
+    border-bottom: none;
+    }
+    .profile .null_info {
+        border-top:1px solid #DBD6D0;;
+    }
+</style>
+<h1> 可结算的订单 <span style="color:red; font-size: 11px;"> </span></h1>
+<div class="content">
+    {%set messages=handler.get_flashed_messages() %}
+    {%-if messages-%}
+    <div style="color: red; font-size: 1.0em; margin-bottom: 25px;">
+        <div id="err_div">
+            {% for type, msg in messages%}
+            {{msg}}
+            {% endfor %}
+        </div>
+    </div>
+    {%-endif-%}
+    {% if not s %}
+    <div class="filter" style="line-height: 30px;">
+        <div>
+        </div>
+        <div class="pull-right">
+            <form class="navbar-form navbar-left" action="" >
+                <label>
+                    <input type="checkbox" id="checkall">全选
+                </label>
+                <button type="button" id="btchangestatus" class="btn btn-primary">结算</button>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+    {% if total>0 %}
+    <div class="normal_table">
+        <table class="table table-hover" id="tb_users">
+            <thead>
+            <tr>
+                <th>订单号</th>
+                <th>用户账户</th>
+                <th>下单时间</th>
+                <th>订单详情</th>
+                <th>商品金额</th>
+                <th style="display:none;">运费</th>
+                <th>支付方式</th>
+                <th style="display:none;">配送时间</th>
+                <th>客户留言</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for o in orders -%}
+
+            <tr>
+                <td>
+                    <label>
+                        <input type="checkbox" name="order_id_list" value="{{o.id}}">{{o.ordernum}}
+                        {% if o.flag==1 %}
+                        <i style="color: red;" class="fa fa-flag fa-fw" title="{{o.summary|null}}"></i>
+                        {% elif o.flag==2 %}
+                        <i style="color: blue;" class="fa fa-flag fa-fw" title="{{o.summary|null}}"></i>
+                        {% elif o.flag==3 %}
+                        <i style="color: #149904;" class="fa fa-flag fa-fw" title="{{o.summary|null}}"></i>
+                        {% elif o.flag==4 %}
+                        <i style="color: #751b4c;" class="fa fa-flag fa-fw" title="{{o.summary|null}}"></i>
+                        {% elif o.flag==5 %}
+                        <i style="color: #eea236;" class="fa fa-flag fa-fw" title="{{o.summary|null}}"></i>
+                        {% elif o.flag==6 %}
+                        <i style="color: #b4c5bf;" class="fa fa-flag fa-fw" title="{{o.summary|null}}"></i>
+                        {% endif %}
+                    </label>
+                </td>
+                <td>
+                    {{o.user.username}}
+                </td>
+                <td>
+                    {{o.ordered|datetimeformat}}<br>
+                    {{o.order_type==1 and '<span style="color:red;">预售订单</span>' or '<span style="color:green;">普通订单</span>'}}
+                </td>
+                <td>
+                    {% for i in o.items %}
+                    <div>{{i.product.name}} X {{i.quantity}}
+                        {% if i.item_type==2 %}
+                        <span style="color: #cc0000;">(积分换购)</span>
+                        {% elif i.item_type==9 %}
+                        <span style="color: #cc0000;">(赠品)</span>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </td>
+                <td>{{o.price}}</td>
+                <td style="display:none;">{{o.shippingprice}}</td>
+                <td>
+                    {% if o.payment==0 %}
+                    货到付款
+                    {% elif o.payment==1 %}
+                    支付宝
+                    {% elif o.payment==2 %}
+                    账户余额
+                    {% elif o.payment==3 %}
+                    网银支付
+                    {% elif o.payment==5 %}
+                    积分换购
+                    {% elif o.payment==9 %}
+                    补单
+                    {%endif%}
+                </td>
+                <td style="display:none;">
+                    {{o.distributiontime}}
+                </td>
+                <td>
+                    {{o.message}}
+                    {% if o.status==5 %}
+                    <div>取消原因：{{o.cancelreason}}</div>
+                    {%endif%}
+                </td>
+                <td>
+                    <a href="/user/order_store/{{o.id}}" class="btn btn-outline btn-default btn-xs">详情</a>
+                    {% if o.status !=3 and o.status != 4 %}
+                    <a class="btn btn-outline btn-default btn-xs" href="/user/order_midify/{{o.id}}">修改</a>
+                    {% endif %}
+                    {% if o.status ==2 %}
+                    <a class="btn btn-outline btn-default btn-xs fahuo" data-id="{{o.id}}" href="#">发货</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {%- endfor %}
+            </tbody>
+        </table>
+        <div class="row">
+        <div class="col-sm-4">
+            <div class="dataTables_info" role="alert" aria-live="polite" aria-relevant="all">
+                当前：第{{page}}页 / {{totalpage}}页，合计{{total}}条
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="dataTables_paginate paging_simple_numbers">
+                <ul class="pagination  pagination-sm" id="pageUl" />
+            </div>
+        </div>
+    </div>
+    </div>
+    {% else %}
+    <div class="null_info">
+        <h2>该条件下没有数据</h2>
+    </div>
+    {% endif %}
+</div>
+
+
+<script src="/style2/js/jquery.twbsPagination.min.js"></script>
+<script src="/style2/js/layer-v1.9/layer.js"></script>
+<script src="/style2/js/layer-v1.9/extend/layer.ext.js"></script>
+<script>
+    $(function() {
+        $('#checkall').bind('click',function () {
+            $('#tb_users :checkbox').prop('checked',this.checked);
+        });
+        var xsrf='{{handler.xsrf_token}}';
+        $('#btchangestatus').bind('click',function () {
+            var ids = [];
+            $('#tb_users :checkbox').each(function(){
+                if($(this).is(':checked'))
+                {
+                    ids.push($(this).val());
+                }
+            });
+            if(ids.length==0){
+                alert("请至少选择一项");
+                return;
+            }
+            $.post("/ajax/user/order/settlement",
+            {
+                ids:JSON.stringify(ids),
+                _xsrf : xsrf
+            },
+            function(data){
+                var obj = jQuery.parseJSON(data);
+                if(obj.err==0) {
+                    alert('操作完成！'+ obj.msg);
+                }
+                else{
+                    alert('操作失败：'+obj.msg);
+                }
+                location.reload();
+            });
+        });
+        var t = $("#d_delivery").html();
+        $(".fahuo").click(function(){
+            var id = $(this).attr("data-id");
+            layer.prompt({
+                title: '请填写物流信息，并确认',
+                formType: 0, //prompt风格，支持0-2
+                text:t
+            }, function(text){
+                if(text.substring(0,1) == "|"){
+                    layer.msg("请选择物流公司");
+                }else if(text.split('|')[1] == "") {
+                    layer.msg("请填写物流单号");
+                }else{
+                    var did = text.split('|')[0];
+                    var num = text.split('|')[1];
+                    $.post("/ajax/order/send",
+                    {
+                        status: '3',id: id,did:did,num:num,_xsrf : xsrf
+                    },function(data){
+                        var obj = jQuery.parseJSON(data);
+                        if(obj.err==0) {
+                            layer.msg('操作完成！'+ obj.msg);
+                        }
+                        else{
+                            alert('操作失败：'+obj.msg);
+                        }
+                        location.reload();
+                    });
+                }
+            });
+        });
+
+
+        $('#pageUl').twbsPagination({
+            first:'首页',
+            prev:'上一页',
+            next:'下一页',
+            last:'尾页',
+            totalPages: {{totalpage}},
+            startPage: {{page}},
+        visiblePages: 8,
+            onPageClick: function (event, page) {
+                self.location="/admin/orders?status={{status}}&begindate={{begindate or ''}}&enddate={{enddate or ''}}&keyword={{keyword or ''}}&delivery={{delivery or ''}}&order_type={{order_type}}&page="+page;
+            }
+        });
+    });
+
+
+    function request(paras){
+        var url = location.href;
+        var paraString = url.substring(url.indexOf("?")+1,url.length).split("&");
+        var paraObj = {}
+        for (i=0; j=paraString[i]; i++){
+            paraObj[j.substring(0,j.indexOf("=")).toLowerCase()] = j.substring(j.indexOf("=")+1,j.length);
+        }
+        var returnValue = paraObj[paras.toLowerCase()];
+        if(typeof(returnValue)=="undefined"){
+            return "-1";
+        }else{
+            return returnValue;
+        }
+    };
+
+    $("#statuscheck").val(request('status'));
+    if(!request('begindate'))
+    {$("#begindate").val(request('begindate'));}
+    if(!request('enddate'))
+    {$("#enddate").val(request('enddate'));}
+
+    $(function() {
+        $('.showWL').hover(function () {
+            var h = '';
+            var ss = $(this);
+            var wlNum = $(this).attr("data-num");
+            setTimeout(function() {
+                $.get('/ajax/getwlinfo', {deliverynum: wlNum}, function (data) {
+                    data = eval(data);
+                    data = jQuery.parseJSON(data);
+                    if (data.status != '400') {
+                        var wlInfo = data.data;
+                        for (i = 0; i < wlInfo.length; i++) {
+                            if (i == 0) {
+                                h += '<li style="line-height: 30px; color:#1B730C; background: #E7E7E7; ">' + wlInfo[i].context + '<br />' + wlInfo[i].time + '</li>';
+                            } else {
+                                h += '<li style="line-height: 30px;">' + wlInfo[i].context + '<br />' + wlInfo[i].time + '</li>';
+                            }
+                        }
+                    } else {
+                        h += '<li style="line-height: 30px; color: #cc0000; background: #E7E7E7; ">参数错误：请检查物流单号是否正确。</li>';
+                    }
+                    h = '宅急送 运单号：' + wlNum + '<hr style="margin: 5px;">' + h + '';
+                    ss.parent().find(".showInfo").html(h);
+                });
+                ss.parent().find(".showInfo").show();
+            },1000)
+        }, function () {
+            $(this).parent().find(".showInfo").hide();
+        });
+
+    });
+</script>
+{% endblock %}

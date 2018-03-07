@@ -1,0 +1,36 @@
+<ion-view view-title="绑定银行卡">
+  <ion-content class="deep-content">
+    <div class="list">
+     <label class="item item-input ">
+       <input type="text" placeholder="请输入您的银行卡号" ng-model="bankModel.bank_account">
+     </label>
+     <label class="item item-input">
+        <input type="text" placeholder="银行名称" disabled ng-model="bankModel.bank_name">
+     </label>
+     <label class="item item-input ">
+       <input type="text" placeholder="请输入您的银行卡支行名称" ng-model="bankModel.bank_branchname">
+     </label>
+      <label class="item item-input ">
+        <input type="text" placeholder="请输入您的银行卡姓名" ng-model="bankModel.bank_truename">
+      </label>
+      <div class="item item-input-inset">
+        <label class="login-item-input-wrapper">
+          <input type="number" placeholder="验证码" ng-model="bankModel.vcode">
+        </label>
+        <button class="button button-small  button-clear button-calm" ng-if="!requestCodeProcessing"
+                ng-click="requestCode()">
+          获取验证码
+        </button>
+
+        <button class="button button-clear button-calm" disabled ng-if="requestCodeProcessing">
+          {{counterWithRequestCode}}秒后重发
+        </button>
+      </div>
+
+    </div>
+    <div class="padding">
+      <button class="button button-block button-balanced" ng-click="saveBank()">绑定</button>
+      </button>
+    </div>
+  </ion-content>
+</ion-view>

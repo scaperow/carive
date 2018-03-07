@@ -1,0 +1,53 @@
+<ion-view view-title="{{$root.new ? '新增地址':'修改地址信息'}}">
+  <ion-content class="deep-content">
+    <div class="list">
+      <dev class="item item-input item-select">
+        <label class="input-label" >
+          省
+        </label>
+        <select ng-model="addressModel.province" ng-options="n for n in provinces"   ng-change="changeProvince()">
+          <option value="">请选择</option>
+        </select>
+      </dev>
+      <dev class="item item-input item-select">
+        <label class="input-label">
+          市
+        </label>
+        <select ng-model="addressModel.city" ng-options="n for n in cities"   ng-change="changeCity()">
+          <option value="">请选择</option>
+        </select>
+      </dev>
+      <dev class="item item-input item-select">
+        <label class="input-label" >
+          区
+        </label>
+        <select ng-model="addressModel.region" ng-options="n for n in regions"   ng-change="changeRegion()">
+          <option value="">请选择</option>
+        </select>
+      </dev>
+      <dev class="item item-input item-select">
+        <label class="input-label">
+          街道
+        </label>
+        <select ng-model="addressModel.street"   ng-options="n for n in streets" style="width:100%;">
+          <option value="">请选择</option>
+        </select>
+      </dev>
+      <label class="item item-input ">
+        <input type="text" placeholder="详细地址" ng-model="addressModel.address">
+      </label>
+      <label class="item item-input">
+        <input type="text" placeholder="收货人" ng-model="addressModel.name">
+      </label>
+      <label class="item item-input">
+        <input type="text" placeholder="手机号码" ng-model="addressModel.mobile">
+      </label>
+    </div>
+    <div class="padding">
+      <button class="button button-block button-calm" ng-click="addressSubmit()">保存</button>
+      <button ng-if="!$root.new" class="button button-block  " ng-click="setAsDefault($root.addressModel.id)">设为默认地址</button>
+      <button ng-if="!$root.new" class="button button-block button-assertive" ng-click="deleteAddress($root.addressModel.id)">删除
+      </button>
+    </div>
+  </ion-content>
+</ion-view>

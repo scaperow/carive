@@ -1,0 +1,15 @@
+<ion-view view-title="我的易凡">
+    <ion-content>
+        <div class="list">
+            <label class="item item-input">
+                <span class="input-label">充值金额：</span>
+                <input type="number" autofocus="true" ng-model="$root.czprice" value="{{$root.czprice}}">
+            </label>
+        </div>
+
+        <div class="padding" >
+            <button class="button button-block button-balanced" ng-if="$root.czprice <= 0"  disabled ng-click="chongzhi()" >去充值(支付宝/银联)</button>
+            <button class="button button-block button-balanced"   ng-if="$root.czprice > 0"  ng-click="chongzhi()" >去充值(支付宝/银联)</button>
+        </div>
+    </ion-content>
+</ion-view>

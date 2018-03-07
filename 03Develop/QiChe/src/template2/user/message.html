@@ -1,0 +1,79 @@
+{% extends "layout/user.html" %}
+{% block subcontent %}
+
+<link rel="stylesheet" href="/style2/css/colorbox.css" />
+<link rel="stylesheet" href="/style2/css/Cart.css" />
+<link rel="stylesheet" href="/style2/css/usercenter.css" type="text/css" media="screen">
+<style>
+        .service_detail_wrap{}
+        .received{margin-left: 20px;}
+        .consult_type{padding-left: 25px;}
+        .input_container{margin: 10px 0; float: left; width:100%;}
+        .act{text-align: center}
+        #q_type{height:25px;}
+    </style>
+<h1> 我的消息 </h1>
+<div class="content">
+    <div class="clear"></div>
+    <div>
+        <div class="">
+            <!--<h2>您还没有任何售后咨询记录</h2>-->
+            <table class="order-tablev2" id="order-list">
+        <tbody>
+        <tr class="order_list_title">
+            <th>消息标题</th>
+            <th>消息时间</th>
+            <th>消息类型</th>
+            <th>是否已读</th>
+            <th width="80">操作</th>
+        </tr>
+        {% for a in items %}
+        <tr style="{{a.has_read==1 and 'color:#ccc;' or 'color:#000;'}}">
+            <td><a class="sp_address_edit" style="display: inline;text-decoration: none;{{a.has_read==1 and 'color:#ccc;' or 'color:#000;'}}" href="javascript:void(0)" data_id="{{a.id}}">{{a.title }}</a></td>
+            <td>{{(a.send_time|datetimeformat)}}</td>
+            <td>
+                {% if a.type==0 %}
+                系统消息
+                {% else %}
+                其它消息
+                {% endif %}
+            </td>
+            <td>{{a.has_read==1 and '已读' or '未读'}}</td>
+            <td>
+                <a class="sp_address_edit" style="display: inline;text-decoration: none;{{a.has_read==1 and 'color:#ccc;' or 'color:#000;'}}"
+                   title="查看消息内容" href="javascript:void(0)" data_id="{{a.id}}">查看</a>
+                <a style="display: inline;text-decoration: none;{{a.has_read==1 and 'color:#ccc;' or 'color:#000;'}}"
+                   title="删除消息" onclick="return confirm('删除的消息将不可恢复,确定删除？');" href="/user/message_del/{{a.id}}">删除</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="/style2/js/jquery.colorbox-min.js"></script>
+<script>
+    $(function(){
+        $('.sp_address_edit').click(function(){
+//            debugger;
+            var cid = $(this).attr("data_id");
+            $.colorbox({
+                href: "/user/message_show/"+cid,
+                width: 700,
+                title:'<span style="font-family: microsoft yahei; font-weight: bold;">消息查看</span>',
+                opacity:0.5,
+                close:'',
+                onClosed: function(){
+                    //location.href='/user/service';
+                },
+                onComplete: function(){
+                    $(".cart_pop_tlt").html("消息查看");
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,225 @@
+{% extends "layout/login.html" %}
+{% block content %}
+
+
+<div style="width: 1190px; margin: 0 auto; margin-top: 20px;">
+    <div style="float: left; width: 255px; height: 40px; border-right: 1px solid #dad9d9;">
+
+        <a href="/">
+            <img src="/style2/images/logo2.png" style="margin-top: -5px;" alt="车装甲"></a>
+    </div>
+    <div style="font-family: 微软雅黑; font-size: 30px; color: #6c6a6a; padding: 0px 0 0 15px; float: left;">
+        欢迎登录
+
+
+
+    </div>
+
+</div>
+<style>
+    .control-label
+    {
+        font-family: 微软雅黑;
+        font-size: 18px;
+        color: #6c6a6a;
+    }
+    .col-sm-12{
+        padding-left:0px;
+    }
+    .form-horizontal .control-label{
+        text-align: left;
+    }
+</style>
+
+<div class="container" style="padding: 50px 30px 30px 30px; /*display: table;*/">
+
+    <div style="border: 5px solid #C9C9C9; ">
+        <table>
+            <tr>
+                <td>
+                    <img width="550" height="400" src="style2/images/login.jpg"></td>
+                <td style=" padding-left:100px;" >
+                    {% if oauth -%}
+                    <p>
+                        绑定已有账户。<br>
+                        <img src="{{oauth['profile_image_url']}}">
+                        你好 {{oauth['screen_name']}}！
+
+                    </p>
+                    {%-endif %}
+                    <form id="fromsigin" action="/signin?next={{handler.next_url}}" method="post"  class="form-horizontal">
+                        {{xsrf()}}
+
+                        <div class="form-group input-group">
+                            <label class="control-label" style="color:red;">
+                                {%set messages=handler.get_flashed_messages() %}
+                                {%-if messages-%}
+
+                                {% for type, msg in messages%}
+                                提示： {{msg}}
+                                {% endfor %}
+
+                                {%-endif-%}
+                            </label>
+                        </div>
+
+                        <div class="form-group input-group row">
+                            <label class="control-label col-sm-12" style="text-align: left;">用户名</label>
+                            <div class=" col-sm-12">
+                                <input style="width: 320px;" class="form-control Validform_error" type="text" name="mobile" placeholder="请输入常用的手机号码" id="Text1" value="" required title="用户名是您登录网站的唯一身份ID，不能为空。">
+                            </div>
+                        </div>
+                        <div class="form-group input-group row">
+                            <label class="control-label col-sm-12" style="text-align: left;">密码</label>
+                            <div class=" col-sm-12">
+                                <input style="width: 320px;" id="password" name="password" type="password" class="form-control Validform_error" placeholder="密码" value="" required datatype="s1-10" nullmsg="登录密码不能为空，请输入密码。" title="登录密码不能为空，请输入密码。" sucmsg="">
+                                <span id="tip">大写字母已开启！</span>
+                            </div>
+                            <div class=" col-sm-12">
+                            <span> <a href="/forgotpassword">忘记密码</a>
+                            <span>|</span>
+                            <a style="color: #6B9124; cursor: pointer;" title="创建账户" href="javascript:window.location=request('next')">创建账户 </a></span>
+                            </div>
+                        </div>
+                        <div class="form-group input-group row">
+                            <div class="col-sm-12">
+                                <button style="width: 346px; height: 45px; font-size: 20px; padding: 0px;"
+                                        type="submit"
+                                        class="btn btn-success" title="登录" name="send" id="send2">
+                                    登 录
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+
+
+                </td>
+
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+
+
+
+{% endblock %}
+{% block js %}
+    <style type="text/css">
+        #tip {
+            position: absolute;
+            height: 12px;
+            padding: 5px;
+            text-align: right;
+            display: none;
+            border: 1px solid #dad699;
+            background: #f9f5c7;
+            border-radius: 3px;
+            font-size: 8px;
+            -moz-box-shadow: 0.3px 0.3px 1px 1px rgba(0, 0, 0, 0.4);
+            -webkit-box-shadow: 0.3px 0.3px 1px 1px rgba(0, 0, 0, 0.4);
+            box-shadow: 0.3px 0.3px 1px 1px rgba(0, 0, 0, 0.4);
+            z-index:999;
+        }
+    </style>
+<script src="/style2/js/jquery-html5Validate-min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        //$("form").html5Validate();
+        $('#getvcode').click(function () {
+            $.get("/ajax/vcode",
+                    {
+                        mobile: $('#mobile').val()
+                    },
+                    function (data) {
+                        alert("Data: " + data);
+                    });
+        });
+        $("#fromsigin").attr("action", requestSigin("next"));
+
+        var txtPassword = $("#password");
+            function show(id) {
+                var ele = $("#" + id + "");
+                $(ele).css("display", "block");
+                $(ele).css("left", event.clientX);
+                $(ele).css("top", event.clientY + 15);
+            }
+            function hide(id) {
+                var ele = $("#" + id + "");
+                $(ele).css("display", "none");
+            }
+            var isCapslockOn;
+            function checkCapsLock_keyPress(e) {
+                var e = event || window.event;
+                var keyCode = e.keyCode || e.which;//按键的keyCode。
+                var isShift = e.shiftKey || (keyCode == 16) || false;//shift键是否按住。
+                if (
+                ((keyCode >= 65 && keyCode <= 90) && !isShift) // CapsLock打开，且没有按住shift键。
+                || ((keyCode >= 97 && keyCode <= 122) && isShift)// CapsLock打开，且按住shift键。
+                )
+                    isCapslockOn = true;
+                else
+                    isCapslockOn = false;
+            }
+            function checkCapsLock_keydown(e) {
+                var keyCode = window.event ? e.keyCode : e.which;
+                if (keyCode == 20 && isCapslockOn == true)
+                    isCapslockOn = false;
+                else if (keyCode == 20 && isCapslockOn == false)
+                    isCapslockOn = true;
+            }
+            function tip() {
+                if (isCapslockOn)
+                    show("tip");
+                else
+                    hide("tip");
+            }
+            //keyPress可以判断当前CapsLock状态，但不能捕获CapsLock键。
+            $(document).keypress(checkCapsLock_keyPress);
+            //keyDown可以捕获CapsLock键，但不能判断CapsLock的状态。
+            $(document).keydown(checkCapsLock_keydown);
+
+            txtPassword.keyup(tip).focus(function () {
+                if (isCapslockOn) show("tip");
+            }).blur(function () {
+                hide("tip");
+            });
+    });
+
+    function request(paras){
+        var url = location.href;
+        var paraString = url.substring(url.indexOf("?")+1,url.length).split("&");
+        var paraObj = {}
+        for (i=0; j=paraString[i]; i++){
+            paraObj[j.substring(0,j.indexOf("=")).toLowerCase()] = j.substring(j.indexOf("=")+1,j.length);
+        }
+        var returnValue = paraObj[paras.toLowerCase()];
+        if(typeof(returnValue)=="undefined"){
+            return "/signup";
+        }else{
+            returnValue =  returnValue.replace("confirmation","show");
+            return "/signup?next=" + returnValue;
+        }
+    };
+
+    function requestSigin(paras){
+        var url = location.href;
+        var paraString = url.substring(url.indexOf("?")+1,url.length).split("&");
+        var paraObj = {}
+        for (i=0; j=paraString[i]; i++){
+            paraObj[j.substring(0,j.indexOf("=")).toLowerCase()] = j.substring(j.indexOf("=")+1,j.length);
+        }
+        var returnValue = paraObj[paras.toLowerCase()];
+        if(typeof(returnValue)=="undefined"){
+            return "/signin";
+        }else{
+            returnValue =  returnValue.replace("confirmation","show");
+            return "/signin?next=" + returnValue;
+        }
+    };
+
+</script>
+{% endblock %}

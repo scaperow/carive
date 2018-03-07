@@ -1,0 +1,83 @@
+<ion-view view-title="采购小分类">
+  <ion-nav-buttons side="right">
+    <span class="right-buttons">
+      <button class="button icon-left button-clear ion-ios-cart-outline tab-item" ng-click="showCart()" style="color:#fff;padding-right: 10px;">
+        <span class="user_badge">{{$root.carNumber}}</span>
+      </button>
+    </span>
+  </ion-nav-buttons>
+  <ion-content class="stable-bg">
+    <div class="bar bar-balanced bar-header item-input-inset ">
+      <label class="item-input-wrapper">
+        <i class="icon ion-ios-search placeholder-icon"></i>
+        <input type="text" placeholder="商品名称" ng-model="$parent.keyword">
+      </label>
+      <button class="button balanced button-icon icon ion-ios-search" ng-click="searchProduct()"></button>
+    </div>
+    <div class="row" ng-if="brands.length >= 1">
+      <ion-item ng-if="brands.length >= 1" class="col-33 menu-item mg1" ng-click="showSmallCategory('{{brands[0].href}}')">
+        <img src='{{brands[0].img}}' style="width:100%">
+      </ion-item>
+      <ion-item ng-if="brands.length >= 2" class="col-33 menu-item mg1" ng-click="showSmallCategory('{{brands[1].href}}')">
+        <img src='{{brands[1].img}}' style="width:100%">
+      </ion-item>
+      <ion-item ng-if="brands.length >= 3" class="col-33 menu-item mg1" ng-click="showSmallCategory('{{brands[2].href}}')">
+        <img src='{{brands[2].img}}' style="width:100%">
+      </ion-item>
+    </div>
+    <div class="row " ng-if="brands.length >= 4">
+      <ion-item ng-if="brands.length >= 4" class="col-33 menu-item mg1" ng-click="showSmallCategory('{{brands[3].href}}')">
+        <img src='{{brands[3].img}}' style="width:100%">
+      </ion-item>
+      <ion-item ng-if="brands.length >= 5" class="col-33 menu-item mg1" ng-click="showSmallCategory('{{brands[4].href}}')">
+        <img src='{{brands[4].img}}' style="width:100%">
+      </ion-item>
+      <ion-item ng-if="brands.length >= 6" class="col-33 menu-item mg1" ng-click="showSmallCategory('{{brands[5].href}}')">
+        <img src='{{brands[5].img}}' style="width:100%">
+      </ion-item>
+    </div>
+    <div class="row" ng-if="brands.length >= 7">
+      <ion-item ng-if="brands.length >= 7" class="col-33 menu-item mg1" ng-click="showSmallCategory('{{brands[6].href}}')">
+        <img src='{{brands[6].img}}' style="width:100%">
+      </ion-item>
+      <ion-item ng-if="brands.length >= 8" class="col-33 menu-item mg1" ng-click="showSmallCategory('{{brands[7].href}}')">
+        <img src='{{brands[7].img}}' style="width:100%">
+      </ion-item>
+      <ion-item ng-if="brands.length >= 9" class="col-33 menu-item mg1" ng-click="showSmallCategory('{{brands[8].href}}')">
+        <img src='{{brands[8].img}}' style="width:100%">
+      </ion-item>
+    </div>
+    <div class="card" style="margin: 1px 7px;" ng-if="bargains.length >= 1">
+      <div style="border-left: solid 2px #f00;color: #f00;margin: 5px 0px 0px 10px;font-weight: bold;padding-left:5px; background-color: #fff;font-size:12px;height:15px;line-height:15px;">
+        特价区
+      </div>
+      <div class="row">
+        <ion-item ng-if="bargains.length >= 1" class="col-33 menu-item" ng-click="showDetail('{{bargains[0].href}}')">
+          <img src='{{bargains[0].img}}' style="width:100%">
+        </ion-item>
+        <ion-item ng-if="bargains.length >= 2" class="col-33 menu-item" ng-click="showDetail('{{bargains[1].href}}')">
+          <img src='{{bargains[1].img}}' style="width:100%">
+        </ion-item>
+        <ion-item ng-if="bargains.length >= 3" class="col-33 menu-item" ng-click="showDetail('{{bargains[2].href}}')">
+          <img src='{{bargains[2].img}}' style="width:100%">
+        </ion-item>
+      </div>
+    </div>
+    <div class="card" style="margin: 7px 7px;" ng-if="recommands.length >= 1">
+      <div style="border-left: solid 2px #FF8C22;color: #FF8C22;margin: 5px 0px 0px 10px;font-weight: bold;padding-left:5px; background-color: #fff;font-size:12px;height:15px;line-height:15px;">
+        推荐区
+      </div>
+      <div class="row">
+        <ion-item ng-if="recommands.length >= 1" class="col-33 menu-item" ng-click="showDetail('{{recommands[0].href}}')">
+          <img src='{{recommands[0].img}}' style="width:100%">
+        </ion-item>
+        <ion-item ng-if="recommands.length >= 2" class="col-33 menu-item" ng-click="showDetail('{{recommands[1].href}}')">
+          <img src='{{recommands[1].img}}' style="width:100%">
+        </ion-item>
+        <ion-item ng-if="recommands.length >= 3" class="col-33 menu-item" ng-click="showDetail('{{recommands[2].href}}')">
+          <img src='{{recommands[2].img}}' style="width:100%">
+        </ion-item>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

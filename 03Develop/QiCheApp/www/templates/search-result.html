@@ -1,0 +1,38 @@
+<ion-view view-title="搜索{{keyword}}">
+  <ion-nav-buttons side="right">
+    <button class="button button-icon icon "></button>
+  </ion-nav-buttons>
+  <ion-content>
+    <div class="list">
+      <div class="item-input-inset ">
+        <label class="item-input-wrapper">
+          <input type="text" placeholder="商品名称" ng-model="$parent.keyword">
+        </label>
+        <a class="button button-icon icon ion-ios-search" ng-click="searchProduct()"></a>
+      </div>
+
+      <ion-item ng-repeat="item in products" class="item-thumbnail-left" ng-click="showDetail(item.id)">
+
+        <img ng-src="{{item.img}}">
+
+        <h2>{{item.name}}</h2>
+
+        <p>
+          <label class="grey">{{item.resume}}</label>
+          <br/>
+          <label class="grey">{{item.standard}}</label>
+          <br/>
+          <label class="italic assertive h4">{{item.price}}</label>
+          <label class="grey">元/份</label>
+        </p>
+
+      </ion-item>
+      <ion-infinite-scroll on-infinite="hasMore" on-infinite="searchProduct()" distance="1%">
+    </div>
+    <div ng-if="products.length == 0">
+      <div class="text-center grey">
+        抱歉，没有找到符合条件的商品 ~
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

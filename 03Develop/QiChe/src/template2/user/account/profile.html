@@ -1,0 +1,167 @@
+{% extends "layout/user.html" %}
+{% block subcontent %}
+<style>
+    .level_n{color: #0075b0; font-size:16px; margin-top: -10px;}
+    .red{color:#cc0000;}
+</style>
+<h1> 设置账户信息 </h1>
+<div class="content sector">
+
+	<form id="settings-form" method="post" action="">
+        {{xsrf()}}
+        <input type="hidden" name="jm_form_hash" value="1ce8d194">
+		
+        <dl class="formlist">
+            <dt>会员等级</dt>
+            <dd>
+                <a href="/help/member" style="margin:0px;"><span class="data level_n">
+                {{userlevel.levelname}}
+                </span></a>
+                您目前的成长值为<span class="red"> {{user.level}} </span>
+                {% if userlevelnext %}
+                ，再获得<span class="red"> {{userlevelnext.startscore - user.level}} </span>成长值即可升级到 {{userlevelnext.levelname}}
+                {% endif %}
+            </dd>
+		</dl>
+
+		<div class="input_container">
+			<label for="settings-username"><span class="spark">*</span>用户名</label>
+			<input required="" type="text" size="30" name="username" id="settings-username" readonly class="t_input" value="{{user.username}}" pattern="(?!^\d)[\w\u4e00-\u9fa5\uF900-\uFA2D]{4,16}">
+			<span class="valueMissing">请填写您的用户名</span>
+			<span class="patternMismatch">用户名应为4-16个中英文字符，不能以数字开头</span>
+		</div>
+
+		<dl class="formlist">
+			<dt>手机号</dt>
+			<dd>
+				<span class="data">{{user.mobile}}</span>
+				<!--<a href="#" target="_blank">修改</a>
+				<span class="hint">已验证</span>-->
+			</dd>
+		</dl>
+        <dl class="formlist">
+			<dt>头像</dt>
+			<dd>
+                <div class="input_container" style="height: 80px;line-height: 1.1">
+                    <img id="img_image" src="{{u.portraiturl}}" width="80" height="80" onclick="window.open(this.src)" style="float:left;cursor:pointer;">
+                    <div style="float:left;margin-top: 8px;display: block;"><a href="" id="fileupload_pic" style="margin:0;">>>选择图片</a></div>
+                    <input type="hidden" id="hdn_image" name="image" required value="{{u.portraiturl}}" />
+                </div>
+			</dd>
+		</dl>
+		<dl class="formlist">
+			<dt><label for="settings-nickname">昵称</label></dt>
+			<dd>
+			<span class="data">
+                <input   type="text" size="30" name="nickname" id="settings-nickname" class="t_input" value="{{user.nickname|null|escape}}" placeholder="您的昵称">
+			</span>
+			</dd>
+		</dl>
+		<dl class="formlist">
+			<dt><label for="settings-qq"> QQ号码</label></dt>
+			<dd>
+			<span class="data">
+                <input   type="text" size="30" name="qq" id="settings-qq" class="t_input" value="{{user.qq|escape}}" title="请输入正确的QQ号码" pattern="^\d{5,11}$" placeholder="QQ号码">
+			</span>
+			</dd>
+		</dl>
+        <dl class="formlist">
+			<dt><label for="settings-email"> Email</label></dt>
+			<dd>
+			<span class="data">
+                <input  type="text" size="30" name="email" id="settings-email" class="t_input" value="{{user.email|escape}}" title="请输入正确的邮箱地址" pattern="^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$" placeholder="电子邮箱">
+			</span>
+				<!--<a href="/i/account/change_email" target="_blank">修改</a>
+				<a href="/i/account/verify_current_email" class="btn_mid_pink">验证邮箱</a>-->
+			</dd>
+		</dl>
+
+		<div class="input_container">
+			<label>性别</label>
+			<label class="radio">
+				<span class="radio_ui">
+					<input name="gender" type="radio" id="gender_f" autocomplete="off" value="1" {% if user.gender==1 %}checked="checked" {% endif %} >
+					<b></b>
+				</span>
+				女
+			</label>
+			<label class="radio">
+				<span class="radio_ui">
+					<input name="gender" type="radio" id="gender_m" autocomplete="off" value="0" {% if user.gender==0 %}checked="checked" {% endif %}>
+					<b></b>
+				</span>
+				男
+			</label>
+		</div>
+		<div class="input_container">
+			<label for="settings-birthday">生日</label>
+            <input type="text" name="birthday" id="settings-birthday" value="{{user.birthday |null|escape}}" class="Wdate t_input"  onClick="WdatePicker()" placeholder="您的生日" size="30" />
+			<!--<input  type="text" size="30" name="birthday" id="settings-birthday" class="t_input" value="{{user.birthday or ''}}" pattern="^\d{1,4}([-/.])\d{1,2}\1\d{1,2}$">-->
+			<span class="otherError">请填写您的生日</span>
+		</div>
+		<div class="input_container">
+			<label for="settings-tel">固定电话</label>
+			<input  type="text" size="30" name="tel" id="settings-tel" title="如02912345678或者029-12345678" pattern="^(\d{3,4}\-?)?\d{7,8}$" class="t_input" value="{{user.tel | null|escape}}" placeholder="固定电话" >
+		</div>
+
+		<div class="act">
+			<input type="submit" value="保存修改" name="commit" id="settings-submit" class="btn btn-success">
+		</div>
+	</form>
+</div>
+{% endblock %}
+{% block js%}
+<script src="/style2/js/jquery-1.7.2.min.js?v=1"></script>
+<script src="/style2/js/jquery.ocupload.js?v=1"></script>
+<script language="javascript" type="text/javascript" src="/style2/js/My97DatePicker/WdatePicker.js"></script>
+<script>
+    $(function(){
+        var xsrf='{{handler.xsrf_token}}';
+        var r = '{{result}}';
+        if(r == '1')
+        {
+            alert('保存成功！');
+            //location.reload();
+        }
+        else if(r == '0'){
+            alert('保存失败！');
+        }
+
+        var myUpload = $('#fileupload_pic').upload({
+            name: 'filedata',
+            action: '/ajax/user/pic/{{user.id}}',
+            enctype: 'multipart/form-data',
+            autoSubmit: true,
+            onClick: function(){
+                alert("");
+            },
+            onSelect: function(){
+                var ext = myUpload.filename().substr(myUpload.filename().length - 3, 3).toLowerCase();
+                if (ext != 'jpg' || ext != 'gif' || ext != 'png')
+                {
+                    return false;
+                }
+            },
+            onComplete: function(response) {
+                eval('var c = ' + response);
+                if (c.err + "" == "") {
+                    $('#img_image').attr("src", c.msg);
+                    $('#img_image').show();
+                    var old_img=$('#hdn_image').val();
+                    $('#hdn_image').val(c.msg);
+                    if(old_img!="") {
+                        $.post("/ajax/upload/del", {"file_path":old_img}, function(data){
+                         });
+                    }
+                }
+                else{
+                    alert(c.msg);
+                }
+
+            },onError: function(response){
+                alert(response);
+            }
+        });
+    });
+</script>
+{% endblock%}

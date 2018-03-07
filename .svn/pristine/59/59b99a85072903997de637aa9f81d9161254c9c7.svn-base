@@ -1,0 +1,60 @@
+/* CSS Document */
+
+body { background-color:#fbc40f; padding:0px; margin:0px;}
+.ft_lt { float:left;}
+.ft_rt { float:right;}
+
+
+
+.box {  margin-left:0px; margin-right:0px; width:auto;}
+.top { height:508px; background-color:#fe5954}
+.top_gray { height:30px; width:auto; background-image:url(/style2/images/activity/lucky_draw/top.jpg); background-repeat:repeat-x;}
+.GRAY_BOX { width:1089PX; margin:0px auto; line-height:30px; font-size:12px; font-family:"微软雅黑";}
+.GRAY_BOX a { color:#000; text-decoration:none}
+.GRAY_BOX a:hover { color:#000; text-decoration:underline}
+.TOP_banner { background-image:url(/style2/images/activity/lucky_draw/TOP_BG.jpg?v=1.01); background-repeat:no-repeat; background-position:center top; height:194px; padding-top:284px;}
+.banner_btn { width:1089px; height:68px;margin:0px auto; }
+.btn_kz { margin:0px 0px 0px 419px;}
+
+
+.main { background-color:#FFF; width:1089px; height:1443px;margin:0 auto; padding-top:74PX;}
+.CJ { background-image:url(/style2/images/activity/lucky_draw/zp.jpg);width:1089PX; background-repeat:no-repeat; padding-top:90PX;height:1030PX; text-align:center}
+.ZP_BOX { background-image:url(/style2/images/activity/lucky_draw/ZP_BG.jpg); height:564PX; background-position:center TOP; background-repeat:no-repeat}
+.name { width:307PX; height:345PX; float:right;  MARGIN-right:110PX; margin-top:55px; padding-top:70px;}
+.name ul { margin:0px; padding:0px;}
+.name ul li {font-size:16px; font-family:"微软雅黑"; text-align:left; width:190PX; border-bottom:solid 1PX #efcb58; padding-bottom:16PX; margin-left:42PX; padding-left:40PX;; padding-top:16PX; list-style:NONE;}
+.name ul li SPAN { color:#db0c03}
+
+
+
+.JF { background-image:url(/style2/images/activity/lucky_draw/jf.jpg); width:1089PX; background-repeat:no-repeat; padding-top:90PX; min-height:450PX; text-align:center}
+
+.JX { background-image:url(/style2/images/activity/lucky_draw/title_jx.jpg);  width:1089PX; background-repeat:no-repeat; padding-top:90PX;}
+
+
+.JX01{ background-image:url(/style2/images/activity/lucky_draw/ZP_01_HOVER.jpg); width:232px; height:103PX; display:block; margin-left:80px;}
+.JX02 { background-image:url(/style2/images/activity/lucky_draw/YQ_HOVER.jpg); width:343px; height:103PX; display:block; margin:0px 60px;}
+.JX03{ background-image:url(/style2/images/activity/lucky_draw/XSMX_HOVER.jpg); width:232px; height:103PX; display:block;}
+
+.JX01:HOVER  { background-image:url(/style2/images/activity/lucky_draw/ZP_01.jpg); width:232px; height:103PX; display:block; margin-left:80px;}
+.JX02:HOVER { background-image:url(/style2/images/activity/lucky_draw/YQ.jpg); width:343px; height:103PX; display:block; margin:0px 60px;}
+.JX03:HOVER  { background-image:url(/style2/images/activity/lucky_draw/XSMX.jpg); width:232px; height:103PX; display:block;}
+
+
+
+.BT { text-align:center; font-size:12px; font-family:"微软雅黑"; padding-top:15px; padding-bottom:15px;}
+
+
+
+.JX02 { background-image:url(/style2/images/activity/lucky_draw/YQ_HOVER.jpg); width:343px; height:103PX; display:block; margin:0px 0px 0px 130px;}
+.JX02:HOVER { background-image:url(/style2/images/activity/lucky_draw/YQ.jpg); width:343px; height:103PX; display:block; margin:0px 0px 0px 130px;}
+
+.JX04 { background-image:url(/style2/images/activity/lucky_draw/xsm02.jpg); width:343px; height:103PX; display:block; margin:0px 0px 0px 130px;}
+.JX04:HOVER { background-image:url(/style2/images/activity/lucky_draw/xsm.jpg); width:343px; height:103PX; display:block; margin:0px 0px 0px 130px;}
+
+
+
+.JX { background-image:url(/style2/images/activity/lucky_draw/title_jx.jpg);  width:1089PX; background-repeat:no-repeat; padding-top:90PX; margin-top:50px;}
+.zp_gz { width:900px; height:auto; border:dashed 1px #000; text-align:left; padding:40px; line-height:30px; font-weight:bold; font-family:"微软雅黑"; font-size:16px; margin-left:50px;border-radius:9px; }
+.gz_title { color:#FFF; background-color:#ff0000; font-size:24px; width:180px; height:43px; line-height:43px;border-radius:15px; text-align:center; padding:0px 10px;}
+.zp_gz span { color:#de2018}

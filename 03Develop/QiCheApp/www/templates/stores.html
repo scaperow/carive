@@ -1,0 +1,71 @@
+<ion-view view-title="附近商家">
+  <ion-content class="stable-bg">
+
+    <div class="button-bar light-bg border-bottom">
+      <button class="button button-small button-light " ng-click="changeServices()">
+        {{service ? service.name : '服务类型'}}
+      </button>
+      <i class="splitter"></i>
+      <button class="button button-small button-light" ng-click="changeOrderBy()">
+        {{orderBy ? orderBy.value : '排序类型'}}
+      </button>
+      <i class="splitter"></i>
+      <button class="button  button-small button-light" ng-click="changeArea()">
+        {{area ? area.name : '全部区域'}}
+      </button>
+    </div>
+    <div ng-if="stores.length === 0" class="message">
+      没有门店信息
+    </div>
+    <ion-list ng-repeat="store in stores">
+      <ion-item class=" item-thumbnail-left item-text-wrap" ng-click="showStore(store.id)">
+        <img ng-src="{{store.image}}">
+        <h2>{{store.name}}
+        </h2>
+        <ng-stars counter="store.star_score"></ng-stars>
+        <label class="energized">{{store.credit_score}}</label>
+        <p>
+          {{store.address}}
+        </p>
+      </ion-item>
+      <ion-item style="padding:2px 0">
+        <div class="button-bar">
+          <button class="button  button-clear  button-positive  " style="font-size:14px; " ng-click="navigate(store.id); $event.stopPropagation()">
+            <i class="icon ion-ios-location"></i> 地图导航
+          </button>
+          <i class="splitter"></i>
+          <button class="button button-clear button-balanced " style="font-size:14px; " ng-click="$root.call('{{store.tel}}');   $event.stopPropagation();">
+            <i class="icon ion-ios-telephone"></i> 商家电话
+          </button>
+        </div>
+      </ion-item>
+      <ion-item ng-repeat="service in store.items" ng-if="$index < 1" ng-click="showProduct(service.psid)">
+        <div class="row">
+          <div class="col-20 item-text-wrap">
+            <h2 class="assertive">
+              ￥{{service.price}}
+            </h2>
+            <label class="drop grey">￥{{service.orginal_price}}</label>
+          </div>
+          <div class="col-80">
+            <h2 style="font-size: 14px;">
+              {{service.name}}
+            </h2>
+            <p>
+              {{service.resume}}
+            </p>
+            <div style="text-align:right; margin-top:12px;font-size:14px" class="grey">
+              <i class="icon ion-ios-clock-outline note" style="font-size:16px;"></i><i> {{service.service_time}} 分钟</i>
+              <i class="icon ion-ios-person-outline note" style="font-size:16px;"></i><i> {{service.quantity}} 人买购</i>
+            </div>
+          </div>
+        </div>
+      </ion-item>
+      <ion-item ng-if="store.items && store.items.length > 0" class=" text-center grey" style="font-size:14px" ng-click="showOtherProduct(store.id)">
+        查看其他项目
+      </ion-item>
+      <div class="separate-big"></div>
+    </ion-list>
+
+  </ion-content>
+</ion-view>

@@ -1,0 +1,22 @@
+<ion-view view-title="消息">
+  <ion-nav-buttons side="right">
+    <button class="button button-clear " ng-click="clear()">清空</button>
+  </ion-nav-buttons>
+  <ion-content class="stable-bg">
+    <ion-list ng-repeat="message in messages">
+      <ion-item ng-click="showDetail(message.id)">
+        <div ng-if="message.has_read !== 1">
+          <strong>{{message.title}}</strong>
+        </div>
+        <div ng-if="message.has_read === 1"> {{message.title}}</div>
+        <label class="item-note">
+          {{message.send_time}}
+        </label>
+      </ion-item>
+      <div class="separate-big"></div>
+    </ion-list>
+
+    <ion-infinite-scroll ng-if="hasMore" on-infinite="fetch()" distance="1%">
+    </ion-infinite-scroll>
+  </ion-content>
+</ion-view>

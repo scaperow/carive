@@ -1,0 +1,171 @@
+<ion-view view-title="车装甲">
+    <ion-nav-buttons side="right">
+        <button class="button button-icon icon ion-ios7-search" ng-click="search()"></button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="left">
+        <button class="button button-icon icon ion-ios7-location-outline" ng-click="nearby()"></button>
+    </ion-nav-buttons>
+    <ion-content delegate-handle="content" class="grey" style="background-color:#efefef;" scroll-overflow="true"
+                 id="contentScroll">
+        <ion-refresher
+                on-refresh="refresh(true)">
+        </ion-refresher>
+        <ion-slide-box ng-if="!loading" delegate-handle="slide-ads" does-continue="true" auto-play="true"
+                       class="light-border">
+            <ion-slide ng-repeat="ad in ads">
+                <img style="width:100%" ng-src="{{ad.img}}" ng-click="docker(ad.id)">
+            </ion-slide>
+        </ion-slide-box>
+        <div>
+            <div class="row" style="padding:0; padding-bottom:5px">
+                <a class="col assertive  menu-item {{display == 'BARGAINS'? 'active':''}}"
+                   ng-click="titleClick('BARGAINS')">
+                    <div class="icon ion-ios7-circle-filled"></div>
+                    <label class='description'>特价</label>
+                </a>
+                <a class="col balanced menu-item  {{display == 'RECOMMAND'? 'active':'disabled'}}"
+                   ng-click="titleClick('RECOMMAND')">
+                    <div class="icon ion-ios7-navigate"></div>
+                    <label class='description'>推荐</label>
+                </a>
+                <a class="col energized menu-item  {{display == 'TRADE'? 'active':'disabled'}}"
+                   ng-click="titleClick('TRADE')">
+                    <div class="icon ion-ios7-refresh"></div>
+                    <label class='description'>换购</label>
+                </a>
+                <a class="col calm menu-item  {{display == 'PRESALES'? 'active':'disabled'}}"
+                   ng-click="titleClick('PRESALES')">
+                    <div class="icon ion-ios7-clock"></div>
+                    <label class='description'>预售</label>
+                </a>
+                <!--<a class="col calm menu-item  {{display == 'BUYING'? 'active':'disabled'}}"-->
+                   <!--ng-click="titleClick('BUYING')">-->
+                    <!--<div class="icon ion-ios7-clock"></div>-->
+                    <!--<label class='description'>预售</label>-->
+                <!--</a>-->
+            </div>
+        </div>
+        <ion-list ng-show="display == 'BARGAINS'">
+            <ion-item ng-repeat="item in items"
+                      class="item  item-thumbnail-left light-border" ng-click="showDetail(item.id)">
+                <img ng-src="{{item.img}}">
+
+                <h2>{{item.name}}</h2>
+
+                <p>
+                    {{item.standard}}
+                </p>
+
+                <div style="margin:0" class="italic assertive h4">{{item.price}}</label><label class="grey">元/份</label>
+                </div>
+            </ion-item>
+        </ion-list>
+        <ion-list ng-show="display == 'TRADE'">
+            <div class="padding grey text-center" ng-if="score >= 0">
+                我的积分 : {{score}}
+            </div>
+            <ion-item ng-repeat="item in items"
+                      class="item  item-thumbnail-left light-border" ng-click="showDetail(item.id)">
+                <img ng-src="{{item.img}}">
+
+                <h2>{{item.name}}</h2>
+
+                <p>
+                    {{item.standard}}
+                </p>
+                <P>
+                    需花费<span class="assertive">{{item.score}}</span>积分
+                </P>
+
+                <div style="margin:0" class="italic assertive h4">{{item.price}}</label><label class="grey">元/份</label>
+                </div>
+            </ion-item>
+        </ion-list>
+        <ion-list ng-show="display == 'RECOMMAND'">
+            <ion-item class=" balanced text-right">
+                蔬菜
+            </ion-item>
+            <ion-item ng-repeat="item in vegetables"
+                      class="item  item-thumbnail-left light-border" ng-click="showDetail(item.id)">
+                <img ng-src="{{item.img}}"  >
+
+                <h2>{{item.name}}</h2>
+
+                <p>
+                    {{item.standard}}
+                </p>
+
+                <div style="margin:0" class="italic assertive h4">{{item.price}}</label><label class="grey">元/份</label>
+                </div>
+            </ion-item>
+            <ion-item class=" energized text-right">
+                水果
+            </ion-item>
+            <ion-item ng-repeat="item in fruits"
+                      class="item  item-thumbnail-left light-border" ng-click="showDetail(item.id)">
+                <img ng-src="{{item.img}}">
+
+                <h2>{{item.name}}</h2>
+
+                <p>
+                    {{item.standard}}
+                </p>
+
+                <div style="margin:0" class="italic assertive h4">{{item.price}}</label><label class="grey">元/份</label>
+                </div>
+            </ion-item>
+        </ion-list>
+        <ion-list ng-show="display == 'PRESALES'">
+            <ion-item ng-if="!item.nostart" ng-repeat="item in pre_sales"
+                      ng-click="showPresaleDetail(item.id)"
+                      class="item  item-thumbnail-left light-border">
+                <img  ng-src="{{item.img}}">
+                <!--<img src="http://eofan.com/upload/01020703/14236199761727.jpg">-->
+                <h2>{{item.name}}</h2>
+                <p>
+                    <span>{{item.standard}}</span>
+                    <br/>
+                    <span>预售价</span><span class="assertive italic">{{ item.price}}</span><span>元</span>
+                    <br/>
+                    <span  ng-if="item.times" ng-bind-html="item.times">
+                        <!--<i class="assertive">剩余</i>{{item.times}}-->
+                    </span>
+                </p>
+            </ion-item>
+
+            <ion-item ng-if="item.nostart" ng-repeat="item in pre_sales"
+                      disabled
+                      class="item item-stable  item-thumbnail-left light-border">
+                <img ng-src="{{item.img}}">
+                <!--<img src="http://eofan.com/upload/01020703/14236199761727.jpg">-->
+                <h2>{{item.name}}</h2>
+                <p>
+                    <span>{{item.standard}}</span>
+                    <br/>
+                    <span>预售价</span><span class="assertive italic">{{item.price}}</span><span>元</span>
+                    <br/>
+                    <span class="assertive" ng-if="item.times"  ng-bind-html="item.times">
+                    </span>
+                </p>
+            </ion-item>
+        </ion-list>
+        <ion-list ng-show="display == 'BUYING'" >
+            <div class="padding text-center grey" ng-if="!items || items.length == 0">
+                敬请期待 ~
+            </div>
+            <ion-item ng-repeat="item in items"
+                      class="item  item-thumbnail-left light-border" ng-click="showDetail(item.id)">
+                <img ng-src="{{item.img}}">
+
+                <h2>{{item.name}}</h2>
+
+                <p>
+                    {{item.standard}}
+                </p>
+
+                <div style="margin:0" class="italic assertive h4">{{item.price}}</label><label class="grey">元/份</label>
+                </div>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,25 @@
+<ion-view view-title="服务分类">
+  <ion-content>
+    <div class="button-bar">
+      <button class="button button-small button-small button-light {{choice === 1?'activity':''}} " ng-click="choose(1)">
+        美容清洗
+      </button>
+      <button class="button button-small button-small button-light {{choice === 2?'activity':''}} " ng-click="choose(2)">
+        维修保养
+      </button>
+      <button class="button  button-small  button-small button-light  {{choice === 3?'activity':''}} " ng-click="choose(3)">
+       功能升级
+      </button>
+    </div>
+    <ion-list>
+      <a class="item item-icon-right" ng-repeat="service in services" ng-click="showCategory('{{service.name}}')">
+        {{service.name}}
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </a>
+      <a  class="item item-icon-right" ng-click="showCategory()" >
+       其他服务
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </a>
+    </ion-list>
+  </ion-content>
+</ion-view>

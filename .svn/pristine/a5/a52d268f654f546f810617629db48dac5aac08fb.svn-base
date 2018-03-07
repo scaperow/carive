@@ -1,0 +1,477 @@
+{% extends "layout/cart.html" %}
+{% block content %}
+
+<script type="text/javascript" src="/style2/js/confirmation.js?v=1.0.20"></script>
+<script>
+    var InterValObj; //timer变量，控制时间
+    var count = 120; //间隔函数，1秒执行
+    var curCount;//当前剩余秒数
+    function sendMessage() {
+        $("#err_msg").text("");
+        var dianhua = {{user.mobile}};
+    curCount = count;
+    $("#getvcode").attr("disabled", "true");
+    $("#getvcode").val(" " + curCount + "秒后可重新获取验证码");
+    InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+    //向后台发送处理数据
+    var xsrf = '{{handler.xsrf_token}}';
+    $.post("/ajax/forget/vcode",
+            {
+                mobile: dianhua,
+                _xsrf: xsrf
+            },
+            function (msg) {
+                obj = jQuery.parseJSON(msg);
+                if (obj.msg == 503) {
+                    $("#err_msg").html("您发送短信过于频繁，请稍后再试");
+                }
+                else if (obj.msg == 500) {
+                    $("#err_msg").html("短信发送失败，请稍后再试");
+                }
+                else if (obj.msg == 400) {
+                    $("#err_msg").html("系统异常，请稍后再试");
+                }else{
+                    $("#err_msg").html(obj.msg);
+                    $("#vcode").removeAttr("disabled");//启用按钮
+                }
+            });
+    }
+    //timer处理函数
+    function SetRemainTime() {
+        if (curCount == 0) {
+            window.clearInterval(InterValObj);//停止计时器
+            $("#getvcode").removeAttr("disabled");//启用按钮
+            $("#getvcode").val("重新发送验证码");
+            code = ""; //清除验证码。如果不清除，过时间后，输入收到的验证码依然有效
+        }
+        else {
+            curCount--;
+            $("#getvcode").val(" " + curCount + "秒后可重新获取验证码");
+        }
+    }
+</script>
+
+<div id="container" style="width: auto;">
+<link rel="stylesheet" href="/style2/css/jquery-ui-1.8.5.custom.css" type="text/css" media="screen" charset="utf-8" />
+<script type="text/javascript" charset="utf-8" src="/style2/js/jquery-ui-1.8.7.custom.min.js"></script>
+<link rel="stylesheet" href="/style2/css/confirmation.css" type="text/css" charset="utf-8" />
+
+<div id="cart">
+<form action="/cart/pay_again" method="post" id="check_pay_form" onsubmit="return false;" autocomplete="off">
+{{xsrf()}}
+<input type="hidden" name="formorder" value="{{order.ordernum}}">
+<div class="cart_left" style="padding:25px;">
+    <div class="top_tips" style="padding-bottom: 0px;">
+        <h2>订单商品有限，为及时处理您的订单，请尽快完成付款！</h2>
+    </div>
+    <div class="top_tips2">
+        <h4 class="gray">如果您在订单过期前或商品卖光前未付款，您的订单将被取消。</h4>
+        <h4 class="pink">{{err}}</h4>
+    </div>
+    <div class="cart_info">
+        <div class="order_info" order_id="177695390">
+            <h2>该订单将 尽快为您 发出，订单号：{{order.ordernum}}</h2>
+            <p>收货信息：{{order.take_name}}，{{order.take_address}}，手机：{{order.take_tel}}</p>
+        </div>
+        <div class="price_info">
+            <p>
+                订单总额：<span class="pink">{{order.price}}</span>
+                {% if order.coupon%}
+                　　优惠金额：<span class="pink promo_card_amount">{{ order.coupon and order.coupon.coupontotal.price or 0}}</span>
+                {% else %}
+                <span class="pink promo_card_amount" style="display: none;">0.0</span>
+                {% endif %}
+                　　运费金额：<span class="pink">{{order.shippingprice}}</span>
+                　　实付金额：<span class="pink">{{order.currentprice}}</span>
+            </p>
+
+        </div>
+    </div>
+    <div class="option" id="prefer_delivery_day">
+        <div class="title">
+            送货时间
+            <span style="color:#666666;font-size:12px;font-weight:normal;font-family:'宋体';">送货时间仅作参考，快递公司会尽量满足您的要求</span>        </div>
+        <div class="content">
+            <div class="option_box option_default">
+                <input id="delivery_day_weekday" name="prefer_delivery_day" type="radio" value="weekday">
+                <label class="delivery_checked" for="delivery_day_weekday">仅工作日送货</label>
+                <div class="clear"></div>
+            </div>
+            <div class="option_box option_default">
+                <input id="delivery_day_weekend" name="prefer_delivery_day" type="radio" value="weekend">
+                <label class="delivery_checked" for="delivery_day_weekend">仅周末送货</label>
+                <div class="clear"></div>
+            </div>
+            <div class="option_box option_default selected">
+                <input id="delivery_day_" name="prefer_delivery_day" type="radio" value="" checked>
+                <label class="delivery_checked" for="delivery_day_">工作日/周末/假日均可</label>
+                <div class="clear"></div>
+            </div>
+
+
+            <div class="option_box option_store">
+                <input id="delivery_day_m" name="prefer_delivery_day" type="radio" value="morning">
+                <label class="delivery_checked delivery_day_m" for="delivery_day_m">上午8:00—11:00</label>
+                <div class="clear"></div>
+            </div>
+            <div class="option_box option_store">
+                <input id="delivery_day_n" name="prefer_delivery_day" type="radio" value="noon">
+                <label class="delivery_checked delivery_day_n" for="delivery_day_n">中午11:00—16:00</label>
+                <div class="clear"></div>
+            </div>
+            <div class="option_box option_store">
+                <input id="delivery_day_a" name="prefer_delivery_day" type="radio" value="afternoon">
+                <label class="delivery_checked delivery_day_a" for="delivery_day_a">下午16:00—19:00</label>
+                <div class="clear"></div>
+            </div>
+
+            <div class="clb"></div>
+        </div>
+
+    </div>
+</div>
+<div class="num_border"></div>
+<input type="hidden" id="hdBalance" value="0">
+<input type="hidden" id="hdCurrentPrice" value="{{order.currentprice-order.pay_balance}}">
+<div class="cart_left cart_left_last">
+    <div class="option">
+        <div class="paytype">
+            <div id="paytype_gateway" class="paytype_gateway_after">
+
+                <div id="gateway_list" class="gateway_list" style="_height: 1%">
+                    <div class="title">支付方式</div>
+                    <div class="gateway_ul_box">
+                        <input type="hidden" class="hid_balance" value="{{balance}}">
+                        <ul class="gateway_ul">
+                            <li class="gateway_line gateway_banance ul_off" style="/*padding-left: 15px; line-height: 60px;*/">
+                                <input id="radio-balance" type="radio" name="gateway"  value="Balance" {% if order.currentprice-order.pay_balance>balance %} disabled {%endif%}>
+                                <label class="tit" for="radio-balance">余额支付 &nbsp;&nbsp;当前余额 <span style="font-weight: 100; color: #ed415b">{{balance}}</span> 元</label>
+                                <div class="rightPrice" style="float: right;padding-right: 25px; line-height: 40px; display: none;">
+                                    支付 <span class="balance_price">{{order.currentprice-order.pay_balance}}</span> 元
+                                </div>
+
+
+                            </li>
+
+                            <li class="gateway_line ul_on" id="last_choose_mode">
+                                <input type="radio" name="gateway" id="choose_before" checked value="Alipay">
+                                <label class="tit" for="choose_before">第三方支付方式</label>
+                                <label class="Alipay bg" for="choose_before"></label>
+                                <label class="tit no_cod" style="display: none;"></label>
+                                <div class="rightPrice" style="float: right;padding-right: 25px; line-height: 40px; display: none;">
+                                    支付 <span class="getewey_price">{{order.currentprice-order.pay_balance}}</span> 元
+                                </div>
+                            </li>
+                            {% if order.order_type != 1 %}
+                            <li class="gateway_line gateway_COD ul_off" style="display: none; /*list-item;*/">
+                                <input type="radio" name="gateway" value="COD" id="check-cod"><label class="tit" for="check-cod">货到付款</label>
+                                <label class="tit no_cod" style="display: none;"></label>
+                                <div class="rightPrice" style="float: right;padding-right: 25px; line-height: 40px; display: none;">
+                                    支付 <span class="getewey_price">{{order.currentprice-order.pay_balance}}</span> 元
+                                </div>
+                            </li>
+                            {% endif %}
+                            <li class="gateway_line ul_off gateway_bank">
+                                <input type="radio" id="check-other"><label class="tit" for="">网上银行</label><label class="tit gateway_desc" for=""><span>支持地方银行，需开通网银支付功能</span></label>
+                                <ul class="bank_ul clearfix g_ul">
+
+                                    <li>
+                                        <div class="bd_wrap">
+                                            <input type="radio" value="CCB" name="gateway" id="check-Alipay_CCB">
+                                            <label class="bg Alipay_CCB" for="check-Alipay_CCB"></label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="bd_wrap">
+                                            <input type="radio" value="ICBCB2C" name="gateway" id="check-Alipay_ICBCB2C">
+                                            <label class="bg Alipay_ICBCB2C" for="check-Alipay_ICBCB2C"></label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="bd_wrap">
+                                            <input type="radio" value="BOCB2C" name="gateway" id="check-Alipay_BOCB2C">
+                                            <label class="bg Alipay_BOCB2C" for="check-Alipay_BOCB2C"></label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="bd_wrap">
+                                            <input type="radio" value="ABC" name="gateway" id="check-Alipay_ABC">
+                                            <label class="bg Alipay_ABC" for="check-Alipay_ABC"></label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="bd_wrap">
+                                            <input type="radio" value="CMB" name="gateway" id="check-Alipay_CMB">
+                                            <label class="bg Alipay_CMB" for="check-Alipay_CMB"></label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="bd_wrap">
+                                            <input type="radio" value="COMM" name="gateway" id="check-Alipay_COMM">
+                                            <label class="bg Alipay_COMM" for="check-Alipay_COMM"></label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="bd_wrap">
+                                            <input type="radio" value="CEB-DEBIT" name="gateway" id="check-Bfb_CEBBANK">
+                                            <label class="bg Bfb_CEBBANK" for="check-Bfb_CEBBANK"></label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="bd_wrap">
+                                            <input type="radio" value="PSBC-DEBIT" name="gateway" id="check-Alipay_PSBC-DEBIT">
+                                            <label class="bg Alipay_PSBC-DEBIT" for="check-Alipay_PSBC-DEBIT"></label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="bd_wrap">
+                                            <input type="radio" value="CIB" name="gateway" id="check-Alipay_CIB">
+                                            <label class="bg Alipay_CIB" for="check-Alipay_CIB"></label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="bd_wrap">
+                                            <input type="radio" value="GDB" name="gateway" id="check-Bfb_GDB">
+                                            <label class="bg Bfb_GDB" for="check-Bfb_GDB"></label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="bd_wrap">
+                                            <input type="radio" value="SPDB" name="gateway" id="check-Alipay_SPDB">
+                                            <label class="bg Alipay_SPDB" for="check-Alipay_SPDB"></label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="bd_wrap">
+                                            <input type="radio" value="CITIC" name="gateway" id="check-Alipay_CITIC">
+                                            <label class="bg Alipay_CITIC" for="check-Alipay_CITIC"></label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="bd_wrap">
+                                            <input type="radio" value="CMBC" name="gateway" id="check-Bfb_CMBC">
+                                            <label class="bg Bfb_CMBC" for="check-Bfb_CMBC"></label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="bd_wrap">
+                                            <input type="radio" value="SPABANK" name="gateway" id="check-Bfb_SPABANK">
+                                            <label class="bg Bfb_SPABANK" for="check-Bfb_SPABANK"></label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="bd_wrap">
+                                            <input type="radio" value="BJBANK" name="gateway" id="check-Alipay_BJBANK">
+                                            <label class="bg Alipay_BJBANK" for="check-Alipay_BJBANK"></label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <input type="hidden" id="hidBalance" name="hidBalance" value="{{order.currentprice-order.pay_balance+(order.coupon and order.coupon.coupontotal.price or 0)}}">
+                <input type="hidden" id="hidPay" name="hidPay" value="{{ order.currentprice-order.pay_balance-balance+(order.coupon and order.coupon.coupontotal.price or 0)}}">
+
+                <div class="inv_wrap validation" style="display: none; text-align: right;">
+                    <label class="control-label" style="color: red;">
+                        {%set messages=handler.get_flashed_messages() %}
+                        {%-if messages-%}
+                        {% for type, msg in messages%}
+                        提示： {{msg}}
+                        {% endfor %}
+                        {%-endif-%}
+                    </label>
+                    <label  id="err_msg"  class="control-label" style="color:red;"></label>
+                    <input type="button" class="btn btn-warning" style=" width:180px;" id="getvcode" onclick="javascript: sendMessage(); return false;" value="免费获取验证码" />
+                    <label class="control-label">验证码</label>
+                    <input style="width: 100px;height:30px;" disabled class="form-control" maxlength="6" type="text" name="vcode" placeholder="请输入验证码" id="vcode" value="" required="" title="请输入6位数字验证码" pattern="^\d{6}$" />
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="sure_payinfo_wrap">
+    <div class="confirm_pay_box">
+        <div class="confirm_pay">
+
+            <input type="button" id="btn_confirm_pay" class="btn_pink_big" value="立即支付" onclick="return check_pay_again();">
+
+            <div class="price_sum">
+                应付总额：<span class="total_count">¥<span id="cart_total2">{{order.currentprice-order.pay_balance}}</span></span>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+</div>
+
+</div>
+<div id="lightbox_shadow" style="height: 1600px; display: none;"><iframe frameborder="0" style="height: 849px;"></iframe></div>
+<div id="lightbox" style="left: 50%; margin: 0px 0px 0px -201px; top: 150px; z-index: 5;display: none;">
+    <div class="container">
+        <div class="title">请付款 <div class="close_button"></div></div>
+        <div class="content" style="line-height:30px;">
+            <h1 class="info">请您在新打开的页面上完成付款</h1>
+            <p>付款完成前请不要关闭此窗口</p>
+            <p>完成付款后请根据您的情况点击下面的按钮</p>
+            <p class="ctrl">
+                <a id="lightbox_payment_done" href="javascript:void(0);" class="formbutton">已完成付款</a>
+                <a id="lightbox_payment_failed" href="javascript:void(0);" class="formbutton">付款遇到问题</a>
+            </p>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var xsrf='{{handler.xsrf_token}}';
+    var hour = parseInt('{{hour}}');
+    /*点击'确认订单'的表单验证*/
+    function check_pay_again(){
+        $("#check_pay_form #btn_confirm_pay").attr("disabled","true").val("提交中……").css("font-size","14px");
+        if( !check_gateway()){
+            $("#check_pay_form #btn_confirm_pay").removeAttr("disabled").val("立即支付").css("font-size","20px");
+            return false;
+        }
+        try{
+            if (typeof (setCart.confirmation) == "function") {
+                var type_arr = ['last', 'COD', 'bank', 'platform', 'quick', 'balance'],
+                        sub_type = $('#use_balance_checkbox').attr("checked") ? type_arr[type_arr.length - 1] : type_arr[$('.ul_on').index()];
+                setCart.confirmation(sub_type);
+            }
+        }catch(e){}
+
+        if($("#check_pay_form").attr("target")=="_blank") {
+            $("#lightbox").show();
+            $("#lightbox_shadow").show();
+            $("#check_pay_form").submit();
+            return false;
+        }
+        if($("#check_pay_form").attr("target")=="_self") {
+            $("#check_pay_form").submit();
+            return false;
+        }
+    }
+
+    $(function(){
+
+        function check_store(add_id){
+            debugger;
+            $.post('/ajax/check_store',{_xsrf: xsrf, aid: add_id},function(data){
+                data = $.parseJSON(data);
+                debugger;
+                if(data.err == 0){
+                    if (!isNaN(data.store.id)){
+                        $(".option_store").show();
+                        $(".option_default").hide();
+                        $('.option_store').removeClass('selected');
+                        $('.option_default').removeClass('selected');
+                        if(hour >= 9 & hour < 12){
+                            $(".delivery_day_m").text('明天上午8:00—11:00');
+                            $("#delivery_day_n").attr('checked','checked');
+                            $("#delivery_day_n").parent().addClass('selected');
+                        }else if(hour >= 12 & hour < 17){
+                            $(".delivery_day_m").text('明天上午8:00—11:00');
+                            $(".delivery_day_n").text('明天中午11:00—16:00');
+                            $("#delivery_day_a").attr('checked','checked');
+                            $("#delivery_day_a").parent().addClass('selected');
+                        }else if(hour >= 17 & hour <= 23){
+                            $(".delivery_day_m").text('明天上午8:00—11:00');
+                            $(".delivery_day_n").text('明天中午11:00—16:00');
+                            $(".delivery_day_a").text('明天下午16:00—19:00');
+                            $("#delivery_day_m").attr('checked','checked');
+                            $("#delivery_day_m").parent().addClass('selected');
+                        }else{
+                            $("#delivery_day_m").attr('checked','checked');
+                            $("#delivery_day_m").parent().addClass('selected')
+                        }
+                    }
+                    else{
+                        $(".option_store").hide();
+                        $(".option_default").show();
+                        $("#delivery_day_").attr('checked','checked');
+                        $('.option_default').removeClass('selected');
+                        $("#delivery_day_").parent().addClass('selected');
+                    }
+                }
+            });
+        }
+        var add_id = '{{order.address.id}}'
+        check_store(add_id);
+
+
+        $(".formbutton").click(function(){
+            var url = '/ajax/check_pay?id='+{{order.id}};
+            var ordnum = '';
+            $.post(
+                url,
+                {_xsrf:xsrf},
+                function(data){
+                    data = jQuery.parseJSON(data);
+                    if(data.result == 'success'){
+                        location.href="/user/order/"+data.orderid;
+                    }else if(data.result == 'failure'){
+                        location.href='/cart/check?onum='+data.ordernum;
+                    }else{
+                        location.href="/user/order";
+                    }
+                }
+            );
+        });
+        $(".order_path").hide();
+        showCont();
+        $("input[name=gateway]").click(function(){
+            showCont();
+        });
+        $(".gateway_COD").click(function () {
+            showCont();
+        });
+        function showCont() {
+            switch ($("input[name=gateway]:checked").val()) {
+                case "COD":
+                    $("#check_pay_form").attr("target", "_self");
+                    break;
+                case "Alipay":
+                    $("#check_pay_form").attr("target", "_blank");
+                    break;
+                case "Balance":
+                    $("#check_pay_form").attr("target", "_self");
+                    break;
+            }
+        }
+
+        show_promo_card_box();
+
+        function show_promo_card_box(){
+            $(document).bind("click", function(e){
+                $('.choose_promo_card_box, .choose_red_card_box').hide();
+            });
+
+            $('.JS_use_promo_card').unbind('click');
+            $('.JS_use_promo_card').click(function(e){
+                e.preventDefault();
+                var promo_card_box = $(this).parent().find(".promo_card_box");
+                if(promo_card_box.css("display") == "none"){
+                    promo_card_box.show();
+                    $(this).children(0).html('-');
+                }else{
+                    promo_card_box.hide();
+                    promo_card_box.hide();
+                    $(this).children(0).html('+');
+                }
+            });
+        }
+
+    });
+
+    //默认的收货地址和支付网关
+    var currentPageDefaultValue = {
+        address_id: '46367589',
+        payment_method: 'alipay',
+        prefer_delivery_day: '',
+        should_show_cod: '2',
+        has_luxury_deal: false
+    };
+    var alert_message = false;
+</script>
+{% endblock %}

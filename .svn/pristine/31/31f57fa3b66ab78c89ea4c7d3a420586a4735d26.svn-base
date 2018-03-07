@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>汽车油耗计算</title>
+  <style>
+	td, th {
+		font-size: 12px;
+		font-family: Verdana,Geneva,sans-serif;
+	}
+	.all_an_1 {
+		border: 1px solid #12afff;
+		background-image: url(http://f.51240.com/img/all.png?v=15100205);
+		background-repeat: no-repeat;
+		color: #FFF;
+		cursor: pointer;
+		height: 23px;
+		padding-top: 0;
+		padding-right: 5px;
+		padding-bottom: 0;
+		padding-left: 5px;
+		margin: 0;
+		-moz-border-radius: 3px;
+		-khtml-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+	}
+	.all_srk_1 {
+		height: 23px;
+		border: 1px solid #97c4e1;
+		margin: 0;
+		padding: 0;
+		line-height: 23px;
+		text-indent: 2px;
+	}
+  </style>
+  <script>
+	function ss_jc_jc() {
+		debugger;
+		if (document.getElementById("ss_scjmyhxsgls").value == "") {
+			alert("\u201c\u4e0a\u6b21\u52a0\u6ee1\u6cb9\u540e\u884c\u9a76\u7684\u516c\u91cc\u6570\u201d\u4e0d\u80fd\u4e3a\u7a7a\uff01");
+			document.getElementById("ss_scjmyhxsgls").focus();
+			return false
+		}
+		if (document.getElementById("ss_txjmjgs").value == "") {
+			alert("\u201c\u6cb9\u7bb1\u52a0\u6ee1\u51e0\u516c\u5347\u201d\u4e0d\u80fd\u4e3a\u7a7a\uff01");
+			document.getElementById("ss_txjmjgs").focus();
+			return false
+		}
+		if (document.getElementById("ss_yj").value == "") {
+			alert("\u201c\u6cb9\u4ef7\u201d\u4e0d\u80fd\u4e3a\u7a7a\uff01");
+			document.getElementById("ss_yj").focus();
+			return false
+		} 
+		document.getElementById("ss_shezhi").style.display = "none";
+		var ss_scjmyhxsgls = document.getElementById("ss_scjmyhxsgls").value;
+		var ss_txjmjgs = document.getElementById("ss_txjmjgs").value;
+		var ss_yj = document.getElementById("ss_yj").value;
+		document.getElementById("jg_gl").innerHTML = (ss_scjmyhxsgls / ss_txjmjgs).toFixed(3);
+		document.getElementById("jg_gs").innerHTML = (ss_txjmjgs / ss_scjmyhxsgls).toFixed(3);
+		document.getElementById("jg_gscc").innerHTML = (ss_txjmjgs / ss_scjmyhxsgls * 1000).toFixed(3);
+		document.getElementById("jg_yq").innerHTML = ((ss_txjmjgs / ss_scjmyhxsgls) * ss_yj).toFixed(3);
+		document.getElementById("ss_jieguo").style.display = "block"
+	}
+	function ss_jc_cx() {
+		document.getElementById("ss_jieguo").style.display = "none";
+		document.getElementById("ss_shezhi").style.display = "block"
+	};
+  </script>
+ </head>
+ <body>
+<div id="ss_shezhi" style="display: block;">
+    <table width="500" border="0" cellpadding="0" cellspacing="0" bgcolor="#C5D5C5" align="center">
+        <tbody>
+        <tr>
+            <td>
+                <table width="100%" border="0" cellpadding="8" cellspacing="1" style="line-height:25px;">
+                    <tbody>
+                    <tr>
+                        <td colspan="2" style="text-align: center;font-weight: bold;font-size: 18px;background-color: #fff;">汽车油耗计算器</td>
+                    </tr>
+                    <tr>
+                        <td width="35%" bgcolor="#F5F5F5" align="center">上次加满油后行驶的公里数：</td>
+                        <td width="65%" bgcolor="#FFFFFF"><input id="ss_scjmyhxsgls" type="text" size="20" maxlength="20" onkeyup="value=value.replace(/[^\d|.]/g,'')" class="all_srk_1" onblur="this.className='all_srk_1';" onfocus="this.className='all_srk_2';"> 公里</td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#F5F5F5" align="center">油箱加满几公升：</td>
+                        <td bgcolor="#FFFFFF"><input id="ss_txjmjgs" type="text" size="20" maxlength="20" onkeyup="value=value.replace(/[^\d|.]/g,'')" class="all_srk_1" onblur="this.className='all_srk_1';" onfocus="this.className='all_srk_2';"> 公升</td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#F5F5F5" align="center">油价 / 公升：</td>
+                        <td bgcolor="#FFFFFF"><input id="ss_yj" type="text" size="20" maxlength="20" onkeyup="value=value.replace(/[^\d|.]/g,'')" class="all_srk_1" onblur="this.className='all_srk_1';" onfocus="this.className='all_srk_2';"> 元</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" bgcolor="#FFFFFF" align="right"><input id="ss_an" type="button" value="进行计算 >>" onclick="ss_jc_jc();" class="all_an_1"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="ss_jieguo" style="display: none;">
+    <table width="500" border="0" cellpadding="0" cellspacing="0" bgcolor="#C5D5C5" align="center">
+        <tbody>
+        <tr>
+            <td>
+                <table width="100%" border="0" cellpadding="8" cellspacing="1" style="line-height:25px;">
+                    <tbody>
+                    <tr>
+                        <td colspan="2" style="text-align: center;font-weight: bold;font-size: 18px;background-color: #fff;">汽车油耗计算结果</td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#F5F5F5" align="center">每公升油可以行驶：</td>
+                        <td bgcolor="#FFFFFF"><span id="jg_gl"></span> 公里</td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#F5F5F5" align="center">每跑一公里需用：</td>
+                        <td bgcolor="#FFFFFF"><span id="jg_gs"></span> 公升(约等同<span id="jg_gscc"></span>cc)的油</td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#F5F5F5" align="center">每公里的油钱是：</td>
+                        <td bgcolor="#FFFFFF"><span id="jg_yq"></span> 元</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" bgcolor="#FFFFFF" align="right"><input id="ss_an" type="button" value="<< 重新计算" onclick="ss_jc_cx();" class="all_an_1"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+ </body>
+</html>

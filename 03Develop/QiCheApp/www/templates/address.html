@@ -1,0 +1,52 @@
+<ion-view view-title="地址管理">
+  <!-- <ion-nav-buttons side="right"> -->
+  <!--<button class="button button-stable" ng-click="newAddress()">-->
+  <!--新增地址-->
+  <!--</button>-->
+
+  <!-- </ion-nav-buttons> -->
+  <ion-content class="deep-content">
+    <ion-list ng-repeat="address in user.addresses">
+      <ion-item class=" item-text-wrap">
+        <!--<i ng-if="address.isdefault==1" class="icon ion-ios-checkmark-empty balanced" ></i>-->
+        <div class="header">
+          <div>
+            <div class="row" style="padding-left:0;padding-right:0">
+              <div class="col balanced" ng-if="address.isdefault === 1">
+                <i class="icon ion-ios-checkmark-outline">&nbsp;默认地址</i>
+              </div>
+              <div class="col" ng-if="!address.isdefault || address.isdefault !== 1">
+                <button class="button button-clear height-clear button-balanced" ng-click="setAsDefault(address.id)">设为默认地址</button>
+              </div>
+              <div class="col text-right">
+                <!-- <i class="icon ion-ios-compose-outline balanced" ng-click="modifyAddress({{address.id}})" style="font-size:14px"></i> -->
+                <button class="button button-clear  button-balanced icon-left  ion-ios-compose-outline only-icon" ng-click="modifyAddress(address.id)">
+                </button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="row" style="padding-left:0;padding-right:0">
+              <div class="col">
+                收货人：{{address.name}}
+              </div>
+              <div class="col text-right grey">
+                {{address.mobile}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="grey wrap">
+          地址：{{address.province}}-{{address.city}}-{{address.region}}
+        </div>
+        <ion-option-button class="button-assertive" ng-click="deleteAddress(address.id)">删除</ion-option-button>
+      </ion-item>
+      <div class="separate-big"></div>
+    </ion-list>
+
+    <ion-item class="padding-clear border-clear">
+      <button class=" button button-clear button-full button-balanced button-icon icon ion-ios-plus-empty" ng-click="newAddress()">新增地址</button>
+    </ion-item>
+  </ion-content>
+
+</ion-view>

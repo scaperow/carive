@@ -1,0 +1,72 @@
+{% extends "layout/site.html" %}
+
+{% block title %}{{s.name}}-服务门店-车装甲{% endblock %}
+{% block keyword %}{{s.name}}{% endblock %}
+{% block description %}{% endblock %}
+{% block css %}
+<link type="text/css" href="/style2/css/qiye.css" rel="stylesheet" />
+{% endblock %}
+{% block js %}
+<script src="/style2/js/jquery-1.7.2.min.js?v=1"></script>
+
+{% endblock %}
+{% block content %}
+<div class="qylouceng">
+    <div class="qyleft">
+        <div class="product-block">
+            <div class="shop-product-title">
+                <h4>信息详情</h4>
+                <a href="/store_news/{{s.id}}/{{c.id}}">{{c.name}}>></a>
+            </div>
+            <div class="shop-news-detail">
+                <div class="title">
+                    <h1>{{n.title}}</h1>
+                </div>
+                <div class="title_attr">
+                    发布时间：{{n.created | datetimeformat}} 查看次数：{{n.clicks}}
+                </div>
+                <!--<div class="img_first">-->
+                    <!--{% if n.image  %}-->
+                    <!--<img src="{{n.image}}" >-->
+                    <!--{% endif %}-->
+                <!--</div>-->
+                <div class="content">
+                    {{n.content}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="qyright">
+        <div class="shop-r-intro">
+            <div class="ls"><span>企业名称：</span>{{s.name}}</div>
+            <div class="ls"><span>企业信誉：</span>{{s.credit_score}}分</div>
+            <div class="ls"><span>评价星级：</span><s class="score-{{'%.0f' %  s.star_score}}" style="display: inline-block;"></s>({{s.comment_count}}人评价)</div>
+            <div class="ls" style="height: 38px;padding-top:10px;"><a class="favorite" style="display: none;">收藏门店</a> <a class="return" href="/store/{{s.id}}">返回门店</a></div>
+        </div>
+        <div class="list-box orange-box ">
+            <dl>
+                <dt>
+                    产品服务
+                </dt>
+                {% if products_count>0 %}
+                {% for p in products %}
+                <dd class="pro-block-3 w278">
+                    <a href="/product/{{p.product.id}}" target="_blank">
+                        <img src="{{p.product.cover}}" alt="{{p.product.name}}">
+                        <h4>{{p.product.name}}</h4>
+                        <span class="price-now"><s>￥</s>{{p.price}}</span>
+                    </a>
+                </dd>
+                {% endfor %}
+                {% else %}
+                <dd class="pro-block-3 w278">
+                    暂时没有数据！
+                </dd>
+                {% endif %}
+
+
+            </dl>
+        </div>
+    </div>
+</div>
+{% endblock %}

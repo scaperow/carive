@@ -1,0 +1,59 @@
+{% extends "layout/user.html" %}
+{% block subcontent %}
+<style>
+    .level_n{color: #0075b0; font-size:16px; margin-top: -10px;}
+    .red{color:#cc0000;}
+    .green{color: green;}
+    .show_msg{font-size: 24px;}
+</style>
+<script language="javascript" type="text/javascript" src="/style2/js/My97DatePicker/WdatePicker.js"></script>
+<script>
+    function checkSubmit(){
+        var content = $("#content").val();
+        if(content==""){
+            alert("请先填写您的意见！");
+            return false;
+        }
+        else{
+            if(content.length>500){
+                alert("意见反馈不能超出500个字符哟！");
+                return false;
+            }
+        }
+        return true;
+    }
+</script>
+<h1> 意见反馈 </h1>
+<div class="content sector">
+    {% if result==1 %}
+    <div class="show_msg green" style="display: {{result==1 and 'block' or 'none'}}">
+        保存成功！
+    </div>
+    {% else %}
+    {% endif %}
+	<form id="settings-form" method="post" action="">
+        {{xsrf()}}
+        <input type="hidden" name="jm_form_hash" value="1ce8d194">
+
+		<dl class="formlist" style="margin-bottom: 0px;">
+			<dt><label for="content">意见反馈</label></dt>
+			<dd>
+			<span class="data">
+                <textarea type="text" name="content" id="content" class="t_input"
+                           style="width: 394px; height: 129px;" placeholder="请填写您的意见，我们会努力改进"></textarea>
+			</span>
+			</dd>
+		</dl>
+		<dl class="formlist" style="margin-top: 0px;">
+			<dt>&nbsp;</dt>
+            <dd>
+                您的意见是我们成长的捷径
+            </dd>
+		</dl>
+
+		<div class="act">
+			<input type="submit" value="提交反馈" onclick="return checkSubmit();" name="commit" id="settings-submit" class="btn btn-success">
+		</div>
+	</form>
+</div>
+{% endblock %}

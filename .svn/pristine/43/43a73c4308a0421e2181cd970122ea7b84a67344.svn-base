@@ -1,0 +1,5 @@
+<div class="modal image-modal transparent" ng-click="$root.closePreviewModal()">
+  <ion-pane class="transparent">
+    <img ng-src="{{$root.imageSrc}}" class="fullscreen-image" />
+  </ion-pane>
+</div>

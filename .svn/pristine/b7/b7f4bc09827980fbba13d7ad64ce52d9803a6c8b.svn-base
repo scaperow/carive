@@ -1,0 +1,65 @@
+{% extends "layout/cart.html" %}
+{% block content %}
+<div style="text-align: center"></div>
+<div class="result-pay-box">
+    <link rel="stylesheet" type="text/css" href="/style2/css/pay_result.css">
+            <div class="result-pay {{ result=='fail' and 'result-pay-failure' or 'result-pay-success' }}">
+                <div class="rp-box">
+                    <h2 class="rp-title"><em class="rp-ico"></em>
+                        {% if result=='fail' %}
+                            支付失败！请稍后重试！
+                        {% else %}
+                            {% if ptype=='0' %}
+                                下单成功！我们会尽快为您发货！
+                            {% else %}
+                                支付成功！我们会尽快为您发货！
+                            {% endif %}
+                        {% endif %}</h2>
+                    <div class="rp-tip ftx-02">订单号: <span>{{tn}}</span>
+                    </div>
+                </div>
+
+                <!-- 详情 -->
+                <div class="rp-detail">
+                    <div class="clearfix">
+                        <div class="rp-d-left">
+                            <div class="rp-msg" id="showPayDetailMsg">
+                                <p>{{ (ptype=='0' or result=='fail') and '订单金额' or '在线支付' }}：<span><strong>{{price}}</strong>元</span></p>
+                                <p class="mt5" style="" id="goshoping">
+                                   <a href="/user/order" target="_blank" clstag="payment|keycount|paymentlink|details">查看我的订单</a>
+                                    <b class="rp-l">|</b>
+                                    <a href="/user/order" clstag="payment|keycount|paymentlink|survey" target="_blank">返回个人中心</a>
+                                </p>
+                            </div>
+
+                            <div class="rp-btn-box {{ result=='fail' and 's' or 'divhide' }}"  id="toPayContinue">
+                                 <a class="rp-btn" href="#" clstag="jr|keycount|cashier_jd|cashier_jd_dccgy_cxzf">继续支付</a>
+                            </div>
+
+                           <div class="rp-btn-box {{ result=='fail' and 'divhide' or 's' }}"  id="contineShoping">
+                                 <a class="rp-btn" href="/">继续逛逛</a>
+                           </div>
+
+                                                     </div>
+
+                        <div class="rp-d-right" style="display: none;">
+                            <div class="rp-qrcode">
+                                <div class="rp-qrcode-img"></div>
+                                <div class="rp-qrcode-text">安装手机客户端 随时跟踪订单</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rp-member {{ result=='fail' and 'divhide' or 's' }}">
+                        <div class="rp-member-wrap">
+                            <strong>完成订单将奖励积分：{{ score }}</strong><b class="rp-l">|</b><span>使用积分更超值，请登录<a href="/user/order" target="_blank">会员中心</a></span>
+                        </div>
+                    </div>
+
+                <iframe id="tmp_downloadhelper_iframe" style="display: none;"></iframe></div>
+
+                <!-- 详情end -->
+
+            </div>
+        </div>
+{% endblock %}
